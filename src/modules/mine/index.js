@@ -45,6 +45,7 @@ export default class Mine extends Component {
           ...defaultHeader,
           visible: true , // 覆盖预设中的此项
           titleStyle:{color: '#333333'},
+          // backTitle: "返回",
           right:(
            <TouchableOpacity 
                 style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
@@ -65,8 +66,7 @@ export default class Mine extends Component {
       navigation.navigate('Setting', {user: 'Lucy'})
   }
   render() {
-    const { params } = this.props.navigation.state;
-
+    const { navigate } = this.props.navigation;
      if (this.state.testHidden) {
        return (
           <View style={styles.container}>

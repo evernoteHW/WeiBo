@@ -13,6 +13,26 @@ export const FeedStack = StackNavigator({
     },
   }
 });
+<Router navigationBarStyle={styles2.navBar} titleStyle={styles2.navTitle} sceneStyle={styles2.routerScene}>
+    <Schema .../>
+    <Route .../>
+</Router>
+
+const styles2 = StyleSheet.create({
+  navBar: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'red', // changing navbar color
+  },
+  navTitle: {
+    color: 'white', // changing navbar title color
+  },
+  routerScene: {
+    paddingTop: Navigator.NavigationBar.Styles.General.NavBarHeight, // some navbar padding to avoid content overlap
+  },
+})
 
 export const Tabs = TabNavigator({
   Feed: {

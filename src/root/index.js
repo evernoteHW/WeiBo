@@ -23,19 +23,6 @@ import Discover from '../modules/discover'
 import Mine from '../modules/mine'
 import Setting from '../modules/setting'
 
-// const HomeNavigator = StackNavigator({Home:{screen: Home}});
-// const MessageNavigator = StackNavigator({Message:{screen: Message}});
-// const FinanceNavigator = StackNavigator({Finance:{screen: Finance}});
-// const DiscoverNavigator = StackNavigator({Discover:{screen: Discover}});
-// const MineNavigator = StackNavigator({
-//     Mine:{
-//       screen: Mine
-//     },
-//     Setting:{
-//       screen: Setting
-//     }
-//   }
-// );
 const RouteConfigs = 
 {
     Home: {
@@ -123,18 +110,11 @@ const App = StackNavigator({
     TabBars: {
         screen: TabBars,
         navigationOptions: {
-             backTitle: "返回"
+            backTitle: "返回"
         }
     },
     Setting : {
         screen: Setting,
-        navigationOptions: {
-            header: {
-                style: {
-                    backgroundColor: '#fff'
-                },
-            }
-        }
     }
 });
 
