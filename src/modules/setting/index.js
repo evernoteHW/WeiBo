@@ -20,11 +20,28 @@ export default class Setting extends Component {
         testHidden: true
     };
   }
+  saveDetails() {
+    // this.setState{testHidden: false}
+    Alert.alert('Save Details');
+  }
+  componentDidMount() {
+    console.log('componentDidMount');
+    this.props.navigation.setParams({ handleSave: this.saveDetails });
+   
+  }
   static navigationOptions = {
       title: ({ state }) => `消息 ${state.params.user}`,
       header: (navigation, defaultHeader) => ({
           visible: false , // 覆盖预设中的此项
           titleStyle:{color: '#333333'},
+          right:(
+           <TouchableOpacity 
+                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
+                 onPress={navigation.state.params.handleSave}
+                 >
+                <Text style={{fontSize:16, color:"#333333"}}>设置</Text>
+              </TouchableOpacity>
+        )
      }),
   };
   render() {
