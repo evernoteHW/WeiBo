@@ -16,21 +16,58 @@ import {
 export default class Setting extends Component {
    constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+        testHidden: true
+    };
   }
   static navigationOptions = {
+      title: ({ state }) => `消息 ${state.params.user}`,
       header: (navigation, defaultHeader) => ({
-          visible: true , // 覆盖预设中的此项
-          title: "设置",
+          visible: false , // 覆盖预设中的此项
           titleStyle:{color: '#333333'},
      }),
   };
   render() {
-    return (
+     const { params } = this.props.navigation.state;
+     const { testHidden } = this.state;
+     if (testHidden) {
+       return (
+          <View style={styles.container}>
+               <TouchableOpacity 
+                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
+                 onPress={() => navigate("Setting",{ user: 'Lucy' })}
+                 // onPress={()=> this.onSettingButtonPress()}
+                 // onPress={this.onSettingButtonPress.bind(this)}
+                 >
+                <Text style={{fontSize:16, color:"#333333"}}>Chat with {params.user}</Text>
+              </TouchableOpacity>
+
+               <TouchableOpacity 
+                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
+                 onPress={() => navigate("Setting",{ user: 'Lucy' })}
+                 // onPress={()=> this.onSettingButtonPress()}
+                 // onPress={this.onSettingButtonPress.bind(this)}
+                 >
+                <Text style={{fontSize:16, color:"#333333"}}>Chat with {params.user}</Text>
+              </TouchableOpacity>
+          </View>
+        );
+     }else{
+      return (
       <View style={styles.container}>
-     
+           <TouchableOpacity 
+            style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
+             onPress={() => navigate("Setting",{ user: 'Lucy' })}
+             // onPress={()=> this.onSettingButtonPress()}
+             // onPress={this.onSettingButtonPress.bind(this)}
+             >
+            <Text style={{fontSize:16, color:"#333333"}}>Chat with {params.user}</Text>
+          </TouchableOpacity>
       </View>
     );
+
+     }
+    
   }
 }
 

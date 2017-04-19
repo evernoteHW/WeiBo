@@ -6,4 +6,5 @@
 
 import { AppRegistry } from 'react-native'
 import WeiBo from './src/root'
+// import WeiBo from './src/root/ReactNatvie_Demo/testIndex.js'
 AppRegistry.registerComponent('WeiBo', () => WeiBo);
