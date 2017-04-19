@@ -122,26 +122,20 @@ const TabBars = TabNavigator(RouteConfigs,TabNavigatorConfig)
 const App = StackNavigator({
     TabBars: {
         screen: TabBars,
-        // navigationOptions: {
-        //     header: {
-        //         title: '互助',
-        //         style: {
-        //             backgroundColor: '#fff'
-        //         },
-        //         backTitle: null
-        //     }
-        // }
+        navigationOptions: {
+             backTitle: "返回"
+        }
     },
-    // Setting : {
-    //     screen: Setting,
-    //     navigationOptions: {
-    //         header: {
-    //             style: {
-    //                 backgroundColor: '#fff'
-    //             },
-    //         }
-    //     }
-    // }
+    Setting : {
+        screen: Setting,
+        navigationOptions: {
+            header: {
+                style: {
+                    backgroundColor: '#fff'
+                },
+            }
+        }
+    }
 });
 
 

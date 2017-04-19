@@ -36,9 +36,7 @@ export default class Mine extends Component {
      this.state = {
         testHidden: true
     };
-    const {params} = this.props.navigation.state;
     console.log('constructor');
-  
   }
 
   static navigationOptions = {
@@ -50,7 +48,7 @@ export default class Mine extends Component {
           right:(
            <TouchableOpacity 
                 style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                 onPress={navigation.state.params.onSettingButtonPress}
+                 onPress={() => navigation.state.params.onSettingButtonPress(navigation)}
                  >
                 <Text style={{fontSize:16, color:"#333333"}}>设置</Text>
            </TouchableOpacity>
@@ -58,31 +56,13 @@ export default class Mine extends Component {
      }),
   };
    
-  setParams(){
-    console.log('test');
-  }
-  saveDetails() {
-    Alert.alert('Save Details');
-  }
   componentWillMount() {
-      this.props.navigation.setParams({
-          editing: false,
-          handleEdit: this.handleEdit.bind(this),
-      });
   }
-  handleEdit() {
-      this.props.navigation.setParams({
-          editing: !this.props.navigation.state.params.editing,
-      });
-      console.log(this);
- }
   componentDidMount() {
-    console.log('...............componentDidMount');
-    this.props.navigation.setParams({ handleSave: this.saveDetails });
+    this.props.navigation.setParams({ onSettingButtonPress: this.onSettingButtonPress });
   }
-  onSettingButtonPress(){
-    console.log('test/////////////////');
-      // navigation.navigate('Setting');
+  onSettingButtonPress(navigation){
+      navigation.navigate('Setting', {user: 'Lucy'})
   }
   render() {
     const { params } = this.props.navigation.state;
