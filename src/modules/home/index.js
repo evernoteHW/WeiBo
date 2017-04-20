@@ -16,6 +16,8 @@ import {
 import styles from './styles.js';
 import { StackNavigator } from 'react-navigation';
 
+
+
 const onRegisterButtonPress = () => {
   Alert.alert('Button has been pressed!');
 };
