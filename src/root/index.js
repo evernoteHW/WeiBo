@@ -1,4 +1,3 @@
-
 'use strict'
 
 import React, { Component } from 'react';
@@ -18,7 +17,7 @@ import { StackNavigator , TabNavigator} from 'react-navigation';
 
 import Home from '../modules/home'
 import Message from '../modules/message'
-import Finance from '../modules/finance'
+import MicroBlog from '../modules/microBlog'
 import Discover from '../modules/discover'
 import Mine from '../modules/mine'
 import Setting from '../modules/setting'
@@ -49,8 +48,8 @@ const RouteConfigs =
         },
       },
     },
-    "Finance": {
-     screen: Finance,
+    "MicroBlog": {
+     screen: MicroBlog,
      navigationOptions: {
         tabBar: {
           icon: ({focused,tintColor}) => (
@@ -116,6 +115,8 @@ const App = StackNavigator({
     Setting : {
         screen: Setting,
     }
+},{
+    headerMode: 'screen' 
 });
 
 
@@ -126,5 +127,3 @@ export default class WeiBo extends Component {
     );
   }
 }
- 
-
