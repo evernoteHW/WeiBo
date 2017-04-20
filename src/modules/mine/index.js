@@ -65,14 +65,36 @@ export default class Mine extends Component {
     const { params } = this.props.navigation.state;
       return (
         <View style={styles.container}>
+
            <ScrollView 
            contentContainerStyle={styles.contentContainer}
            automaticallyAdjustContentInsets={false}
-           contentInset={{top: 0, bottom: 49}}
+           // contentInset={{top: 0, bottom: 49}}
            >
-              <View style={{backgroundColor:'#123456', height: 200}}> 
-               <Image  />
-                  
+              <View style={styles.header}> 
+                <Image 
+                  style  = {styles.headerBg}
+                  source = {require('../../resources/image/mine/page_cover_tv_background.jpg')}/>
+                <Image 
+                  style = {styles.headerIcon}
+                  source = {{uri: 'http://img05.tooopen.com/images/20150202/sy_80219211654.jpg'}} 
+                  onLoadStart={(e) => {
+                    console.log("onLoadStart");
+                  }}
+                  onLoad={(e) => {
+                    console.log("onLoad");
+                  }}
+                  onProgress={(e) => {
+                    let progress = Math.round(100 * e.nativeEvent.loaded / e.nativeEvent.total)
+                    console.log("onProgress ===>" + progress + "%");
+                  }}
+                  onLoadEnd={(e) => {
+                    console.log("onLoadEnd");
+                  }}
+                  onError={(e) => {
+                    console.log("onError  " + e.nativeEvent.error);
+                  }}
+                />
               </View>
               <View style = {{flexDirection:'row',alignItems:'center',backgroundColor:'#FFFFFF', height: 40}} >
 	             	<Text style = {{marginLeft: 20,color:'#000000', fontSize:14}}>关注</Text>
@@ -112,11 +134,43 @@ export default class Mine extends Component {
 const styles = StyleSheet.create({
   container: {
     flex:            1,
+    // flexDirection:  'row',
     backgroundColor: 'rgb(247,247,242)',
   },
   contentContainer: {
-    paddingBottom:   49,
+    // position:           'absoulute',
+    // // width:              '100%',
+    // left : 0,
+    // right: 0,
+    // bottom: 0,
+    // top: 100,
+    // resizeMode:         'cover'
+    // paddingBottom:   49,
     // backgroundColor: 'red',
+  },
+  headerBg:{
+    // flex:       1,
+    // resizeMode: 'cover',
+    // alignSelf:  'auto',
+    // width:      '100%',
+    // height:     300,
+    // flex:       1,
+    width:           "100%",
+    height:          '100%',
+    backgroundColor: '#123456', 
+  },
+  header:{
+    justifyContent:  'center', 
+    alignItems:      'center',
+    height:          200
+  },
+  headerIcon:{
+    left:         (screenWidth - 80)/2.0,
+    position:     'absolute', 
+    width:        80,
+    height:       80,
+    borderRadius: 40,
+    backgroundColor: '#123456',
   },
   loginBtn: {
     justifyContent: 'center', 
