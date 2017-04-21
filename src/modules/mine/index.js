@@ -63,34 +63,6 @@ export default class Mine extends Component {
     console.log("注册");
   }
   render() {
-<<<<<<< HEAD
-    const { navigate } = this.props.navigation;
-     if (this.state.testHidden) {
-       return (
-          <View style={styles.container}>
-               <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                 onPress={() => navigate("Setting",{ user: 'Lucy' })}
-                 // onPress={()=> this.onSettingButtonPress()}
-                 // onPress={this.onSettingButtonPress.bind(this)}
-                 >
-                <Text style={{fontSize:16, color:"#333333"}}>Chat with </Text>
-              </TouchableOpacity>
-
-               <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                 onPress={() => navigate("Setting",{ user: 'Lucy' })}
-                 // onPress={()=> this.onSettingButtonPress()}
-                 // onPress={this.onSettingButtonPress.bind(this)}
-                 >
-                <Text style={{fontSize:16, color:"red"}}>Chat with </Text>
-              </TouchableOpacity>
-          </View>
-        );
-     }else{
-=======
-    const { params } = this.props.navigation.state;
->>>>>>> origin/develop
       return (
         <View style={styles.container}>
 
