@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 
-export default class Setting extends Component {
+export default class Register extends Component {
    constructor(props) {
     super(props);
     this.state = {

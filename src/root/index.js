@@ -21,21 +21,10 @@ import MicroBlog from '../modules/microBlog'
 import Discover from '../modules/discover'
 import Mine from '../modules/mine'
 import Setting from '../modules/setting'
+import Register from '../modules/register'
 
 const RouteConfigs = 
 {
-   "MicroBlog": {
-     screen: MicroBlog,
-     navigationOptions: {
-        tabBar: {
-          icon: ({focused,tintColor}) => (
-            <Image 
-            source={focused ? require('../resources/image/tab/compose_color_yellow_select.png'): require('../resources/image/tab/compose_color_yellow_select.png')}
-            style={{marginTop: 10}}/>),
-          label:' ',
-        },
-      }
-    },
     Home: {
       screen: Home,
       navigationOptions: {
@@ -60,7 +49,18 @@ const RouteConfigs =
         },
       },
     },
-   
+    "MicroBlog": {
+     screen: MicroBlog,
+     navigationOptions: {
+        tabBar: {
+          icon: ({focused,tintColor}) => (
+            <Image 
+            source={focused ? require('../resources/image/tab/compose_color_yellow_select.png'): require('../resources/image/tab/compose_color_yellow_select.png')}
+            style={{marginTop: 10}}/>),
+          label:' ',
+        },
+      }
+    },
     Discover: {
      screen: Discover,
      navigationOptions: {
@@ -91,6 +91,7 @@ const TabNavigatorConfig = {
       inactiveTintColor: '#666666', // 文字和图片未选中颜色
       showIcon:          true, // android 默认不显示 icon, 需要设置为 true 才会显示
       showLabel:         true,
+      // lazyLoad:          false,
       indicatorStyle:    {
         height: 0  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
       }, 
@@ -102,7 +103,7 @@ const TabNavigatorConfig = {
       },
     },
     navigationOptions: {
-         header: {
+         header:  {
           visible: true,
           style:   {
             backgroundColor: 'white',
@@ -125,7 +126,11 @@ const App = StackNavigator({
     },
     Setting : {
         screen: Setting,
-    }
+    },
+    Register: {
+        screen: Register,
+        mode:  'modal',
+    },
 },{
     headerMode: 'screen' 
 });
