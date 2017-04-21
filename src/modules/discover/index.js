@@ -20,7 +20,9 @@ export default class Discover extends Component {
 
    static navigationOptions = {
       header: (navigation, defaultHeader) => ({
+          ...defaultHeader,
           visible: true , // 覆盖预设中的此项
+          style: { backgroundColor: 'white'},
           title: (
             <View style={{flexDirection:'row'}}>
               <TouchableOpacity 
@@ -49,9 +51,6 @@ export default class Discover extends Component {
                   <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
               </TouchableOpacity>
           ),
-          tintColor: "gray",
-          titleStyle:{color: 'green'},
-          tintColor:{color: 'green'},
      }),
     cardStack: {
        gesturesEnabled: false  // 是否可以右滑返回

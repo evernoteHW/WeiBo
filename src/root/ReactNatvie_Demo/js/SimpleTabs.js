@@ -20,7 +20,7 @@ const MyNavScreen = ({ navigation, banner }) => (
     <SampleText>{banner}</SampleText>
     <Button
       onPress={() => navigation.navigate('Home')}
-      title="Go to home tab"
+      title="Go to home tab22222"
     />
     <Button
       onPress={() => navigation.navigate('Settings')}

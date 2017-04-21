@@ -21,6 +21,7 @@ import MicroBlog from '../modules/microBlog'
 import Discover from '../modules/discover'
 import Mine from '../modules/mine'
 import Setting from '../modules/setting'
+import Register from '../modules/register'
 
 const RouteConfigs = 
 {
@@ -83,14 +84,15 @@ const RouteConfigs =
 }
 const TabNavigatorConfig = {
     animationEnabled: false, // 切换页面时是否有动画效果
-    tabBarPosition: 'bottom', // 显示在底端，android 默认是显示在页面顶端的
-    swipeEnabled: false, // 是否可以左右滑动切换tab
-    tabBarOptions: {
-      activeTintColor : '#333333',// 文字和图片选中颜色
+    tabBarPosition:   'bottom', // 显示在底端，android 默认是显示在页面顶端的
+    swipeEnabled:     false, // 是否可以左右滑动切换tab
+    tabBarOptions:    {
+      activeTintColor:   '#333333',// 文字和图片选中颜色
       inactiveTintColor: '#666666', // 文字和图片未选中颜色
-      showIcon: true, // android 默认不显示 icon, 需要设置为 true 才会显示
-      showLabel: true,
-      indicatorStyle: {
+      showIcon:          true, // android 默认不显示 icon, 需要设置为 true 才会显示
+      showLabel:         true,
+      // lazyLoad:          false,
+      indicatorStyle:    {
         height: 0  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
       }, 
       style: {
@@ -99,31 +101,55 @@ const TabNavigatorConfig = {
       labelStyle: {
          // fontSize: 15, // 文字大小
       },
-    }
+    },
+   //  navigationOptions: {
+   //       header:  {
+   //        visible: true,
+   //        style:   {
+   //          backgroundColor: 'white',
+   //        },    //导航栏背景颜色
+   //     },
+   // },
 };
 
 
 const TabBars = TabNavigator(RouteConfigs,TabNavigatorConfig)
 
 const App = StackNavigator({
-    TabBars: {
-        screen: TabBars,
-        navigationOptions: {
-            backTitle: "返回"
-        }
-    },
-    Setting : {
-        screen: Setting,
-    }
+    TabBars: { screen: TabBars },
+    Setting : { screen: Setting },
 },{
-    headerMode: 'screen' 
+    headerMode: 'screen' ,
+    mode:  'card',
+    // cardStyle:{   backgroundColor: 'red'},
+    onTransitionStart:(a,b,c,d,e) =>{
+      console.log(`onTransitionStart.....1${e},${b},${c},${d},${e}`);
+    },
+    onTransitionEnd:(a,b,c,d,e) =>{
+      console.log(`onTransitionEnd.......2${e},${b},${c},${d},${e}`);
+    }
 });
-
+//添加模态视图 确实是个不错的选择啊
+const ModelApp= StackNavigator({
+    App: {
+        screen: App,
+        navigationOptions: {
+         header: {
+          visible: false,
+          style:   {backgroundColor: 'white'},    //导航栏背景颜色
+       },
+   },
+    },
+    Register: { screen: Register },
+    },{
+        headerMode: 'screen' ,
+        mode:  'modal',
+})
 
 export default class WeiBo extends Component {
   render() {
     return (
-      <App />
+      <ModelApp />
     );
   }
 }

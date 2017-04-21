@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 
-export default class Setting extends Component {
+export default class Register extends Component {
    constructor(props) {
     super(props);
     this.state = {
@@ -30,11 +30,13 @@ export default class Setting extends Component {
    
   }
   static navigationOptions = {
-      title: ({ state }) => `设置2 ${state.params.user}`,
+      title: ({ state }) => `设置 ${state.params.user}`,
+      mode:  'modal',
       header: (navigation, defaultHeader) => ({
           ...defaultHeader,
+          // headerModel: 'screen',
+          visible: true,
           left:(
-
            <TouchableOpacity 
                 style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
                  onPress={() => {
@@ -48,7 +50,6 @@ export default class Setting extends Component {
               </TouchableOpacity>
         ),
         style: {backgroundColor: 'white'},    //导航栏背景颜色
-
      }),
   };
   render() {

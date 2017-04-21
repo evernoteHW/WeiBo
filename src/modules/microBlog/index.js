@@ -10,86 +10,91 @@ import {
   Dimensions,
   NavigatorIOS,
   LayoutAnimation,
+  AppState
 } from 'react-native';
 
 import styles from './styles.js'
 
-const CustomSeparatorComponent = ({text}) => (
-  <View>
-    <SeparatorComponent />
-    <Text style={styles.separatorText}>{text}</Text>
-    <SeparatorComponent />
-  </View>
-);
 
 export default class MicroBlog extends Component {
   constructor(props) {
     super(props);
-    // var ds = new FlatList.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
-      bounceValue: new Animated.Value(0),
-        fadeInOpacity: new Animated.Value(0),
-            rotation: new Animated.Value(0),
-            fontSize: new Animated.Value(0),
+
+      width:        100,
+      height:       50,
+      blurBgHidden: true,
+      bounceValue:  new Animated.Value(1),
+      decayValue:   new Animated.Value(400),
+      fadeAnim:     new Animated.Value(1), 
+      springValue:  new Animated.Value(400),
+      appState:     AppState.currentState 
+
     };
   }
    static navigationOptions = {
-      title: '我',
       header: (navigation, defaultHeader) => ({
-          // visible: false , 
-          style: {backgroundColor: null},    //导航栏背景颜色
+
+          ...defaultHeader,
+            title: '发微博',
+            style: { backgroundColor: 'white'},
      }),
   };
   startAnimation() {
+    //弹跳动画
+   
+     Animated.sequence([
 
-    Animated.parallel(['fadeInOpacity', 'rotation', 'fontSize'].map(property => {
-                return Animated.timing(this.state[property], {
-                toValue: 1,
-                duration: 1000,
-                easing: Easing.linear
-            });
-        })).start();
+         Animated.spring(
+         this.state.springValue,
+          {
+            toValue:  80,
+            friction: 3,
+          }
+        )
+         
+     ]).start()
+
   }
-  componentDidMount() {
-    // your code here
-    console.log("componentDidMount"); 
-    this.startAnimation()
+ componentDidMount() {
+  this.startAnimation()
+  console.log("componentDidMount");
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
-  componentWillReceiveProps(){
-    console.log("componentWillReceiveProps");
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount");
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
-  //  shouldComponentUpdate(){
-  //   console.log("shouldComponentUpdate");
-  //   return true
-  // }
-   componentWillUpdate(){
-    console.log("componentWillUpdate");
+
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('App has come to the foreground!')
+    }
+    this.setState({appState: nextAppState});
+    console.log('App has come to the foreground!')
   }
-   componentDidUpdate(){
-    console.log("componentDidUpdate");
-  }
+
   render() {
-         return (
-          <View style={styles.container}>
-            <Animated.View style={[{
-              opacity: this.state.fadeInOpacity,
-                  transform: [{
-                      rotateZ: this.state.rotation.interpolate({
-                          inputRange: [0,1],
-                          outputRange: ['0deg', '360deg']
-                      })
-                  }]
-              }]}>
-                <Animated.Text style={{
-                    fontSize: this.state.fontSize.interpolate({
-                        inputRange: [0,1],
-                        outputRange: [12,26]
-                    })
-                }}>
-                    我骑着七彩祥云出现了:smiling_imp::dash:
-                </Animated.Text>
-              </Animated.View>
-            </View>
+
+    return (
+        <View style={styles.container}>
+          <Animated.View style={{
+            backgroundColor: "orange",
+            top:             this.state.springValue, 
+            left:            200,
+            width:           this.state.width, 
+            height:          100,
+            opacity:         this.state.fadeAnim
+            // transform:    [
+            //     {
+            //       scale: this.state.bounceValue
+            //     }
+            // ]
+          }}
+            />
+        </View>
+
     );
        }
 }

@@ -91,7 +91,7 @@ const ModalStack = StackNavigator({
   },
   HeaderTest: {screen: MyHeaderTestScreen},
 }, {
-  mode: 'modal',
+  mode: 'card',
 });
 
 export default ModalStack;

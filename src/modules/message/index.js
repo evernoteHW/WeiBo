@@ -20,11 +20,9 @@ export default class Message extends Component {
 
    static navigationOptions = {
       header: (navigation, defaultHeader) => ({
-          visible: true , // 覆盖预设中的此项
+          ...defaultHeader,
           title: "消息",
-          tintColor: "gray",
-          titleStyle:{color: '#333333'},
-          tintColor:{color: 'green'},
+          style: { backgroundColor: 'white'}
      }),
     cardStack: {
        gesturesEnabled: false  // 是否可以右滑返回

@@ -31,17 +31,19 @@ export default class Home extends React.Component {
         title: "首页",
         visible: true , // 覆盖预设中的此项
         left: (
-          <TouchableOpacity onPress={onRegisterButtonPress}>
-            <View style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}}>
-              <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>注册</Text>
-            </View>
-          </TouchableOpacity>
+              <TouchableOpacity 
+                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
+                 onPress={() => navigation.state.params.onSettingButtonPress(navigation)}
+                 >
+                <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>注册</Text>
+              </TouchableOpacity>
           ),
         right: (
-          <TouchableOpacity onPress={onLoginButtonPress}>
-            <View style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}}>
-              <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登陆</Text>
-            </View>
+          <TouchableOpacity 
+                style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}} 
+                 onPress={() => navigation.state.params.onSettingButtonPress(navigation)}
+                 >
+                <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
           </TouchableOpacity>
           ),
         tintColor: "gray",
@@ -53,7 +55,16 @@ export default class Home extends React.Component {
        gesturesEnabled: false  // 是否可以右滑返回
     }
   };
- 
+
+componentDidMount() {
+    this.props.navigation.setParams({ onSettingButtonPress: this.onSettingButtonPress });
+  }
+  onSettingButtonPress(navigation){
+      /*第一种方式 Push*/
+      navigation.navigate('Register', {user: 'Lucy'})
+      /*第二种方式 Push*/
+      // navigation.dispatch(navigateAction)
+  }
   render() {
     return (
 
