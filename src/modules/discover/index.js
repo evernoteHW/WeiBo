@@ -22,6 +22,7 @@ export default class Discover extends Component {
       header: (navigation, defaultHeader) => ({
           ...defaultHeader,
           visible: true , // 覆盖预设中的此项
+          style: { backgroundColor: 'white'},
           title: (
             <View style={{flexDirection:'row'}}>
               <TouchableOpacity 

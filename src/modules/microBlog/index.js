@@ -33,48 +33,14 @@ export default class MicroBlog extends Component {
       header: (navigation, defaultHeader) => ({
           ...defaultHeader,
             title: '发微博',
-            // visible: false,
+            style: { backgroundColor: 'white'},
      }),
   };
   startAnimation() {
     //弹跳动画
-    // this.state.bounceValue.setValue(1.5)
-    // Animated.spring(
-    //   this.state.bounceValue,
-    //   {
-    //     toValue: 0.8,
-    //     friction : 1,
-    //   }
-    // ).start()
-    // 加速度动画
-    // this.state.decayValue.setValue(50)
-    // Animated.decay(
-    //   this.state.decayValue,
-    //   {
-    //     // toValue: 20,
-    //     velocity: 1,
-    //     deceleration : 0.997,
-    //   }
-    // ).start()
-    // 渐变效果
-     // Animated.timing(          // Uses easing functions
-     //   this.state.fadeAnim,    // The value to drive
-     //   {
-     //      toValue: 1,
-     //      duration: 3000
-     //    },           // Configuration
-     // ).start();  
-     //组合动画
-     // this.state.springValue.setValue(100)
+   
      Animated.sequence([
 
-         // Animated.timing( // Uses easing functions
-         //   this.state.fadeAnim,    // The value to drive
-         //   {
-         //      toValue: 1,
-         //      duration: 3000
-         //    },           // Configuration
-         // ),
          Animated.spring(
          this.state.springValue,
           {
@@ -82,7 +48,7 @@ export default class MicroBlog extends Component {
             friction: 3,
           }
         )
-
+         
      ]).start()
   }
  componentDidMount() {

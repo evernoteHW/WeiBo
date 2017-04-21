@@ -102,44 +102,54 @@ const TabNavigatorConfig = {
          // fontSize: 15, // 文字大小
       },
     },
-    navigationOptions: {
-         header:  {
-          visible: true,
-          style:   {
-            backgroundColor: 'white',
-          },    //导航栏背景颜色
-       },
-   },
+   //  navigationOptions: {
+   //       header:  {
+   //        visible: true,
+   //        style:   {
+   //          backgroundColor: 'white',
+   //        },    //导航栏背景颜色
+   //     },
+   // },
 };
 
 
 const TabBars = TabNavigator(RouteConfigs,TabNavigatorConfig)
 
 const App = StackNavigator({
-    TabBars: {
-        screen: TabBars,
-        navigationOptions: {
-          // header:{
-          //     backTitle: "返回",
-          //   }
-        }
-    },
-    Setting : {
-        screen: Setting,
-    },
-    Register: {
-        screen: Register,
-        mode:  'modal',
-    },
+    TabBars: { screen: TabBars },
+    Setting : { screen: Setting },
 },{
-    headerMode: 'screen' 
+    headerMode: 'screen' ,
+    mode:  'card',
+    // cardStyle:{   backgroundColor: 'red'},
+    onTransitionStart:(a,b,c,d,e) =>{
+      console.log(`onTransitionStart.....1${e},${b},${c},${d},${e}`);
+    },
+    onTransitionEnd:(a,b,c,d,e) =>{
+      console.log(`onTransitionEnd.......2${e},${b},${c},${d},${e}`);
+    }
 });
-
+//添加模态视图 确实是个不错的选择啊
+const ModelApp= StackNavigator({
+    App: {
+        screen: App,
+        navigationOptions: {
+         header: {
+          visible: false,
+          style:   {backgroundColor: 'white'},    //导航栏背景颜色
+       },
+   },
+    },
+    Register: { screen: Register },
+    },{
+        headerMode: 'screen' ,
+        mode:  'modal',
+})
 
 export default class WeiBo extends Component {
   render() {
     return (
-      <App />
+      <ModelApp />
     );
   }
 }

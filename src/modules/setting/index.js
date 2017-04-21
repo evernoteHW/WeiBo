@@ -30,7 +30,7 @@ export default class Setting extends Component {
    
   }
   static navigationOptions = {
-      title: ({ state }) => `设置 ${state.params.user}`,
+      title: ({ state }) => `设置2 ${state.params.user}`,
       header: (navigation, defaultHeader) => ({
           ...defaultHeader,
           left:(

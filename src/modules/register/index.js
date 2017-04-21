@@ -31,8 +31,11 @@ export default class Register extends Component {
   }
   static navigationOptions = {
       title: ({ state }) => `设置 ${state.params.user}`,
+      mode:  'modal',
       header: (navigation, defaultHeader) => ({
           ...defaultHeader,
+          // headerModel: 'screen',
+          visible: true,
           left:(
            <TouchableOpacity 
                 style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
