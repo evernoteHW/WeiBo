@@ -30,10 +30,9 @@ export default class Setting extends Component {
    
   }
   static navigationOptions = {
-      title: ({ state }) => `消息 ${state.params.user}`,
+      title: ({ state }) => `设置 ${state.params.user}`,
       header: (navigation, defaultHeader) => ({
-          visible: false , // 覆盖预设中的此项
-          titleStyle:{color: '#333333'},
+          ...defaultHeader,
           right:(
            <TouchableOpacity 
                 style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
@@ -41,7 +40,8 @@ export default class Setting extends Component {
                  >
                 <Text style={{fontSize:16, color:"#333333"}}>设置</Text>
               </TouchableOpacity>
-        )
+        ),
+        style: {backgroundColor: 'white'},    //导航栏背景颜色
      }),
   };
   render() {

@@ -8,73 +8,119 @@ import {
   Animated,
   Dimensions,
   NavigatorIOS,
-  LayoutAnimation
+  LayoutAnimation,
+  AppState
 } from 'react-native';
 
 import styles from './styles.js'
 
-const CustomSeparatorComponent = ({text}) => (
-  <View>
-    <SeparatorComponent />
-    <Text style={styles.separatorText}>{text}</Text>
-    <SeparatorComponent />
-  </View>
-);
 
 export default class MicroBlog extends Component {
   constructor(props) {
     super(props);
-    // var ds = new FlatList.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
-      width: 100,
-      height: 50,
-      blurBgHidden: true
+      width:        100,
+      height:       50,
+      blurBgHidden: true,
+      bounceValue:  new Animated.Value(1),
+      decayValue:   new Animated.Value(400),
+      fadeAnim:     new Animated.Value(1), 
+      springValue:  new Animated.Value(400),
+      appState:     AppState.currentState 
     };
   }
    static navigationOptions = {
-      title: '我',
       header: (navigation, defaultHeader) => ({
-          headerModel: 'screen',
-          model: 'screen',
-          visible: false , 
-          style: {backgroundColor: null},    //导航栏背景颜色
+          ...defaultHeader,
+            title: '发微博',
+            // visible: false,
      }),
   };
   startAnimation() {
-    // LayoutAnimation.configureNext({
-    //   duration: 500000, //持续时间
-    //   create: { // 视图创建
-    //       type: LayoutAnimation.Types.spring,
-    //       property: LayoutAnimation.Properties.scaleXY,// opacity、scaleXY
-    //   },
-    //   update: { // 视图更新
-    //       type: LayoutAnimation.Types.spring,
-    //   },
-    // });
-    // this.setState({width: this.state.width + 10});
+    //弹跳动画
+    // this.state.bounceValue.setValue(1.5)
+    // Animated.spring(
+    //   this.state.bounceValue,
+    //   {
+    //     toValue: 0.8,
+    //     friction : 1,
+    //   }
+    // ).start()
+    // 加速度动画
+    // this.state.decayValue.setValue(50)
+    // Animated.decay(
+    //   this.state.decayValue,
+    //   {
+    //     // toValue: 20,
+    //     velocity: 1,
+    //     deceleration : 0.997,
+    //   }
+    // ).start()
+    // 渐变效果
+     // Animated.timing(          // Uses easing functions
+     //   this.state.fadeAnim,    // The value to drive
+     //   {
+     //      toValue: 1,
+     //      duration: 3000
+     //    },           // Configuration
+     // ).start();  
+     //组合动画
+     // this.state.springValue.setValue(100)
+     Animated.sequence([
+
+         // Animated.timing( // Uses easing functions
+         //   this.state.fadeAnim,    // The value to drive
+         //   {
+         //      toValue: 1,
+         //      duration: 3000
+         //    },           // Configuration
+         // ),
+         Animated.spring(
+         this.state.springValue,
+          {
+            toValue:  80,
+            friction: 3,
+          }
+        )
+
+     ]).start()
   }
-  componentDidMount() {
-    // your code here
-    console.log("componentDidMount"); 
-    this.startAnimation()
+ componentDidMount() {
+  this.startAnimation()
+  console.log("componentDidMount");
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
-  componentWillReceiveProps(){
-    console.log("componentWillReceiveProps");
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount");
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
-  //  shouldComponentUpdate(){
-  //   console.log("shouldComponentUpdate");
-  //   return true
-  // }
-   componentWillUpdate(){
-    console.log("componentWillUpdate");
+
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('App has come to the foreground!')
+    }
+    this.setState({appState: nextAppState});
+    console.log('App has come to the foreground!')
   }
-   componentDidUpdate(){
-    console.log("componentDidUpdate");
-  }
+
   render() {
     return (
         <View style={styles.container}>
-          <View style={{backgroundColor:"orange", width: this.state.width, height: 100}}/>
+          <Animated.View style={{
+            backgroundColor: "orange",
+            top:             this.state.springValue, 
+            left:            200,
+            width:           this.state.width, 
+            height:          100,
+            opacity:         this.state.fadeAnim
+            // transform:    [
+            //     {
+            //       scale: this.state.bounceValue
+            //     }
+            // ]
+          }}
+            />
         </View>
     );
   }

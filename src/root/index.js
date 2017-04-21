@@ -24,6 +24,18 @@ import Setting from '../modules/setting'
 
 const RouteConfigs = 
 {
+   "MicroBlog": {
+     screen: MicroBlog,
+     navigationOptions: {
+        tabBar: {
+          icon: ({focused,tintColor}) => (
+            <Image 
+            source={focused ? require('../resources/image/tab/compose_color_yellow_select.png'): require('../resources/image/tab/compose_color_yellow_select.png')}
+            style={{marginTop: 10}}/>),
+          label:' ',
+        },
+      }
+    },
     Home: {
       screen: Home,
       navigationOptions: {
@@ -48,18 +60,7 @@ const RouteConfigs =
         },
       },
     },
-    "MicroBlog": {
-     screen: MicroBlog,
-     navigationOptions: {
-        tabBar: {
-          icon: ({focused,tintColor}) => (
-            <Image 
-            source={focused ? require('../resources/image/tab/compose_color_yellow_select.png'): require('../resources/image/tab/compose_color_yellow_select.png')}
-            style={{marginTop: 10}}/>),
-          label:' ',
-        },
-      }
-    },
+   
     Discover: {
      screen: Discover,
      navigationOptions: {
@@ -83,14 +84,14 @@ const RouteConfigs =
 }
 const TabNavigatorConfig = {
     animationEnabled: false, // 切换页面时是否有动画效果
-    tabBarPosition: 'bottom', // 显示在底端，android 默认是显示在页面顶端的
-    swipeEnabled: false, // 是否可以左右滑动切换tab
-    tabBarOptions: {
-      activeTintColor : '#333333',// 文字和图片选中颜色
+    tabBarPosition:   'bottom', // 显示在底端，android 默认是显示在页面顶端的
+    swipeEnabled:     false, // 是否可以左右滑动切换tab
+    tabBarOptions:    {
+      activeTintColor:   '#333333',// 文字和图片选中颜色
       inactiveTintColor: '#666666', // 文字和图片未选中颜色
-      showIcon: true, // android 默认不显示 icon, 需要设置为 true 才会显示
-      showLabel: true,
-      indicatorStyle: {
+      showIcon:          true, // android 默认不显示 icon, 需要设置为 true 才会显示
+      showLabel:         true,
+      indicatorStyle:    {
         height: 0  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
       }, 
       style: {
@@ -99,7 +100,15 @@ const TabNavigatorConfig = {
       labelStyle: {
          // fontSize: 15, // 文字大小
       },
-    }
+    },
+    navigationOptions: {
+         header: {
+          visible: true,
+          style:   {
+            backgroundColor: 'white',
+          },    //导航栏背景颜色
+       },
+   },
 };
 
 
@@ -109,7 +118,9 @@ const App = StackNavigator({
     TabBars: {
         screen: TabBars,
         navigationOptions: {
-            backTitle: "返回"
+          // header:{
+          //     backTitle: "返回",
+          //   }
         }
     },
     Setting : {

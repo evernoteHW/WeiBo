@@ -2,8 +2,8 @@
 module.exports = {
   container: {
     flex:            1,
-    justifyContent:  'center',
-    alignItems:      'center',
+    // justifyContent:  'center',
+    // alignItems:      'center',
     backgroundColor: 'rgb(247,247,242)',
   },
   blurBg:{
