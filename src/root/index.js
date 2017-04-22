@@ -23,61 +23,62 @@ import Mine from '../modules/mine'
 import Setting from '../modules/setting'
 import Register from '../modules/register'
 
+
 const RouteConfigs = 
 {
+    
     Home: {
-      screen: Home,
+      screen:            Home,
       navigationOptions: {
-        tintColor: "red" ,
-        tabBar: {
-          label: '首页',
-          icon: ({focused,tintColor}) => (
-            <Image source={focused ? require('../resources/image/tab/tabbar_home_highlighted.png'): require('../resources/image/tab/tabbar_home.png')}/>),
-          titleStyle: {
-             color: 'green'
-          }
+        tabBar:    {
+        label:     '首页',
+        icon:      ({focused,tintColor}) => (
+            <Image 
+            source={focused ? require('../resources/image/tab/tabbar_home_highlighted.png'): require('../resources/image/tab/tabbar_home.png')}/>),
+
         },
       },
     },
     Message: {
-      screen: Message,
-       navigationOptions: {
-        tabBar: {
-          icon: ({focused,tintColor}) => (
-            <Image source={focused ? require('../resources/image/tab/tabbar_message_center_selected.png'): require('../resources/image/tab/tabbar_message_center.png')}/>),
-          label: '消息',
+      screen:            Message,
+      navigationOptions: {
+        tabBar:            {
+        icon:              ({focused,tintColor}) => (
+        <Image 
+          source = {focused ? require('../resources/image/tab/tabbar_message_center_selected.png'): require('../resources/image/tab/tabbar_message_center.png')}/>),
+        label: '消息',
         },
       },
     },
     "MicroBlog": {
-     screen: MicroBlog,
+     screen:            MicroBlog,
      navigationOptions: {
         tabBar: {
           icon: ({focused,tintColor}) => (
             <Image 
-            source={focused ? require('../resources/image/tab/compose_color_yellow_select.png'): require('../resources/image/tab/compose_color_yellow_select.png')}
-            style={{marginTop: 10}}/>),
-          label:' ',
+             source = {focused ? require('../resources/image/tab/compose_color_yellow_select.png'): require('../resources/image/tab/compose_color_yellow_select.png')}
+             style  = {{marginTop: 10}}/>),
+             label:' ',
         },
       }
     },
     Discover: {
-     screen: Discover,
+     screen:            Discover,
      navigationOptions: {
         tabBar: {
           icon: ({focused,tintColor}) => (
             <Image source={focused ? require('../resources/image/tab/tabbar_discover_highlighted.png'): require('../resources/image/tab/tabbar_discover.png')}/>),
-          label: '发现',
+            label: '发现',
         },
       }
     },
     Mine: {
-     screen: Mine,
+     screen:            Mine,
      navigationOptions: {
         tabBar: {
           icon: ({focused,tintColor}) => (
-            <Image source={focused ? require('../resources/image/tab/tabbar_profile_highlighted.png'): require('../resources/image/tab/tabbar_profile.png')}/>),
-          label: '我',
+              <Image source={focused ? require('../resources/image/tab/tabbar_profile_highlighted.png'): require('../resources/image/tab/tabbar_profile.png')}/>),
+              label: '我',
         },
       }
     }
@@ -102,17 +103,8 @@ const TabNavigatorConfig = {
          // fontSize: 15, // 文字大小
       },
     },
-   //  navigationOptions: {
-   //       header:  {
-   //        visible: true,
-   //        style:   {
-   //          backgroundColor: 'white',
-   //        },    //导航栏背景颜色
-   //     },
-   // },
   
 };
-
 
 const TabBars = TabNavigator(RouteConfigs,TabNavigatorConfig)
 
@@ -123,34 +115,38 @@ const App = StackNavigator({
     headerMode: 'screen' ,
     mode:  'card',
     // cardStyle:{   backgroundColor: 'red'},
-    onTransitionStart:(next,before) =>{
-      console.log(`onTransitionStart.....1  ${next},${before}`);
-    },
-    onTransitionEnd:(next,before) =>{
-      console.log(`onTransitionEnd.......2  ${next},${before}`);
-    }
+    // onTransitionStart:(next,before) =>{
+      
+    //   let array = next.navigation.state.routes;
+    //   let first = array[0];
+    //    first.params.viewWillAppear()
+
+    // },
+    // onTransitionEnd:(next,before) =>{
+
+    // }
 });
 //添加模态视图 确实是个不错的选择啊
-const ModelApp= StackNavigator({
-    App: {
-        screen: App,
-        navigationOptions: {
-         header: {
-          visible: false,
-          style:   {backgroundColor: 'white'},    //导航栏背景颜色
-       },
-   },
-    },
-    Register: { screen: Register },
-    },{
-        headerMode: 'screen' ,
-        mode:  'modal',
-})
+// const ModelApp= StackNavigator({
+//     App: {
+//         screen: App,
+//         navigationOptions: {
+//          header: {
+//           visible: false,
+//           style:   {backgroundColor: 'white'},    //导航栏背景颜色
+//        },
+//    },
+//     },
+//     Register: { screen: Register },
+//     },{
+//         headerMode: 'screen' ,
+//         mode:  'modal',
+// })
 
 export default class WeiBo extends Component {
   render() {
     return (
-      <ModelApp />
+      <App />
     );
   }
 }

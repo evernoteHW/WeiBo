@@ -56,6 +56,18 @@ export default class Discover extends Component {
        gesturesEnabled: false  // 是否可以右滑返回
     }
   };
+    componentWillMount() {
+    // var context: NavigationContext = this.context.navigationContext;
+    // this._subscriptions = [
+    //   context.addListener('willchange', (event: NavigationEvent) => {
+    //     console.log(event);
+    //   }),
+
+    //   context.addListener('change', (event: NavigationEvent) => {
+    //     console.log(event);
+    //   }),
+    // ];
+  }
   onRegisterButtonPress(e){
       console.log("1111");
   };

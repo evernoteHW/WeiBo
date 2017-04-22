@@ -28,6 +28,19 @@ export default class Message extends Component {
        gesturesEnabled: false  // 是否可以右滑返回
     }
   };
+  viewWillAppear(){
+    console.log('msg_viewWillAppear');
+  }
+  viewWillDisAppear(){
+    console.log('msg_viewWillDisAppear');
+  }
+
+  componentDidMount() {
+     this.props.navigation.setParams({
+      'viewWillAppear':     this.viewWillAppear,
+      'viewWillDisAppear':  this.viewWillDisAppear,
+    });
+  }
   onRegisterButtonPress(e){
       console.log("1111");
   };

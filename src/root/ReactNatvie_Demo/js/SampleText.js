@@ -12,11 +12,7 @@ import {
  */
  import type { Children } from 'react';
 
-const SampleText = ({
-  children
-}: {
-  children?: Children
-}) => (
+const SampleText = ({ children } : {children ? : Children}) => (
   <Text style={styles.sampleText}>{children}</Text>
 );
 

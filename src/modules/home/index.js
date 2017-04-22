@@ -58,35 +58,29 @@ export default class Home extends React.Component {
     }
   };
   viewWillAppear(){
-    console.log('viewWillAppear');
-  }
-  viewDidAppear(){
-    console.log('viewDidAppear');
+    console.log('home_viewWillAppear');
   }
   viewWillDisAppear(){
-    console.log('viewWillDisAppear');
-  }
-  viewDidDisAppear(){
-    console.log('viewDidDisAppear');
+    console.log('home_viewWillDisAppear');
   }
 
-componentDidFocus(){
-  console.log('componentDidFocus');
-}
-componentDidMount() {
-   this.props.navigation.setParams({ onSettingButtonPress: this.onSettingButtonPress });
-   this.props.navigation.setParams({ 'a': '33' });
-   // this.props.navigation.setParams({ viewWillDisAppear: this.viewWillDisAppear});
-}
-componentWillMount(){
-  console.log("componentWillMount");
-}
-onSettingButtonPress(navigation){
-      /*第一种方式 Push*/
-      navigation.navigate('Register', {user: 'Lucy'})
-      /*第二种方式 Push*/
-      // navigation.dispatch(navigateAction)
+  componentDidMount() {
+    console.log('home_componentDidMount');
+     this.props.navigation.setParams({
+      onSettingButtonPress: this.onSettingButtonPress ,
+      viewWillAppear:     this.viewWillAppear,
+      viewWillDisAppear:  this.viewWillDisAppear,
+    });
   }
+  componentWillMount(){
+    console.log("home_componentWillMount");
+  }
+  onSettingButtonPress(navigation){
+        /*第一种方式 Push*/
+        navigation.navigate('Register', {user: 'Lucy'})
+        /*第二种方式 Push*/
+        // navigation.dispatch(navigateAction)
+   }
   render() {
     return (
 
