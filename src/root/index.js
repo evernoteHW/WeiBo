@@ -110,6 +110,7 @@ const TabNavigatorConfig = {
    //        },    //导航栏背景颜色
    //     },
    // },
+  
 };
 
 
@@ -122,11 +123,11 @@ const App = StackNavigator({
     headerMode: 'screen' ,
     mode:  'card',
     // cardStyle:{   backgroundColor: 'red'},
-    onTransitionStart:(a,b,c,d,e) =>{
-      console.log(`onTransitionStart.....1${e},${b},${c},${d},${e}`);
+    onTransitionStart:(next,before) =>{
+      console.log(`onTransitionStart.....1  ${next},${before}`);
     },
-    onTransitionEnd:(a,b,c,d,e) =>{
-      console.log(`onTransitionEnd.......2${e},${b},${c},${d},${e}`);
+    onTransitionEnd:(next,before) =>{
+      console.log(`onTransitionEnd.......2  ${next},${before}`);
     }
 });
 //添加模态视图 确实是个不错的选择啊

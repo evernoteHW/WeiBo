@@ -61,17 +61,21 @@ export default class Mine extends Component {
    * 登陆
    * @return {[type]} [description]
    */
-  onLoginButtonPress(){
+  onLoginButtonPress(navigate){
+    navigate('Register', {user: 'Lucy'})
     console.log("登陆");
   }
   /**
    * 注册
-   * @return {[type]} [description]
+   * @return {[type]} [descripnavigation.navigate('Register', {user: 'Lucy'})tion]
    */
-  onRegisterButtonPress(){
+  onRegisterButtonPress(navigate){
+    navigate('Register', {user: 'Lucy'})
+    // navigation.navigate('Register', {user: 'Lucy'})
     console.log("注册");
   }
   render() {
+      const { navigate } = this.props.navigation;
       return (
         <View style={styles.container}>
 
@@ -120,13 +124,13 @@ export default class Mine extends Component {
                 <View style={{marginTop: 20, flexDirection:'row'}}>
                     <TouchableOpacity 
                         style={styles.registerBtn} 
-                        onPress={() => this.onRegisterButtonPress()}
+                        onPress={() => this.onRegisterButtonPress(navigate)}
                          >
                         <Text style={{fontSize:16, color:"orange"}}>注册</Text>
                    </TouchableOpacity>
                    <TouchableOpacity 
                         style={styles.loginBtn} 
-                        onPress={() => this.onLoginButtonPress()}
+                        onPress={() => this.onLoginButtonPress(navigate)}
                          >
                         <Text style={{fontSize:16, color:"#999999"}}>登陆</Text>
                    </TouchableOpacity>

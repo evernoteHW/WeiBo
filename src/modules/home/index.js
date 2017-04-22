@@ -26,7 +26,9 @@ const onLoginButtonPress = () => {
 };
 
 export default class Home extends React.Component {
+
     static navigationOptions = {
+      
       header: (navigation, defaultHeader) => ({
         title: "首页",
         visible: true , // 覆盖预设中的此项
@@ -55,11 +57,31 @@ export default class Home extends React.Component {
        gesturesEnabled: false  // 是否可以右滑返回
     }
   };
-
-componentDidMount() {
-    this.props.navigation.setParams({ onSettingButtonPress: this.onSettingButtonPress });
+  viewWillAppear(){
+    console.log('viewWillAppear');
   }
-  onSettingButtonPress(navigation){
+  viewDidAppear(){
+    console.log('viewDidAppear');
+  }
+  viewWillDisAppear(){
+    console.log('viewWillDisAppear');
+  }
+  viewDidDisAppear(){
+    console.log('viewDidDisAppear');
+  }
+
+componentDidFocus(){
+  console.log('componentDidFocus');
+}
+componentDidMount() {
+   this.props.navigation.setParams({ onSettingButtonPress: this.onSettingButtonPress });
+   this.props.navigation.setParams({ 'a': '33' });
+   // this.props.navigation.setParams({ viewWillDisAppear: this.viewWillDisAppear});
+}
+componentWillMount(){
+  console.log("componentWillMount");
+}
+onSettingButtonPress(navigation){
       /*第一种方式 Push*/
       navigation.navigate('Register', {user: 'Lucy'})
       /*第二种方式 Push*/
@@ -68,7 +90,8 @@ componentDidMount() {
   render() {
     return (
 
-        <View style={styles.container}>
+        <View style={styles.container}
+        >
         
         </View>
     );
