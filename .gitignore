@@ -1,4 +1,12 @@
 node_modules
 .gitignore 
 
+<<<<<<< HEAD
 WeiBo.xcodeproj/project.xcworkspace/xcuserdata/huwei.xcuserdatad/UserInterfaceState.xcuserstate
+=======
+WeiBo.xcodeproj/project.xcworkspace/xcuserdata/weihu.xcuserdatad/UserInterfaceState.xcuserstate
+>>>>>>> master
+
+WeiBo.xcodeproj/project.xcworkspace/xcuserdata/weihu.xcuserdatad/UserInterfaceState.xcuserstate
+
+WeiBo.xcodeproj/project.xcworkspace/xcuserdata/weihu.xcuserdatad/UserInterfaceState.xcuserstate
