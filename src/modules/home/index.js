@@ -84,9 +84,18 @@ export default class Home extends React.Component {
   render() {
     return (
 
-        <View style={styles.container}
-        >
-        
+        <View style={styles.container}>
+          <View style={{backgroundColor:'white'}}>
+            <Image />
+            <Text></Text>
+            <TouchableOpacity 
+                // style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}} 
+                 onPress={() => navigation.state.params.onSettingButtonPress(navigation)}
+                 >
+                <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>去关注</Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
     );
   }
