@@ -8,6 +8,7 @@ import {
   Button,
   TouchableOpacity,
   Alert,
+  Image,
 } from 'react-native';
 
 const onRegisterButtonPress = () => {
@@ -49,9 +50,28 @@ export default class Message extends Component {
   };
   render() {
     return (
-      <View style={styles.container}>
-      
-      </View>
+        <View style={styles.container}>
+          <View style={{alignItems: 'center'}}>
+            <Image source={require('../../resources/image/home/visitordiscover_image_message.png')}/>
+            <Text style={{fontSize:14, color:'#999999',marginTop: 0}}>登陆后，别人评论你的微博，给你</Text>
+            <Text style={{fontSize:14, color:'#999999',marginTop: 0}}>发消息，都会在这里收到通知</Text>
+            <View style={{flexDirection:'row'}}>
+              <TouchableOpacity 
+                style={{justifyContent:'center', alignItems: 'center',backgroundColor:'white',marginRight: 20,marginTop: 20, height: 40, width: 100, borderWidth: 1, borderColor:'rgb(213,213,213)', borderRadius: 2}} 
+                 onPress={() => navigation.state.params.onSettingButtonPress(navigation)}
+                 >
+                <Text style={{fontSize:15, color:'rgb(253,169,70)'}}>注册</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={{justifyContent:'center', alignItems: 'center',backgroundColor:'white',marginTop: 20, height: 40, width: 100, borderWidth: 1, borderColor:'rgb(213,213,213)', borderRadius: 2}} 
+                 onPress={() => navigation.state.params.onSettingButtonPress(navigation)}
+                 >
+                <Text style={{fontSize:15, color:'rgb(253,169,70)'}}>登录</Text>
+            </TouchableOpacity>
+            </View>
+          </View>
+
+        </View>
     );
   }
 }

@@ -85,14 +85,14 @@ export default class Home extends React.Component {
     return (
 
         <View style={styles.container}>
-          <View style={{backgroundColor:'white'}}>
-            <Image />
-            <Text></Text>
+          <View style={{alignItems: 'center'}}>
+            <Image source={require('../../resources/image/home/visitordiscover_feed_image_house.png')}/>
+            <Text style={{fontSize:14, color:'#999999',marginTop: 40}}>关注一些人，回这里看看有什么惊喜</Text>
             <TouchableOpacity 
-                // style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}} 
+                style={{justifyContent:'center', alignItems: 'center',backgroundColor:'white',marginTop: 40, height: 40, width: 100, borderWidth: 1, borderColor:'rgb(213,213,213)', borderRadius: 2}} 
                  onPress={() => navigation.state.params.onSettingButtonPress(navigation)}
                  >
-                <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>去关注</Text>
+                <Text style={{fontSize:15, color:'rgb(253,169,70)'}}>去关注</Text>
             </TouchableOpacity>
           </View>
 

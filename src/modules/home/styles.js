@@ -4,7 +4,7 @@ module.exports = {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgb(247,247,242)',
+    backgroundColor: 'rgb(242,242,242)',
   },
   flatlist: {
     width: '100%',
