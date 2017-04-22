@@ -42,7 +42,6 @@ export default class MicroBlog extends Component {
   };
   startAnimation() {
     //弹跳动画
-   
      Animated.sequence([
 
          Animated.spring(

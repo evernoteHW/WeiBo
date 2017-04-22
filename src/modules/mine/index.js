@@ -28,28 +28,12 @@ export default class Mine extends Component {
   constructor(props) {
     super(props);
   }
-  static navigationOptions = {
-      title: '我',
-      header: (navigation, defaultHeader) => ({
-          ...defaultHeader,
-          visible: true , // 覆盖预设中的此项
-          style: { backgroundColor: 'white'},
-          // backTitle: "返回",
-          right:(
-           <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                 onPress={() => navigation.state.params.onSettingButtonPress(navigation)}
-                 >
-                <Text style={{fontSize:16, color:"#333333"}}>设置</Text>
-           </TouchableOpacity>
-        ),
-     }),
-  };
+  
   componentWillMount() {
 
   }
   componentDidMount() {
-    this.props.navigation.setParams({ onSettingButtonPress: this.onSettingButtonPress });
+
   }
   onSettingButtonPress(navigation){
       /*第一种方式 Push*/
@@ -75,14 +59,14 @@ export default class Mine extends Component {
     console.log("注册");
   }
   render() {
-      const { navigate } = this.props.navigation;
+
       return (
         <View style={styles.container}>
 
            <ScrollView 
            contentContainerStyle={styles.contentContainer}
            automaticallyAdjustContentInsets={false}
-           // contentInset={{top: 0, bottom: 49}}
+           contentInset={{top: 0, bottom: 49}}
            >
               <View style={styles.header}> 
                 <Image 
@@ -91,23 +75,6 @@ export default class Mine extends Component {
                 <Image 
                   style = {styles.headerIcon}
                   source = {{uri: 'http://img05.tooopen.com/images/20150202/sy_80219211654.jpg'}} 
-                  // source = {{uri: base64Icon}} 
-                  // onLoadStart={(e) => {
-                  //   console.log("onLoadStart");
-                  // }}
-                  // onLoad={(e) => {
-                  //   console.log("onLoad");
-                  // }}
-                  // onProgress={(e) => {
-                  //   let progress = Math.round(100 * e.nativeEvent.loaded / e.nativeEvent.total)
-                  //   console.log("onProgress ===>" + progress + "%");
-                  // }}
-                  // onLoadEnd={(e) => {
-                  //   console.log("onLoadEnd");
-                  // }}
-                  // onError={(e) => {
-                  //   console.log("onError  " + e.nativeEvent.error);
-                  // }}
                 />
               </View>
               <View style = {{flexDirection:'row',alignItems:'center',backgroundColor:'#FFFFFF', height: 40}} >
@@ -124,13 +91,12 @@ export default class Mine extends Component {
                 <View style={{marginTop: 20, flexDirection:'row'}}>
                     <TouchableOpacity 
                         style={styles.registerBtn} 
-                        onPress={() => this.onRegisterButtonPress(navigate)}
                          >
                         <Text style={{fontSize:16, color:"orange"}}>注册</Text>
                    </TouchableOpacity>
                    <TouchableOpacity 
                         style={styles.loginBtn} 
-                        onPress={() => this.onLoginButtonPress(navigate)}
+
                          >
                         <Text style={{fontSize:16, color:"#999999"}}>登陆</Text>
                    </TouchableOpacity>
@@ -157,7 +123,7 @@ const styles = StyleSheet.create({
     // left : 0,
     // right: 0,
     // bottom: 0,
-    // top: 100,
+    top: 64,
     // resizeMode:         'cover'
     // paddingBottom:   49,
     // backgroundColor: 'red',
@@ -171,7 +137,7 @@ const styles = StyleSheet.create({
     // flex:       1,
     width:           "100%",
     height:          '100%',
-    backgroundColor: '#123456', 
+    // backgroundColor: '#123456', 
   },
   header:{
     justifyContent:  'center', 
