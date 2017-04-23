@@ -97,7 +97,7 @@ export default class Mine extends Component {
 	             	<Text style = {{marginLeft: 20,color:'#000000', fontSize:14}}>关注</Text>
 	              <Text style = {{marginLeft: 2,color:'#333333', fontSize:12}}>快看大家都在关注他</Text>
               </View>
-              <View style={{justifyContent:'center',alignItems:'center', height: screenHeight - 40 - 200 - 49}} >
+              <View style={{justifyContent:'center',alignItems:'center', height: screenHeight - 40 - 200 - 49 - 64}} >
                 <Text style={{color:'#999999', fontSize:14}}>
                   登陆后，你的微博，相册个人资料
                 </Text>
@@ -143,6 +143,7 @@ const styles = StyleSheet.create({
     // top: 100,
     // resizeMode:         'cover'
     // paddingBottom:   49,
+    // height: screenHeight - 49 - 64,
     // backgroundColor: 'red',
   },
   headerBg:{
