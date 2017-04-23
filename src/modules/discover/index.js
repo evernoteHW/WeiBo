@@ -26,8 +26,6 @@ export default class Discover extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            listData: this.getData(0),
-            myindex: 1,
         };
     }
   
@@ -86,8 +84,8 @@ export default class Discover extends Component {
           <View style={{backgroundColor:'white',flexDirection: 'row'}}>
             <Image source = {require('../../resources/image/mine/page_cover_tv_background.jpg')} style={styles.headerIcon} />
             <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
-                <Text style={{marginLeft: 10, color: '#333333'}}>新浪娱乐</Text>
-                <Text style={{marginLeft: 10, marginTop: 5, color: '#999999'}}>6小时前 来自微博</Text>
+                <Text style={styles.headerTitle}>新浪娱乐</Text>
+                <Text style={styles.headerSubTitle}>6小时前 来自微博</Text>
             </View>
             <View style={{justifyContent:'center', alignItems: 'center'}}>
               <TouchableOpacity style={styles.headerAttention}>
@@ -182,6 +180,15 @@ const styles = StyleSheet.create({
     marginTop:    10,
     borderRadius: 25,
   },
+  headerTitle:{
+   marginLeft: 10,
+   color:      '#333333',
+  },
+  headerSubTitle:{
+    marginLeft: 10, 
+    marginTop:  5, 
+    color:      '#999999',
+  },
   headerAttention:{
     justifyContent:  'center', 
     alignItems:      'center',
@@ -192,14 +199,14 @@ const styles = StyleSheet.create({
     borderRadius:    3,
     borderWidth:     1,
     borderColor:     'rgb(225,225,225)',
-    backgroundColor: 'rgb(247,247,242)'
+    backgroundColor: 'rgb(247,247,242)',
   },
   bottom:{
     backgroundColor: 'white', 
     width:           '100%',
     flexDirection:   'row',
     borderTopWidth:  1, 
-    borderColor:     'rgb(225,225,225)'
+    borderColor:     'rgb(225,225,225)',
   },
   bottomItemView: {
     flexDirection:    'row',
