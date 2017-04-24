@@ -2,3 +2,7 @@ node_modules
 .gitignore 
 
 WeiBo.xcodeproj/project.xcworkspace/xcuserdata/huwei.xcuserdatad/UserInterfaceState.xcuserstate
+
+WeiBo.xcodeproj/project.xcworkspace/xcuserdata/weihu.xcuserdatad/UserInterfaceState.xcuserstate
+
+*.xcuserstate
