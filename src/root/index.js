@@ -13,6 +13,7 @@ import {
   Button,
 } from 'react-native';
 
+import { Provider } from 'react-redux';
 import { StackNavigator , TabNavigator} from 'react-navigation';
 
 import Home from '../modules/home'
@@ -23,6 +24,7 @@ import Mine from '../modules/mine'
 import Setting from '../modules/setting'
 import Register from '../modules/register'
 
+import configureStore from '../store/index';
 
 const RouteConfigs = 
 {
@@ -164,29 +166,40 @@ const App = StackNavigator({
     }
 });
 //添加模态视图 确实是个不错的选择啊
-// const ModelApp= StackNavigator({
-//     App: {
-//         screen: App,
-//         navigationOptions: {
-//          header: {
-//           visible: false,
-//           style:   {backgroundColor: 'white'},    //导航栏背景颜色
-//        },
-//    },
-//     },
-//     Register: { screen: Register },
-//     },{
-//         headerMode: 'screen' ,
-//         mode:  'modal',
-// })
+const ModalApp= StackNavigator({
+    App: {
+        screen: App,
+        navigationOptions: {
+         header: {
+          visible: false,
+          style:   {backgroundColor: 'white'},    //导航栏背景颜色
+       },
+   },
+    },
+    Register: { screen: Register },
+    },{
+        headerMode: 'screen' ,
+        mode:  'modal',
+})
+
 
 export default class WeiBo extends Component {
+  constructor(props) {
+    super(props);
+  
+    this.state = {
+      isLoading: true,
+      store: configureStore(()=>{this.setState({isLoading: false})})
+    };
+  }
   componentWillMount(){
     console.log("。。。。。。");
   }
   render() {
     return (
-      <App screenProps={{ta:''}}/>
+      <Provider store={this.state.store}>
+        <ModalApp screenProps={{ta:''}}/>
+      </Provider>
     );
   }
 }

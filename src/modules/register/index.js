@@ -9,17 +9,23 @@ import {
   RefreshControl,
   Platform,
   TouchableOpacity,
-  Alert
+  Alert,
+  TextInput,
+  Image,
 } from 'react-native';
 
+import { logIn } from '../../actions/user';
+import { connect } from 'react-redux';
 
-export default class Register extends Component {
+class Register extends Component {
    constructor(props) {
     super(props);
     this.state = {
-        testHidden: true
+        username: 'sup1',
+        password: '123456',
     };
-  }
+    this.handleLogin = this.handleLogin.bind(this);
+  }   
   saveDetails() {
     // this.setState{testHidden: false}
     Alert.alert('Save Details');
@@ -39,60 +45,75 @@ export default class Register extends Component {
           left:(
            <TouchableOpacity 
                 style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                 onPress={() => {
-                    // 返回上一页
-                    navigation.goBack()
-                    // 该方法允许界面更改router中的参数，可以用来动态的更改导航栏的内容
-                    // navigation.setParams({user: "2333"})
-                 }}
+                 onPress={() => { navigation.goBack()}}
                  >
-                <Text style={{fontSize:16, color:"#333333"}}> 返回</Text>
-              </TouchableOpacity>
+                <Text style={{fontSize:16, color:"#333333"}}>关闭</Text>
+           </TouchableOpacity>
+          ),
+          right:(
+           <TouchableOpacity 
+                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
+                 onPress={() => { navigation.goBack()}}
+                 >
+                <Text style={{fontSize:16, color:"#333333"}}>注册</Text>
+           </TouchableOpacity>
         ),
         style: {backgroundColor: 'white'},    //导航栏背景颜色
      }),
-  };
+  }
+  
+  shouldComponentUpdate(nextProps, nextState){
+    console.log(`登录成功！${nextProps.user.name}`);
+    return true
+  }
+  handleLogin(){
+     console.log('登录中');
+
+     let opt = {
+            'name': this.state.username,
+            'password': this.state.password,
+     };
+     this.props.dispatch(logIn(opt));
+  }
   render() {
-     const { params } = this.props.navigation.state;
-     const { testHidden } = this.state;
-     if (testHidden) {
+    const { navigation } = this.props;
        return (
           <View style={styles.container}>
+               <Image 
+                  style  = {{backgroundColor: 'green', width: 80, height: 80, borderRadius: 40}}
+                  source = {{uri: 'http://img05.tooopen.com/images/20150202/sy_80219211654.jpg'}}/>
+               <TextInput 
+                  style       = {{
+                    marginLeft:         10,
+                    marginRight:        10, 
+                    height:             40,
+                    borderBottomWidth:  1, 
+                    borderColor:        'red',
+                    // backgroundColor: 'orange',
+                    fontSize:           14, 
+                    color:              '#999999',
+                  }}
+                  placeholder = '手机号或邮箱'
+                />
+               <TextInput 
+                  style={{
+                    marginLeft:        10,
+                    marginRight:       10, 
+                    height:            40,
+                    borderBottomWidth: 1, 
+                    // backgroundColor:   'gray',
+                    fontSize:          14, 
+                    color:             '#999999',
+                  }}
+                    placeholder = '密码'
+                />
                <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                 onPress={() => navigate("Setting",{ user: 'Lucy' })}
-                 // onPress={()=> this.onSettingButtonPress()}
-                 // onPress={this.onSettingButtonPress.bind(this)}
-                 >
-                <Text style={{fontSize:16, color:"#333333"}}>Chat with {params.user}</Text>
-              </TouchableOpacity>
-
-               <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                 onPress={() => navigate("Setting",{ user: 'Lucy' })}
-                 // onPress={()=> this.onSettingButtonPress()}
-                 // onPress={this.onSettingButtonPress.bind(this)}
-                 >
-                <Text style={{fontSize:16, color:"#333333"}}>Chat with {params.user}</Text>
+                style={{justifyContent:'center', alignItems: 'center',marginLeft: 10, marginRight:10,height:40 ,width:'100%',backgroundColor: 'orange'}} 
+                 onPress={this.handleLogin}>
+                <Text style={{fontSize:16, color:"white"}}>登陆</Text>
               </TouchableOpacity>
           </View>
-        );
-     }else{
-      return (
-      <View style={styles.container}>
-           <TouchableOpacity 
-            style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-             onPress={() => navigate("Setting",{ user: 'Lucy' })}
-             // onPress={()=> this.onSettingButtonPress()}
-             // onPress={this.onSettingButtonPress.bind(this)}
-             >
-            <Text style={{fontSize:16, color:"#333333"}}>Chat with {params.user}</Text>
-          </TouchableOpacity>
-      </View>
-    );
-
-     }
-    
+       )    
   }
 }
 
@@ -101,7 +122,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgb(247,247,242)',
+    backgroundColor: 'white',
   },
   welcome: {
     fontSize: 20,
@@ -114,3 +135,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+function select(store){
+    return {
+        isLoggedIn: store.userStore.isLoggedIn,
+        user: store.userStore.user,
+        status: store.userStore.status,
+    }
+}
+
+export default connect(select)(Register);

@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   container: {
     flex:            1,
     // flexDirection:  'row',
-    backgroundColor: 'rgb(247,247,242)',
+    backgroundColor: 'rgb(242,242,242)',
   },
   contentContainer: {
     // position:           'absoulute',

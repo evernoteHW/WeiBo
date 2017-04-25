@@ -9,7 +9,8 @@
 #import "AppDelegate.h"
 #import <RCTRootView.h>
 #import <RCTBundleURLProvider.h>
-
+//d4399746266e2837ad6412ef257dca02
+//2966635116
 @interface AppDelegate ()
 
 @end
