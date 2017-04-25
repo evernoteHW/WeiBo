@@ -15,9 +15,18 @@ import {
 
 import { screenWidth, screenHeight } from '../../constants'
 
-const Botto = {
-
-};
+const BottomSetting = [
+    {
+      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
+      title: '888',
+    },{
+      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
+      title: '888',
+    },{
+      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
+      title: '888',
+    },
+];
 
 const onRegisterButtonPress = () => {
   Alert.alert('Button has been pressed!');
@@ -76,16 +85,37 @@ export default class Discover extends Component {
        gesturesEnabled: false  // 是否可以右滑返回
     }
   };
-  componentWillMount() {
-   
-  }
-  onRegisterButtonPress(e){
-      console.log("1111");
-  };
-  onLoginButtonPress(e){
-      console.log("2222");
-  };
-  //ListView Setting
+    componentWillMount() {
+     
+    }
+    onRegisterButtonPress(e){
+        console.log("1111");
+    };
+    onLoginButtonPress(e){
+        console.log("2222");
+    };
+
+    viewWillAppear(){
+      console.log('home_viewWillAppear');
+    }
+    viewDidAppear(){
+      console.log('home_viewDidAppear');
+    }
+    viewWillDisAppear(){
+      console.log('discover_viewWillDisAppear');
+    }
+    viewDidDisAppear(){
+      console.log('home_viewDidDisAppear');
+    }
+    componentDidMount() {
+      console.log('discover_componentDidMount');
+       this.props.navigation.setParams({
+          viewWillAppear:       this.viewWillAppear,
+          viewDidAppear:        this.viewDidAppear,
+          viewWillDisAppear:    this.viewWillDisAppear,
+          viewDidDisAppear:     this.viewDidDisAppear,
+      });
+    }
 
   renderItem({item, index}) {
     const seperaWidth = 2;
