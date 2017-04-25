@@ -92,7 +92,7 @@ const TabNavigatorConfig = {
       inactiveTintColor: '#666666', // 文字和图片未选中颜色
       showIcon:          true, // android 默认不显示 icon, 需要设置为 true 才会显示
       showLabel:         true,
-      // lazyLoad:          false,
+      // lazyLoad:       false,
       indicatorStyle:    {
         height: 0  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
       }, 
@@ -115,16 +115,53 @@ const App = StackNavigator({
     headerMode: 'screen' ,
     mode:  'card',
     // cardStyle:{   backgroundColor: 'red'},
-    // onTransitionStart:(next,before) =>{
-      
+    onTransitionStart:(next,before) =>{
+
+      //viewWillDisappear
+      let beforeIndex     = before.navigation.state.index
+      // let beforeRouteName = before.navigation.state.routeName
+      let beforeRoutes    = before.navigation.state.routes
+      let beforeView      = beforeRoutes[beforeIndex]
+
+      // let nextIndex       = next.navigation.state.index
+      // // let nextRouteName   = next.navigation.state.routeName
+      // let nextRoutes      = next.navigation.state.routes
+      // let nextView        = nextRoutes[nextIndex]
+
+      // if ((typeof(nextView) != 'undefined') && (typeof(nextView.params) != 'undefined')){ 
+      //   //找到当前的Route 
+      //     if (typeof(nextView.params.viewWillAppear) == 'function') {
+      //       if (beforeIndex == 2) nextView.params.viewWillAppear()   
+      //     }
+      // }
+
+      if ((typeof beforeView != 'undefined') && (typeof(beforeView.params) != 'undefined')){ 
+          if (typeof beforeView.params.viewWillDisAppear  === 'function') {
+             if (beforeIndex == 2)  beforeView.params.viewWillDisAppear()
+          }
+      }
+
+     
+   
+      // //viewWillAppear
+      // const {index, routes} = next.navigation.state
+      // let beforeView = routes[index]
+      // if ((typeof(beforeView) != 'undefined') && (typeof(beforeView.params) != 'undefined')){ 
+      //     let  viewWillAppear = beforeView.params.viewWillAppear()
+      //     if (typeof(viewWillAppear) == 'function') {
+      //       viewWillAppear()
+      //     }
+      // }
+   
+      console.log('换场动画开始');
     //   let array = next.navigation.state.routes;
     //   let first = array[0];
     //    first.params.viewWillAppear()
 
-    // },
-    // onTransitionEnd:(next,before) =>{
-
-    // }
+    },
+    onTransitionEnd:(next,before) =>{
+      console.log('换场动画结束');
+    }
 });
 //添加模态视图 确实是个不错的选择啊
 // const ModelApp= StackNavigator({
@@ -144,9 +181,12 @@ const App = StackNavigator({
 // })
 
 export default class WeiBo extends Component {
+  componentWillMount(){
+    console.log("。。。。。。");
+  }
   render() {
     return (
-      <App />
+      <App screenProps={{ta:''}}/>
     );
   }
 }

@@ -10,7 +10,23 @@ import {
   Alert,
   FlatList,
   Image,
+  TextInput,
 } from 'react-native';
+
+import { screenWidth, screenHeight } from '../../constants'
+
+const BottomSetting = [
+    {
+      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
+      title: '888',
+    },{
+      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
+      title: '888',
+    },{
+      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
+      title: '888',
+    },
+];
 
 const onRegisterButtonPress = () => {
   Alert.alert('Button has been pressed!');
@@ -19,15 +35,15 @@ const onLoginButtonPress = () => {
   Alert.alert('Button has been pressed!');
 };
 
-const itemHeight = 200;
 
 export default class Discover extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            listData: this.getData(0),
-            myindex: 1,
+          listData: [{key: 'a'}, {key: 'b'},{key: 'c'},{key: 'd'},
+          {key: 'e'}, {key: 'f'},{key: 'g'},{key: 'h'},
+          {key: 'i'}, {key: 'j'},{key: 'k'},{key: 'm'},]
         };
     }
   
@@ -69,35 +85,75 @@ export default class Discover extends Component {
        gesturesEnabled: false  // 是否可以右滑返回
     }
   };
-  componentWillMount() {
-   
-  }
-  onRegisterButtonPress(e){
-      console.log("1111");
-  };
-  onLoginButtonPress(e){
-      console.log("2222");
-  };
-  //ListView Setting
+    componentWillMount() {
+     
+    }
+    onRegisterButtonPress(e){
+        console.log("1111");
+    };
+    onLoginButtonPress(e){
+        console.log("2222");
+    };
+
+    viewWillAppear(){
+      console.log('home_viewWillAppear');
+    }
+    viewDidAppear(){
+      console.log('home_viewDidAppear');
+    }
+    viewWillDisAppear(){
+      console.log('discover_viewWillDisAppear');
+    }
+    viewDidDisAppear(){
+      console.log('home_viewDidDisAppear');
+    }
+    componentDidMount() {
+      console.log('discover_componentDidMount');
+       this.props.navigation.setParams({
+          viewWillAppear:       this.viewWillAppear,
+          viewDidAppear:        this.viewDidAppear,
+          viewWillDisAppear:    this.viewWillDisAppear,
+          viewDidDisAppear:     this.viewDidDisAppear,
+      });
+    }
 
   renderItem({item, index}) {
+    const seperaWidth = 2;
     return(
         <View style={{flex: 1, width: '100%'}}>
-          <View style={{backgroundColor:'white',flexDirection: 'row'}}>
-            <Image source = {require('../../resources/image/mine/page_cover_tv_background.jpg')} style={styles.headerIcon} />
-            <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
-                <Text style={{marginLeft: 10, color: '#333333'}}>新浪娱乐</Text>
-                <Text style={{marginLeft: 10, marginTop: 5, color: '#999999'}}>6小时前 来自微博</Text>
-            </View>
-            <View style={{justifyContent:'center', alignItems: 'center'}}>
-              <TouchableOpacity style={styles.headerAttention}>
-                <Text style={{fontSize:16, color:"orange"}}>+关注</Text>
-              </TouchableOpacity>
-
-            </View>
+            {this._renderHeaderViewItemView()}
+            {this._rendContentView()}
+            {this._renderImaegsView()}
+          <View style={styles.bottom}>
+              {this._renderBottomItemView(require('../../resources/image/discover/statusdetail_icon_retweet.png'),'9988')}
+              {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_comment.png'),'9988')}
+              {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_unlike.png'),'2万')}
           </View>
 
-            <View style={{backgroundColor:'white'}}>
+        </View>
+     )
+  }
+
+  _renderImaegsView(){
+    return (
+       <View style = {{backgroundColor: 'white'}}>
+             <FlatList
+                  style      = {styles.itemImageContetent}
+                  data       = {[{key: 'a'}, {key: 'b'},{key: 'b'},{key: 'd'}]}
+                  renderItem = {({item}) => 
+                    <Image
+                     style  = {{width: (screenWidth - 10 - 2)/3.0,height: (screenWidth - 10 - 2)/3.0,backgroundColor: 'orange',marginRight: 1,marginTop: 1}}
+                     source = {require('../../resources/image/mine/page_cover_tv_background.jpg')}
+                     >
+                    </Image>}
+                  numColumns = {3}
+              />
+          </View>
+    )
+  }
+  _rendContentView(){
+    return (
+      <View style={{backgroundColor:'white'}}>
                <Text style={{marginLeft: 10, marginRight: 10, marginBottom: 10,}}>
                 Better ListView - FlatList
                Summary: We really need a better lis
@@ -109,22 +165,31 @@ export default class Discover extends Component {
                    navigation, ... any changes to this template should 
                    first be tested in its /sandbox or ...
                </Text>
-          </View>
+       </View>
+    )
+  }
+  _renderHeaderViewItemView(){
+    return (
+         <View style={{backgroundColor:'white',flexDirection: 'row'}}>
+            <Image source = {require('../../resources/image/mine/page_cover_tv_background.jpg')} style={styles.headerIcon} />
+            <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
+                <Text style={styles.headerTitle}>新浪娱乐</Text>
+                <Text style={styles.headerSubTitle}>6小时前 来自微博</Text>
+            </View>
+            <View style={{justifyContent:'center', alignItems: 'center'}}>
+              <TouchableOpacity style={styles.headerAttention}>
+                <Text style={{fontSize:16, color:"orange"}}>+关注</Text>
+              </TouchableOpacity>
 
-          <View style={styles.bottom}>
-              {this._renderBottomItemView(require('../../resources/image/discover/statusdetail_icon_retweet.png'),'9988')}
-              {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_comment.png'),'9988')}
-              {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_unlike.png'),'2万')}
+            </View>
           </View>
-
-        </View>
-     )
+    )
   }
   _renderBottomItemView(source,text){
     return (
       <TouchableOpacity style={styles.bottomItemView}>
-            <Image source = {source} style  = {styles.bottomItemView_icon} />
-          <Text style={{fontSize:16, color:"#999999"}}>{text}</Text>
+          <Image source = {source} style  = {styles.bottomItemView_icon} />
+          <Text style   = {{fontSize:16, color:"#999999"}}>{text}</Text>
       </TouchableOpacity>
     )
   }
@@ -134,7 +199,18 @@ export default class Discover extends Component {
           <Text>上啦加载更多</Text>
         </View>
         )
-    }
+  }
+  _listHeaderComponent(){
+    return (
+        <View style={{backgroundColor: 'rgb(229,229,229)', height: 45,flex: 1}}>
+          <TextInput 
+            style       = {styles.listHeaderTextInput}
+            editable    = {true}
+            placeholder = 'Useless Multiline Placeholder'
+          />
+        </View>
+    )
+  }
   _itemSeparatorComponent(){
     return (
         <View style={{flex:1,height:10}}>
@@ -147,9 +223,10 @@ export default class Discover extends Component {
       <View style={styles.container}>
           <FlatList
               style                  = {{backgroundColor: 'rgb(242,242,242)', width: '100%'}}
-              data                   = {[{key: 'a'}, {key: 'b'}]}
+              data                   = {this.state.listData}
               renderItem             = {this.renderItem.bind(this)}
               ItemSeparatorComponent = {this._itemSeparatorComponent}
+              ListHeaderComponent    = {this._listHeaderComponent}
           />
 
       </View>
@@ -169,10 +246,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin:    10,
   },
-  instructions: {
-    textAlign:    'center',
-    color:        '#333333',
-    marginBottom: 5,
+  listHeaderTextInput: {
+    backgroundColor: 'white',
+    flex:            1, 
+    marginLeft:      10,
+    marginRight:     10, 
+    marginTop:       10, 
+    marginBottom:    10,
+    borderRadius:    2,
+    fontSize:        14,
   },
   headerIcon:{
     marginLeft:   10, 
@@ -182,24 +264,40 @@ const styles = StyleSheet.create({
     marginTop:    10,
     borderRadius: 25,
   },
+  headerTitle:{
+   marginLeft: 10,
+   color:      '#333333',
+  },
+  headerSubTitle:{
+    marginLeft: 10, 
+    marginTop:  5, 
+    color:      '#999999',
+  },
   headerAttention:{
     justifyContent:  'center', 
     alignItems:      'center',
-    marginRight:     7, 
-    marginLeft:      7, 
+    marginRight:     10, 
+    marginLeft:      10, 
     height:          30 ,
     width:           80,
     borderRadius:    3,
     borderWidth:     1,
     borderColor:     'rgb(225,225,225)',
-    backgroundColor: 'rgb(247,247,242)'
+    backgroundColor: 'rgb(247,247,242)',
+  },
+  itemImageContetent:{
+    // marginTop:       5,
+    marginBottom:    10,
+    marginLeft:      10,
+    marginRight:     10,
+    backgroundColor: 'white',
   },
   bottom:{
     backgroundColor: 'white', 
     width:           '100%',
     flexDirection:   'row',
     borderTopWidth:  1, 
-    borderColor:     'rgb(225,225,225)'
+    borderColor:     'rgb(225,225,225)',
   },
   bottomItemView: {
     flexDirection:    'row',

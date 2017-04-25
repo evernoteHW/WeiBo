@@ -10,7 +10,8 @@ import {
   NavigatorIOS,
   Button,
   TouchableOpacity,
-  Alert
+  Alert,
+  AppState,
 } from 'react-native';
 
 import styles from './styles.js';
@@ -27,6 +28,12 @@ const onLoginButtonPress = () => {
 
 export default class Home extends React.Component {
 
+    constructor(props) {
+      super(props);
+      this.state = {
+        currentAppState: AppState.currentState,
+      };
+    }
     static navigationOptions = {
       
       header: (navigation, defaultHeader) => ({
@@ -60,20 +67,39 @@ export default class Home extends React.Component {
   viewWillAppear(){
     console.log('home_viewWillAppear');
   }
+  viewDidAppear(){
+    console.log('home_viewDidAppear');
+  }
   viewWillDisAppear(){
     console.log('home_viewWillDisAppear');
   }
-
+  viewDidDisAppear(){
+    console.log('home_viewDidDisAppear');
+  }
   componentDidMount() {
-    console.log('home_componentDidMount');
+    // console.log('home_componentDidMount');
+     // console.log(this.props.screenProps);
+     AppState.addEventListener('change', this._handleAppStateChange);
      this.props.navigation.setParams({
-      onSettingButtonPress: this.onSettingButtonPress ,
-      viewWillAppear:     this.viewWillAppear,
-      viewWillDisAppear:  this.viewWillDisAppear,
+        onSettingButtonPress: this.onSettingButtonPress ,
+        // viewWillAppear:       this.viewWillAppear,
+        // viewDidAppear:        this.viewDidAppear,
+        // viewWillDisAppear:    this.viewWillDisAppear,
+        // viewDidDisAppear:     this.viewDidDisAppear,
     });
+  }
+  componentWillUpdate(){
+    console.log('componentWillUpdate');
+  }
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
   componentWillMount(){
     console.log("home_componentWillMount");
+  }
+  _handleAppStateChange(currentAppState) {
+    console.log(currentAppState === `$(currentAppState)`)
+    // this.setState({ currentAppState, });
   }
   onSettingButtonPress(navigation){
         /*第一种方式 Push*/
