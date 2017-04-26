@@ -1,4 +1,3 @@
-'use strict'
 
 import React, { Component } from 'react';
 
@@ -15,7 +14,6 @@ import {
 
 import { Provider } from 'react-redux';
 import { StackNavigator , TabNavigator} from 'react-navigation';
-
 import Home from '../modules/home'
 import Message from '../modules/message'
 import MicroBlog from '../modules/microBlog'
@@ -166,7 +164,7 @@ const App = StackNavigator({
     }
 });
 //添加模态视图 确实是个不错的选择啊
-const ModalApp= StackNavigator({
+const ModalApp = StackNavigator({
     App: {
         screen: App,
         navigationOptions: {

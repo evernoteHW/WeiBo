@@ -26,6 +26,8 @@ const onLoginButtonPress = () => {
   Alert.alert('Button has been pressed!');
 };
 
+var names = ['Alice', 'Emily', 'Kate'];
+
 export default class Home extends React.Component {
 
     constructor(props) {

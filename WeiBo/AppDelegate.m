@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import <RCTRootView.h>
 #import <RCTBundleURLProvider.h>
+#import <WeiboSDK.h>
+
 //d4399746266e2837ad6412ef257dca02
 //2966635116
 @interface AppDelegate ()
@@ -22,6 +24,9 @@
     // Override point for customization after application launch.
     
     NSURL *jsCodeLocation;
+    
+//    [WeiboSDK enableDebugMode:YES];
+//    [WeiboSDK registerApp:@"2966635116"];
     
     jsCodeLocation = [NSURL
                       URLWithString:@"http://192.168.1.122:8081/index.ios.bundle?platform=ios"];

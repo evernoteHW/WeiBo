@@ -15,17 +15,17 @@
 		5F5A8DA51EA4EFF900B55308 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F5A8DA31EA4EFF900B55308 /* LaunchScreen.storyboard */; };
 		5F5A8DB01EA4EFF900B55308 /* WeiBoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A8DAF1EA4EFF900B55308 /* WeiBoTests.m */; };
 		5F5A8DBB1EA4EFF900B55308 /* WeiBoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A8DBA1EA4EFF900B55308 /* WeiBoUITests.m */; };
-		5F5A8E701EA4F26600B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E0A1EA4F18B00B55308 /* libRCTWebSocket.a */; };
-		5F5A8E711EA4F26E00B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E121EA4F19900B55308 /* libRCTVibration.a */; };
-		5F5A8E721EA4F27400B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E191EA4F1BD00B55308 /* libRCTText.a */; };
-		5F5A8E731EA4F27900B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E221EA4F1C400B55308 /* libRCTSettings.a */; };
-		5F5A8E741EA4F28000B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E2B1EA4F1CD00B55308 /* libRCTNetwork.a */; };
-		5F5A8E751EA4F28500B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E341EA4F1D500B55308 /* libRCTLinking.a */; };
-		5F5A8E761EA4F28A00B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E3D1EA4F1DB00B55308 /* libRCTImage.a */; };
-		5F5A8E771EA4F29000B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E451EA4F1E300B55308 /* libRCTGeolocation.a */; };
-		5F5A8E781EA4F29600B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E4B1EA4F1ED00B55308 /* libRCTActionSheet.a */; };
-		5F5A8E791EA4F29B00B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E6D1EA4F21D00B55308 /* libRCTAnimation.a */; };
-		5F5A8E7A1EA4F2A200B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E581EA4F20700B55308 /* libReact.a */; };
+		5F5A8E701EA4F26600B55308 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E0A1EA4F18B00B55308 /* libRCTWebSocket.a */; };
+		5F5A8E711EA4F26E00B55308 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E121EA4F19900B55308 /* libRCTVibration.a */; };
+		5F5A8E721EA4F27400B55308 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E191EA4F1BD00B55308 /* libRCTText.a */; };
+		5F5A8E731EA4F27900B55308 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E221EA4F1C400B55308 /* libRCTSettings.a */; };
+		5F5A8E741EA4F28000B55308 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E2B1EA4F1CD00B55308 /* libRCTNetwork.a */; };
+		5F5A8E751EA4F28500B55308 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E341EA4F1D500B55308 /* libRCTLinking.a */; };
+		5F5A8E761EA4F28A00B55308 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E3D1EA4F1DB00B55308 /* libRCTImage.a */; };
+		5F5A8E771EA4F29000B55308 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E451EA4F1E300B55308 /* libRCTGeolocation.a */; };
+		5F5A8E781EA4F29600B55308 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E4B1EA4F1ED00B55308 /* libRCTActionSheet.a */; };
+		5F5A8E791EA4F29B00B55308 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E6D1EA4F21D00B55308 /* libRCTAnimation.a */; };
+		5F5A8E7A1EA4F2A200B55308 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E581EA4F20700B55308 /* libReact.a */; };
 		5F5A8E7D1EA4F2AA00B55308 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E7C1EA4F2AA00B55308 /* JavaScriptCore.framework */; };
 		D26661B3AE53F98939C52B7E /* libPods-WeiBo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6852457ACBF8AE0FBA0922A4 /* libPods-WeiBo.a */; };
 /* End PBXBuildFile section */
@@ -262,17 +262,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F5A8E7D1EA4F2AA00B55308 /* JavaScriptCore.framework in Frameworks */,
-				5F5A8E7A1EA4F2A200B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E791EA4F29B00B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E781EA4F29600B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E771EA4F29000B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E761EA4F28A00B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E751EA4F28500B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E741EA4F28000B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E731EA4F27900B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E721EA4F27400B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E711EA4F26E00B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E701EA4F26600B55308 /* ReferenceProxy in Frameworks */,
+				5F5A8E7A1EA4F2A200B55308 /* libReact.a in Frameworks */,
+				5F5A8E791EA4F29B00B55308 /* libRCTAnimation.a in Frameworks */,
+				5F5A8E781EA4F29600B55308 /* libRCTActionSheet.a in Frameworks */,
+				5F5A8E771EA4F29000B55308 /* libRCTGeolocation.a in Frameworks */,
+				5F5A8E761EA4F28A00B55308 /* libRCTImage.a in Frameworks */,
+				5F5A8E751EA4F28500B55308 /* libRCTLinking.a in Frameworks */,
+				5F5A8E741EA4F28000B55308 /* libRCTNetwork.a in Frameworks */,
+				5F5A8E731EA4F27900B55308 /* libRCTSettings.a in Frameworks */,
+				5F5A8E721EA4F27400B55308 /* libRCTText.a in Frameworks */,
+				5F5A8E711EA4F26E00B55308 /* libRCTVibration.a in Frameworks */,
+				5F5A8E701EA4F26600B55308 /* libRCTWebSocket.a in Frameworks */,
 				D26661B3AE53F98939C52B7E /* libPods-WeiBo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -562,7 +562,7 @@
 		5F5A8D8A1EA4EFF900B55308 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "胡伟";
 				TargetAttributes = {
 					5F5A8D911EA4EFF900B55308 = {
@@ -983,6 +983,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1030,6 +1031,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
