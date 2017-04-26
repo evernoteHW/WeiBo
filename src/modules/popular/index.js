@@ -26,7 +26,7 @@ const onLoginButtonPress = () => {
   Alert.alert('Button has been pressed!');
 };
 
-export default class Home extends React.Component {
+export default class Popular extends React.Component {
 
     constructor(props) {
       super(props);
@@ -39,14 +39,6 @@ export default class Home extends React.Component {
       header: (navigation, defaultHeader) => ({
         title: "首页",
         visible: true , // 覆盖预设中的此项
-        left: (
-              <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                 onPress={() => navigation.state.params.onSettingButtonPress(navigation)}
-                 >
-                <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>注册</Text>
-              </TouchableOpacity>
-          ),
         right: (
           <TouchableOpacity 
                 style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}} 
@@ -56,9 +48,9 @@ export default class Home extends React.Component {
           </TouchableOpacity>
           ),
         tintColor: "gray",
-        titleStyle:{color: '#333333'},
+        titleStyle:{color: 'white'},
         tintColor:{color: 'green'},
-        style: {backgroundColor: 'white'},    //导航栏背景颜色
+        style: {backgroundColor: 'rgb(0,185,80)'},    //导航栏背景颜色
      }),
     cardStack: {
        gesturesEnabled: false  // 是否可以右滑返回

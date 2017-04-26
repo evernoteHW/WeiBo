@@ -15,60 +15,118 @@ import {
 
 import { StackNavigator , TabNavigator} from 'react-navigation';
 
-import Home from '../modules/home'
-import Message from '../modules/message'
+import Popular from '../modules/popular'
+import Trending from '../modules/trending'
 import MicroBlog from '../modules/microBlog'
-import Discover from '../modules/discover'
+import Favorite from '../modules/favorite'
 import Mine from '../modules/mine'
 import Setting from '../modules/setting'
 import Register from '../modules/register'
 
+const Popular_TabNavigatorConfig = {
+    animationEnabled: false, // 切换页面时是否有动画效果
+    tabBarPosition:   'bottom', // 显示在底端，android 默认是显示在页面顶端的
+    swipeEnabled:     true, // 是否可以左右滑动切换tab
+    tabBarPosition:   'top',
+    tabBarOptions:    {
+      activeTintColor:   'rgb(0,185,80)',// 文字和图片选中颜色
+      inactiveTintColor: '#666666', // 文字和图片未选中颜色
+      showIcon:          true, // android 默认不显示 icon, 需要设置为 true 才会显示
+      showLabel:         true,
+      lazyLoad:          false,
+      tabBarPosition:    'top',
+      indicatorStyle:    {
+        height: 0  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
+      }, 
+      tabStyle:{
+        backgroundColor: 'rgb(0,185,80)'
+      },
+      style: {
+         // backgroundColor: '#FFFFFF', // TabBar 背景色
+      },
+      tabStyle:{
+        tintColor: 'red'
+      },
+      labelStyle: {
+         // fontSize: 15, // 文字大小
+      },
+      // pressOpacity: 1,
+    },
+  
+};
 
-const RouteConfigs = 
+const Popular_RouteConfigs = 
 {
-    
-    Home: {
-      screen:            Home,
+    Popular: {
+      screen:            Popular,
       navigationOptions: {
         tabBar:    {
-        label:     '首页',
+        label:     'Popular',
         icon:      ({focused,tintColor}) => (
             <Image 
-            source={focused ? require('../resources/image/tab/tabbar_home_highlighted.png'): require('../resources/image/tab/tabbar_home.png')}/>),
+            source = {focused ? require('../resources/image/tab/ic_polular.png'): require('../resources/image/tab/ic_polular.png')}
+            style  = {{height:26 ,width: 26, tintColor:tintColor}}
+            />),
 
         },
       },
     },
-    Message: {
-      screen:            Message,
+    Trending: {
+      screen:            Trending,
       navigationOptions: {
         tabBar:            {
         icon:              ({focused,tintColor}) => (
         <Image 
-          source = {focused ? require('../resources/image/tab/tabbar_message_center_selected.png'): require('../resources/image/tab/tabbar_message_center.png')}/>),
-        label: '消息',
+          source = {focused ? require('../resources/image/tab/ic_trending.png'): require('../resources/image/tab/ic_trending.png')}
+          style  = {{height:26 ,width: 26, tintColor:tintColor}}
+          />),
+          label: 'Trending',
+        },
+      },
+    }
+}
+
+const Popular_TabBars = TabNavigator(Popular_RouteConfigs,Popular_TabNavigatorConfig)
+
+const RouteConfigs = 
+{
+    Popular: {
+      screen:            Popular_TabBars,
+      navigationOptions: {
+        tabBar:    {
+        label:     'Popular',
+        icon:      ({focused,tintColor}) => (
+            <Image 
+            source = {focused ? require('../resources/image/tab/ic_polular.png'): require('../resources/image/tab/ic_polular.png')}
+            style  = {{height:26 ,width: 26, tintColor:tintColor}}
+            />),
+
         },
       },
     },
-    "MicroBlog": {
-     screen:            MicroBlog,
+    Trending: {
+      screen:            Trending,
+      navigationOptions: {
+        tabBar:            {
+        icon:              ({focused,tintColor}) => (
+        <Image 
+          source = {focused ? require('../resources/image/tab/ic_trending.png'): require('../resources/image/tab/ic_trending.png')}
+          style  = {{height:26 ,width: 26, tintColor:tintColor}}
+          />),
+          label: 'Trending',
+        },
+      },
+    },
+    Favorite: {
+     screen:            Favorite,
      navigationOptions: {
         tabBar: {
           icon: ({focused,tintColor}) => (
             <Image 
-             source = {focused ? require('../resources/image/tab/compose_color_yellow_select.png'): require('../resources/image/tab/compose_color_yellow_select.png')}
-             style  = {{marginTop: 10}}/>),
-             label:' ',
-        },
-      }
-    },
-    Discover: {
-     screen:            Discover,
-     navigationOptions: {
-        tabBar: {
-          icon: ({focused,tintColor}) => (
-            <Image source={focused ? require('../resources/image/tab/tabbar_discover_highlighted.png'): require('../resources/image/tab/tabbar_discover.png')}/>),
-            label: '发现',
+            source = {focused ? require('../resources/image/tab/ic_favorite.png'): require('../resources/image/tab/ic_favorite.png')}
+            style  = {{height:26 ,width: 26, tintColor:tintColor}}
+            />),
+            label: 'Favorite',
         },
       }
     },
@@ -77,8 +135,10 @@ const RouteConfigs =
      navigationOptions: {
         tabBar: {
           icon: ({focused,tintColor}) => (
-              <Image source={focused ? require('../resources/image/tab/tabbar_profile_highlighted.png'): require('../resources/image/tab/tabbar_profile.png')}/>),
-              label: '我',
+              <Image source={focused ? require('../resources/image/tab/ic_my.png'): require('../resources/image/tab/ic_my.png')}
+              style  = {{height:26 ,width: 26, tintColor:tintColor}}
+              />),
+              label: 'Mine',
         },
       }
     }
@@ -88,20 +148,28 @@ const TabNavigatorConfig = {
     tabBarPosition:   'bottom', // 显示在底端，android 默认是显示在页面顶端的
     swipeEnabled:     false, // 是否可以左右滑动切换tab
     tabBarOptions:    {
-      activeTintColor:   '#333333',// 文字和图片选中颜色
+      activeTintColor:   'rgb(0,185,80)',// 文字和图片选中颜色
       inactiveTintColor: '#666666', // 文字和图片未选中颜色
       showIcon:          true, // android 默认不显示 icon, 需要设置为 true 才会显示
       showLabel:         true,
-      // lazyLoad:       false,
+      lazyLoad:          false,
+      swipeEnabled:     true,
       indicatorStyle:    {
         height: 0  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
       }, 
+      tabStyle:{
+        backgroundColor: 'rgb(0,185,80)'
+      },
       style: {
-         backgroundColor: '#FFFFFF', // TabBar 背景色
+         // backgroundColor: '#FFFFFF', // TabBar 背景色
+      },
+      tabStyle:{
+        tintColor: 'red'
       },
       labelStyle: {
          // fontSize: 15, // 文字大小
       },
+      // pressOpacity: 1,
     },
   
 };
@@ -116,74 +184,15 @@ const App = StackNavigator({
     mode:  'card',
     // cardStyle:{   backgroundColor: 'red'},
     onTransitionStart:(next,before) =>{
-
-      //viewWillDisappear
-      let beforeIndex     = before.navigation.state.index
-      // let beforeRouteName = before.navigation.state.routeName
-      let beforeRoutes    = before.navigation.state.routes
-      let beforeView      = beforeRoutes[beforeIndex]
-
-      // let nextIndex       = next.navigation.state.index
-      // // let nextRouteName   = next.navigation.state.routeName
-      // let nextRoutes      = next.navigation.state.routes
-      // let nextView        = nextRoutes[nextIndex]
-
-      // if ((typeof(nextView) != 'undefined') && (typeof(nextView.params) != 'undefined')){ 
-      //   //找到当前的Route 
-      //     if (typeof(nextView.params.viewWillAppear) == 'function') {
-      //       if (beforeIndex == 2) nextView.params.viewWillAppear()   
-      //     }
-      // }
-
-      if ((typeof beforeView != 'undefined') && (typeof(beforeView.params) != 'undefined')){ 
-          if (typeof beforeView.params.viewWillDisAppear  === 'function') {
-             if (beforeIndex == 2)  beforeView.params.viewWillDisAppear()
-          }
-      }
-
-     
-   
-      // //viewWillAppear
-      // const {index, routes} = next.navigation.state
-      // let beforeView = routes[index]
-      // if ((typeof(beforeView) != 'undefined') && (typeof(beforeView.params) != 'undefined')){ 
-      //     let  viewWillAppear = beforeView.params.viewWillAppear()
-      //     if (typeof(viewWillAppear) == 'function') {
-      //       viewWillAppear()
-      //     }
-      // }
-   
       console.log('换场动画开始');
-    //   let array = next.navigation.state.routes;
-    //   let first = array[0];
-    //    first.params.viewWillAppear()
-
     },
     onTransitionEnd:(next,before) =>{
       console.log('换场动画结束');
     }
 });
-//添加模态视图 确实是个不错的选择啊
-// const ModelApp= StackNavigator({
-//     App: {
-//         screen: App,
-//         navigationOptions: {
-//          header: {
-//           visible: false,
-//           style:   {backgroundColor: 'white'},    //导航栏背景颜色
-//        },
-//    },
-//     },
-//     Register: { screen: Register },
-//     },{
-//         headerMode: 'screen' ,
-//         mode:  'modal',
-// })
 
 export default class WeiBo extends Component {
-  componentWillMount(){
-    console.log("。。。。。。");
-  }
+
   render() {
     return (
       <App screenProps={{ta:''}}/>

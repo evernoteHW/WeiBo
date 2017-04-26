@@ -17,7 +17,7 @@ const onRegisterButtonPress = () => {
 const onLoginButtonPress = () => {
   Alert.alert('Button has been pressed!');
 };
-export default class Message extends Component {
+export default class Trending extends Component {
 
    static navigationOptions = {
       header: (navigation, defaultHeader) => ({

@@ -36,7 +36,7 @@ const onLoginButtonPress = () => {
 };
 
 
-export default class Discover extends Component {
+export default class Favorite extends Component {
 
     constructor(props) {
         super(props);
