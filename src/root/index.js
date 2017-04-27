@@ -34,10 +34,43 @@ import Mine from '../modules/mine'
 import Setting from '../modules/setting'
 import Register from '../modules/register'
 
+const Popular_TabNavigatorConfig = {
+    animationEnabled: false, // 切换页面时是否有动画效果
+    tabBarPosition:   'bottom', // 显示在底端，android 默认是显示在页面顶端的
+    swipeEnabled:     true, // 是否可以左右滑动切换tab
+    tabBarPosition:   'top',
+    animationEnabled: true,
+    tabBarOptions:    {
+      activeTintColor:   'white',// 文字和图片选中颜色
+      inactiveTintColor: '#666666', // 文字和图片未选中颜色
+      showIcon:          true, // android 默认不显示 icon, 需要设置为 true 才会显示
+      showLabel:         true,
+      lazyLoad:          false,
+      tabBarPosition:    'top',
+      indicatorStyle:    {
+        height: 0,  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
+      }, 
+      tabStyle:{
+        backgroundColor: 'rgb(0,185,80)'
+      },
+      style: {
+         backgroundColor: 'rgb(0,185,80)', // TabBar 背景色
+      },
+      tabStyle:{
+        tintColor: 'red'
+      },
+      labelStyle: {
+         fontSize: 14, // 文字大小
+      },
+    },
+  
+};
+
+
 const CustomTabBar = ({ navigation }) => {
   const { routes } = navigation.state;
   return (
-    <View style={{ flexDirection: 'row', height: 30, backgroundColor: 'orange'}}>
+    <View style={{ flexDirection: 'row', height: 48, backgroundColor: 'orange'}}>
       {routes.map(route => (
         <TouchableOpacity
           onPress = {() => navigation.navigate(route.routeName)}
@@ -58,7 +91,7 @@ const CustomTabView = ({ router, navigation }) => {
     <View style={styles.container}>
       <CustomTabBar navigation={navigation} />
       <ActiveScreen
-        navigation={addNavigationHelpers({
+        navigation = {addNavigationHelpers({
           ...navigation,
           state: routes[index],
         })}
@@ -72,13 +105,11 @@ const CustomTabRouter = TabRouter({
       screen:            PopularItem,
     },
     Android: {
-      screen:            PopularItem,
+      screen:            Trending,
     },
     iOS: {
-      screen:            PopularItem,
+      screen:            Favorite,
     },
-},{
-  initialRouteName: 'All',
 });
 
 const CustomTabs = createNavigationContainer(createNavigator(CustomTabRouter)(CustomTabView));
@@ -197,11 +228,12 @@ export default class WeiBo extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex : 1
     // marginTop: Platform.OS === 'ios' ? 20 : 0,
   },
   tabContainer: {
     flexDirection: 'row',
-    height: 30,
+    height: 48,
   },
   tab: {
     flex: 1,
