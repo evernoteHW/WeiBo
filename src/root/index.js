@@ -183,14 +183,22 @@ const TabNavigatorConfig = {
 };
 
 const TabBars = TabNavigator(RouteConfigs,TabNavigatorConfig)
-
+// const MultiNavigator = (routeConfigs) => {
+//   const modalNavigatorRoutes = {};
+//   Object.keys(routeConfigs).forEach(routeName => {
+//     const InnerNavigator = StackNavigator(routeConfigs);
+//     modalNavigatorRoutes[routeName + 'Modal'] = { screen: InnerNavigator };
+//   });
+//   return StackNavigator(modalNavigatorRoutes, {mode: 'modal'});
+// };
 const App = StackNavigator({
     TabBars: { screen: TabBars },
     Setting: { screen: Setting },
+    PopularConfigure: { screen: PopularConfigure },
 },{
     headerMode:           'screen' ,
     mode:                 'card',
-    // // cardStyle:      {   backgroundColor: 'red'},
+    // cardStyle:      {   backgroundColor: 'rgb(0,0,0,0)'},
     // onTransitionStart: (next,before) =>{
     //   console.log('换场动画开始');
     // },
@@ -198,6 +206,18 @@ const App = StackNavigator({
     //   console.log('换场动画结束');
     // }
 });
+// const ModalApp = StackNavigator({
+//     App:              { screen: App },
+//     PopularConfigure: { screen: PopularConfigure },
+// },{
+//     headerMode:    'none' ,
+//     mode:          'modal',
+// });
+
+
+
+
+
 
 export default class WeiBo extends Component {
 

@@ -36,6 +36,18 @@ export default class PopularConfigure extends Component {
         };
    }
 
+    static navigationOptions = {
+       header: (navigation, defaultHeader) => ({
+          ...defaultHeader,
+          title:      '设置',
+          titleStyle: { color: 'white'},
+          visible:    true , // 覆盖预设中的此项
+          style:      { backgroundColor: 'rgb(0,185,80)'},
+        }),
+        cardStyle: { backgroundColor: 'rgb(0,185,80)'},
+  
+    };
+
   componentDidMount() {
       console.log('dafadfad');
   }

@@ -50,7 +50,8 @@ export default class PopularItem extends Component {
                <TouchableOpacity
                  abc   = {this}
                  style   = {{marginRight: 10, marginTop: 1}}  
-                 onPress = {() =>{ navigation.state.params.moreClick()}}
+                 // onPress = {() =>{ navigation.state.params.moreClick()}}
+                 onPress = {() =>{ navigation.navigate('PopularConfigure')}}
                  >
                 <Image 
                   style  = {{width:25, height: 25}} 
@@ -58,7 +59,8 @@ export default class PopularItem extends Component {
              </TouchableOpacity>
                <TouchableOpacity 
                  style   = {{marginRight: 10}}
-                 onPress = {() =>{ navigation.state.params.searchClick()}}
+                 // onPress = {() =>{ navigation.state.params.searchClick()}}
+                 onPress = {() =>{ navigation.navigate('PopularConfigure')}}
                  >
                 <Image 
                   style  = {{width:25, height: 25}} 
@@ -68,9 +70,7 @@ export default class PopularItem extends Component {
             </View>
         ),
      }),
-    cardStack: {
-       gesturesEnabled: false  // 是否可以右滑返回
-      }
+  
     };
 
   fetchData(){
