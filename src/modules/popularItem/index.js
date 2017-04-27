@@ -36,7 +36,7 @@ const onLoginButtonPress = () => {
 };
 
 
-export default class Favorite extends Component {
+export default class PopularItem extends Component {
 
     constructor(props) {
         super(props);
@@ -45,41 +45,14 @@ export default class Favorite extends Component {
           {key: 'e'}, {key: 'f'},{key: 'g'},{key: 'h'},
           {key: 'i'}, {key: 'j'},{key: 'k'},{key: 'm'},]
         };
-    }
-  
+   }
    static navigationOptions = {
       header: (navigation, defaultHeader) => ({
           ...defaultHeader,
-          visible: true , // 覆盖预设中的此项
-          style: { backgroundColor: 'rgb(0,185,80)'},
-          title: (
-            <View style={{flexDirection:'row'}}>
-              <TouchableOpacity 
-              style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-              onPress={onRegisterButtonPress}>
-                  <Text style={{fontSize:16, color:"#333333"}}>热门</Text>
-              </TouchableOpacity>
-              <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                onPress={onRegisterButtonPress}>
-                  <Text style={{fontSize:16, color:"#333333"}}>明星</Text>
-              </TouchableOpacity>
-            </View>),
-          visible: {true},
-          left: (
-              <TouchableOpacity 
-              style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-              onPress={onRegisterButtonPress}>
-                  <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>注册</Text>
-              </TouchableOpacity>
-            ),
-          right: (
-              <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                onPress={onRegisterButtonPress}>
-                  <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
-              </TouchableOpacity>
-          ),
+          title:      '设置',
+          titleStyle: { color: 'white'},
+          visible:    true , // 覆盖预设中的此项
+          style:      { backgroundColor: 'rgb(0,185,80)'},
      }),
     cardStack: {
        gesturesEnabled: false  // 是否可以右滑返回
@@ -123,13 +96,6 @@ export default class Favorite extends Component {
         <View style={{flex: 1, width: '100%'}}>
             {this._renderHeaderViewItemView()}
             {this._rendContentView()}
-            {this._renderImaegsView()}
-          <View style={styles.bottom}>
-              {this._renderBottomItemView(require('../../resources/image/discover/statusdetail_icon_retweet.png'),'9988')}
-              {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_comment.png'),'9988')}
-              {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_unlike.png'),'2万')}
-          </View>
-
         </View>
      )
   }

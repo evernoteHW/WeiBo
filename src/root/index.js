@@ -16,6 +16,7 @@ import {
 import { StackNavigator , TabNavigator} from 'react-navigation';
 
 import Popular from '../modules/popular'
+import PopularItem from '../modules/popularItem'
 import Trending from '../modules/trending'
 import MicroBlog from '../modules/microBlog'
 import Favorite from '../modules/favorite'
@@ -28,8 +29,9 @@ const Popular_TabNavigatorConfig = {
     tabBarPosition:   'bottom', // 显示在底端，android 默认是显示在页面顶端的
     swipeEnabled:     true, // 是否可以左右滑动切换tab
     tabBarPosition:   'top',
+    animationEnabled: true,
     tabBarOptions:    {
-      activeTintColor:   'rgb(0,185,80)',// 文字和图片选中颜色
+      activeTintColor:   'white',// 文字和图片选中颜色
       inactiveTintColor: '#666666', // 文字和图片未选中颜色
       showIcon:          true, // android 默认不显示 icon, 需要设置为 true 才会显示
       showLabel:         true,
@@ -42,48 +44,47 @@ const Popular_TabNavigatorConfig = {
         backgroundColor: 'rgb(0,185,80)'
       },
       style: {
-         // backgroundColor: '#FFFFFF', // TabBar 背景色
+         backgroundColor: 'rgb(0,185,80)', // TabBar 背景色
       },
       tabStyle:{
         tintColor: 'red'
       },
       labelStyle: {
-         // fontSize: 15, // 文字大小
+         fontSize: 14, // 文字大小
       },
-      // pressOpacity: 1,
     },
   
 };
 
 const Popular_RouteConfigs = 
 {
-    Popular: {
-      screen:            Popular,
+    All: {
+      screen:            PopularItem,
       navigationOptions: {
         tabBar:    {
-        label:     'Popular',
-        icon:      ({focused,tintColor}) => (
-            <Image 
-            source = {focused ? require('../resources/image/tab/ic_polular.png'): require('../resources/image/tab/ic_polular.png')}
-            style  = {{height:26 ,width: 26, tintColor:tintColor}}
-            />),
+        label:     'All',
 
         },
       },
     },
-    Trending: {
-      screen:            Trending,
+     Android: {
+      screen:            PopularItem,
       navigationOptions: {
-        tabBar:            {
-        icon:              ({focused,tintColor}) => (
-        <Image 
-          source = {focused ? require('../resources/image/tab/ic_trending.png'): require('../resources/image/tab/ic_trending.png')}
-          style  = {{height:26 ,width: 26, tintColor:tintColor}}
-          />),
-          label: 'Trending',
+        tabBar:    {
+        label:     'Android',
+
         },
       },
-    }
+    },
+     iOS: {
+      screen:            PopularItem,
+      navigationOptions: {
+        tabBar:    {
+        label:     'iOS',
+
+        },
+      },
+    },
 }
 
 const Popular_TabBars = TabNavigator(Popular_RouteConfigs,Popular_TabNavigatorConfig)
@@ -109,7 +110,7 @@ const RouteConfigs =
       navigationOptions: {
         tabBar:            {
         icon:              ({focused,tintColor}) => (
-        <Image 
+           <Image 
           source = {focused ? require('../resources/image/tab/ic_trending.png'): require('../resources/image/tab/ic_trending.png')}
           style  = {{height:26 ,width: 26, tintColor:tintColor}}
           />),
