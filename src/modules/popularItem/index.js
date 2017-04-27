@@ -12,11 +12,14 @@ import {
   Image,
   TextInput,
   RefreshControl,
+  Animated,
+  Modal,
 } from 'react-native';
 
 import ProjectModel from '../../model/ProjectModel'
 import DataRepository from '../../common/network'
 import { screenWidth, screenHeight } from '../../constants'
+import PopularConfigure from '../../common/popularConfigure'
 
 var dataRepository = new DataRepository()
 
@@ -25,9 +28,15 @@ export default class PopularItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          listData:   [],
-          refreshing: false,
+          listData:    [],
+          visible:     false,
+          refreshing:  false,
+          bounceValue: new Animated.Value(1),
+          decayValue:  new Animated.Value(400),
+          fadeAnim:    new Animated.Value(1), 
+          springValue: new Animated.Value(400),
         };
+
    }
    static navigationOptions = {
       header: (navigation, defaultHeader) => ({
@@ -39,8 +48,9 @@ export default class PopularItem extends Component {
           right:(
             <View style = {{flexDirection: 'row'}}>
                <TouchableOpacity
+                 abc   = {this}
                  style   = {{marginRight: 10, marginTop: 1}}  
-                 onPress = {() => navigation.state.params.onSettingButtonPress(navigation)}
+                 onPress = {() =>{ navigation.state.params.moreClick()}}
                  >
                 <Image 
                   style  = {{width:25, height: 25}} 
@@ -48,7 +58,7 @@ export default class PopularItem extends Component {
              </TouchableOpacity>
                <TouchableOpacity 
                  style   = {{marginRight: 10}}
-                 onPress = {() => navigation.state.params.onSettingButtonPress(navigation)}
+                 onPress = {() =>{ navigation.state.params.searchClick()}}
                  >
                 <Image 
                   style  = {{width:25, height: 25}} 
@@ -73,13 +83,27 @@ export default class PopularItem extends Component {
       this.setState({ listData: projectModels, refreshing: false })
     })
   } 
+  moreClick(abc){
+    console.log('23123');
+    this.setState({ visible: true })
+  }
+  searchClick(abc){
+    this.setState({ visible: true })
+  }
+  dismiss(){
+    this.setState({ visible: false })
+  }
   componentDidMount() {
+    this.props.navigation.setParams({ 
+      moreClick: this.moreClick.bind(this), 
+      searchClick: this.searchClick.bind(this) 
+    });
     this.fetchData()
   }
 
   renderItem({item, index}) {
       return(
-        <View style={{flex: 1, width: '100%'}} key={index}>
+        <View style = {{flex: 1, width: '100%'}} key={index}>
             {this._renderHeaderViewItemView(item)}
             {this._rendContentView(item)}
         </View>
@@ -99,7 +123,8 @@ export default class PopularItem extends Component {
                      >
                     </Image>}
               />
-          </View>
+
+      </View>
     )
   }
   _rendContentView(item){
@@ -151,10 +176,32 @@ export default class PopularItem extends Component {
         </View>
       )
   }
-
+ 
+  renderModal(){
+    return (
+     
+          <Modal
+              animationType  = 'none'
+              transparent    = {true}
+              visible        = {this.state.visible}
+              onRequestClose = {() => {alert("Modal has been closed.")}}
+              >
+                <TouchableOpacity 
+                  // onPress = {thss.dismiss.bind(this)}}
+                    onPress = {() =>{ console.log('hhahaha')}}
+                >
+                    <PopularConfigure />
+              </TouchableOpacity>
+            
+          </Modal>
+        
+    )
+  }
   render() {
     return (
       <View style={styles.container}>
+          {this.renderModal()}
+          
           <FlatList
               style                  = {{backgroundColor: 'rgb(242,242,242)', width: '100%',}}
               data                   = {this.state.listData}
@@ -163,13 +210,14 @@ export default class PopularItem extends Component {
               refreshControl         = {
                       <RefreshControl
                           refreshing = {this.state.refreshing}
-                          onRefresh  = {()=>this._onRefresh()}
+                          onRefresh  = {() => this._onRefresh()}
                           tintColor  = 'rgb(0,185,80)'
                           title      = "Loading..."
                           titleColor = 'orange'
                           colors     = {['#ff0000', '#00ff00', '#0000ff']}
                       />}
           />
+      
       </View>
     );
   }

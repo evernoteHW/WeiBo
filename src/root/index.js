@@ -23,6 +23,7 @@ import Favorite from '../modules/favorite'
 import Mine from '../modules/mine'
 import Setting from '../modules/setting'
 import Register from '../modules/register'
+import PopularConfigure from '../common/popularConfigure'
 
 const Popular_TabNavigatorConfig = {
     animationEnabled: false, // 切换页面时是否有动画效果
@@ -185,12 +186,12 @@ const TabBars = TabNavigator(RouteConfigs,TabNavigatorConfig)
 
 const App = StackNavigator({
     TabBars: { screen: TabBars },
-    Setting : { screen: Setting },
+    Setting: { screen: Setting },
 },{
-    headerMode: 'screen' ,
-    mode:  'card',
-    // // cardStyle:{   backgroundColor: 'red'},
-    // onTransitionStart:(next,before) =>{
+    headerMode:           'screen' ,
+    mode:                 'card',
+    // // cardStyle:      {   backgroundColor: 'red'},
+    // onTransitionStart: (next,before) =>{
     //   console.log('换场动画开始');
     // },
     // onTransitionEnd:(next,before) =>{
