@@ -10,13 +10,16 @@ import {
     AsyncStorage,
 } from 'react-native';
 
-export var FLAG_STORAGE = {flag_popular: 'popular', flag_trending: 'trending'}
+export const FLAG_STORAGE = {flag_popular: 'popular', flag_trending: 'trending'}
+function* fff(zz,dd){
 
+}
 export default class DataRepository {
     constructor(props) {
         // super(props)
         this.props = props;
     }
+    
     /**
      * 请求数据
      * @param  {[type]} url [description]

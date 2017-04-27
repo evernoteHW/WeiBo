@@ -63,7 +63,15 @@ class Register extends Component {
   }
   
   shouldComponentUpdate(nextProps, nextState){
-    console.log(`登录成功！${nextProps.user.name}`);
+    if (nextProps.user.name === 'juju') {
+      const { navigation } = this.props;
+      setInterval(() =>{
+          navigation.goBack()
+          console.log(`登录成功！${nextProps.user.name}`);
+      }, 500);
+      
+      return false
+    }
     return true
   }
   handleLogin(){

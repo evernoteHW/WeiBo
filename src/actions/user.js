@@ -1,4 +1,3 @@
-'use strict';
 
 import { AlertIOS } from 'react-native';
 
