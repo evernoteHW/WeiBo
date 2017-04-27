@@ -11,19 +11,9 @@ import {
   Navigator,
   Image,
   Button,
-  Platform,
-  TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 
 import { StackNavigator , TabNavigator} from 'react-navigation';
-
-import {
-  createNavigator,
-  createNavigationContainer,
-  TabRouter,
-  addNavigationHelpers,
-} from 'react-navigation';
 
 import Popular from '../modules/popular'
 import PopularItem from '../modules/popularItem'
@@ -43,12 +33,12 @@ const Popular_TabNavigatorConfig = {
     tabBarOptions:    {
       activeTintColor:   'white',// 文字和图片选中颜色
       inactiveTintColor: '#666666', // 文字和图片未选中颜色
-      showIcon:          true, // android 默认不显示 icon, 需要设置为 true 才会显示
+      showIcon:          false, // android 默认不显示 icon, 需要设置为 true 才会显示
       showLabel:         true,
-      lazyLoad:          false,
+      lazyLoad:          true,
       tabBarPosition:    'top',
       indicatorStyle:    {
-        height: 0,  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
+        height: 0  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
       }, 
       tabStyle:{
         backgroundColor: 'rgb(0,185,80)'
@@ -66,58 +56,49 @@ const Popular_TabNavigatorConfig = {
   
 };
 
-
-const CustomTabBar = ({ navigation }) => {
-  const { routes } = navigation.state;
-  return (
-    <View style={{ flexDirection: 'row', height: 48, backgroundColor: 'orange'}}>
-      {routes.map(route => (
-        <TouchableOpacity
-          onPress = {() => navigation.navigate(route.routeName)}
-          style   = {styles.tab}
-          key     = {route.routeName}
-        >
-          <Text>{route.routeName}</Text>
-        </TouchableOpacity>
-      ))}
-    </View>
-  );
-}
-
-const CustomTabView = ({ router, navigation }) => {
-  const { routes, index } = navigation.state;
-  const ActiveScreen = router.getComponentForState(navigation.state);
-  return (
-    <View style={styles.container}>
-      <CustomTabBar navigation={navigation} />
-      <ActiveScreen
-        navigation = {addNavigationHelpers({
-          ...navigation,
-          state: routes[index],
-        })}
-      />
-    </View>
-  );
-};
-
-const CustomTabRouter = TabRouter({
+const Popular_RouteConfigs = 
+{
     All: {
       screen:            PopularItem,
+      navigationOptions: {
+        tabBar:    {
+          label: 'All',
+        // label:  ({focused,tintColor}) =>(
+        //     <Text style={{ color: focused ? 'white': '#333333', textAlign: 'center'}}> All </Text>
+        // ),
+       },
+      },
     },
-    Android: {
-      screen:            Trending,
+     Android: {
+      screen:            PopularItem,
+      navigationOptions: {
+        tabBar:    {
+          label: 'Android',
+        // label:  ({focused,tintColor}) =>(
+        //     <Text style={{ color: focused ? 'white': '#333333', textAlign: 'center'}}> Android </Text>
+        // ),
+        },
+      },
     },
-    iOS: {
-      screen:            Favorite,
+     iOS: {
+      screen:            PopularItem,
+      navigationOptions: {
+        tabBar:    {
+          label: 'iOS',
+        // label:  ({focused,tintColor}) =>(
+        //     <Text style={{ color: focused ? 'white': '#333333', textAlign: 'center'}}> iOS </Text>
+        // ),
+        },
+      },
     },
-});
+}
 
-const CustomTabs = createNavigationContainer(createNavigator(CustomTabRouter)(CustomTabView));
+const Popular_TabBars = TabNavigator(Popular_RouteConfigs,Popular_TabNavigatorConfig)
 
 const RouteConfigs = 
 {
     Popular: {
-      screen:            CustomTabs,
+      screen:            Popular_TabBars,
       navigationOptions: {
         tabBar:    {
         label:     'Popular',
@@ -208,13 +189,13 @@ const App = StackNavigator({
 },{
     headerMode: 'screen' ,
     mode:  'card',
-    // cardStyle:{   backgroundColor: 'red'},
-    onTransitionStart:(next,before) =>{
-      console.log('换场动画开始');
-    },
-    onTransitionEnd:(next,before) =>{
-      console.log('换场动画结束');
-    }
+    // // cardStyle:{   backgroundColor: 'red'},
+    // onTransitionStart:(next,before) =>{
+    //   console.log('换场动画开始');
+    // },
+    // onTransitionEnd:(next,before) =>{
+    //   console.log('换场动画结束');
+    // }
 });
 
 export default class WeiBo extends Component {
@@ -225,23 +206,3 @@ export default class WeiBo extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex : 1
-    // marginTop: Platform.OS === 'ios' ? 20 : 0,
-  },
-  tabContainer: {
-    flexDirection: 'row',
-    height: 48,
-  },
-  tab: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 4,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 4,
-  }
-});

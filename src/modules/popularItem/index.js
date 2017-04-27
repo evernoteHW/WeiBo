@@ -11,39 +11,22 @@ import {
   FlatList,
   Image,
   TextInput,
+  RefreshControl,
 } from 'react-native';
 
+import ProjectModel from '../../model/ProjectModel'
+import DataRepository from '../../common/network'
 import { screenWidth, screenHeight } from '../../constants'
 
-const BottomSetting = [
-    {
-      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
-      title: '888',
-    },{
-      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
-      title: '888',
-    },{
-      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
-      title: '888',
-    },
-];
-
-const onRegisterButtonPress = () => {
-  Alert.alert('Button has been pressed!');
-};
-const onLoginButtonPress = () => {
-  Alert.alert('Button has been pressed!');
-};
-
+var dataRepository = new DataRepository()
 
 export default class PopularItem extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-          listData: [{key: 'a'}, {key: 'b'},{key: 'c'},{key: 'd'},
-          {key: 'e'}, {key: 'f'},{key: 'g'},{key: 'h'},
-          {key: 'i'}, {key: 'j'},{key: 'k'},{key: 'm'},]
+          listData:   [],
+          refreshing: false,
         };
    }
    static navigationOptions = {
@@ -53,49 +36,52 @@ export default class PopularItem extends Component {
           titleStyle: { color: 'white'},
           visible:    true , // 覆盖预设中的此项
           style:      { backgroundColor: 'rgb(0,185,80)'},
+          right:(
+            <View style = {{flexDirection: 'row'}}>
+               <TouchableOpacity
+                 style   = {{marginRight: 10, marginTop: 1}}  
+                 onPress = {() => navigation.state.params.onSettingButtonPress(navigation)}
+                 >
+                <Image 
+                  style  = {{width:25, height: 25}} 
+                  source = {require('../../resources/image/home/ic_search_white_48pt.png')}/>
+             </TouchableOpacity>
+               <TouchableOpacity 
+                 style   = {{marginRight: 10}}
+                 onPress = {() => navigation.state.params.onSettingButtonPress(navigation)}
+                 >
+                <Image 
+                  style  = {{width:25, height: 25}} 
+                  source = {require('../../resources/image/home/ic_more_vert_white_48pt.png')}
+                />
+             </TouchableOpacity>
+            </View>
+        ),
      }),
     cardStack: {
        gesturesEnabled: false  // 是否可以右滑返回
-    }
-  };
-    componentWillMount() {
-     
-    }
-    onRegisterButtonPress(e){
-        console.log("1111");
-    };
-    onLoginButtonPress(e){
-        console.log("2222");
+      }
     };
 
-    viewWillAppear(){
-      console.log('home_viewWillAppear');
-    }
-    viewDidAppear(){
-      console.log('home_viewDidAppear');
-    }
-    viewWillDisAppear(){
-      console.log('discover_viewWillDisAppear');
-    }
-    viewDidDisAppear(){
-      console.log('home_viewDidDisAppear');
-    }
-    componentDidMount() {
-      console.log('discover_componentDidMount');
-       this.props.navigation.setParams({
-          viewWillAppear:       this.viewWillAppear,
-          viewDidAppear:        this.viewDidAppear,
-          viewWillDisAppear:    this.viewWillDisAppear,
-          viewDidDisAppear:     this.viewDidDisAppear,
-      });
-    }
+  fetchData(){
+    dataRepository.fetchRepository('https://api.github.com/search/repositories?q=all&sort=stars').then((wrapData) =>{
+      let projectModels = [];
+      for (var i = 0; i < wrapData.length; i ++) {
+          let item = wrapData[i];
+          projectModels.push(new ProjectModel(item.id, item.name,item.full_name,item.owner.avatar_url,item.description,item.created_at));
+      }
+      this.setState({ listData: projectModels, refreshing: false })
+    })
+  } 
+  componentDidMount() {
+    this.fetchData()
+  }
 
   renderItem({item, index}) {
-    const seperaWidth = 2;
-    return(
-        <View style={{flex: 1, width: '100%'}}>
-            {this._renderHeaderViewItemView()}
-            {this._rendContentView()}
+      return(
+        <View style={{flex: 1, width: '100%'}} key={index}>
+            {this._renderHeaderViewItemView(item)}
+            {this._rendContentView(item)}
         </View>
      )
   }
@@ -105,51 +91,44 @@ export default class PopularItem extends Component {
        <View style = {{backgroundColor: 'white'}}>
              <FlatList
                   style      = {styles.itemImageContetent}
-                  data       = {[{key: 'a'}, {key: 'b'},{key: 'b'},{key: 'd'}]}
+                  data       = {this.state.listData}
                   renderItem = {({item}) => 
                     <Image
                      style  = {{width: (screenWidth - 10 - 2)/3.0,height: (screenWidth - 10 - 2)/3.0,backgroundColor: 'orange',marginRight: 1,marginTop: 1}}
                      source = {require('../../resources/image/mine/page_cover_tv_background.jpg')}
                      >
                     </Image>}
-                  numColumns = {3}
               />
           </View>
     )
   }
-  _rendContentView(){
+  _rendContentView(item){
     return (
       <View style={{backgroundColor:'white'}}>
-               <Text style={{marginLeft: 10, marginRight: 10, marginBottom: 10,}}>
-                Better ListView - FlatList
-               Summary: We really need a better lis
-                <Text style={{color:'blue'}}> #话题.</Text>
-               t view -...This means that instance stat
-               e is not preserved when items scroll out of ...
-                  <Text style={{color:'blue'}}> #话题.</Text>
-                  Template:FlatlistFrom Wikipedia, the free encyclopediaJump to:
-                   navigation, ... any changes to this template should 
-                   first be tested in its /sandbox or ...
-               </Text>
+         <Text style = {{marginLeft: 10, marginRight: 10, marginBottom: 10,}}>
+         {item.description}
+         </Text>
        </View>
     )
   }
-  _renderHeaderViewItemView(){
+  _renderHeaderViewItemView(item){
     return (
          <View style={{backgroundColor:'white',flexDirection: 'row'}}>
-            <Image source = {require('../../resources/image/mine/page_cover_tv_background.jpg')} style={styles.headerIcon} />
+            <Image source = {{url: item.avatar_url}} style={styles.headerIcon} />
             <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
-                <Text style={styles.headerTitle}>新浪娱乐</Text>
-                <Text style={styles.headerSubTitle}>6小时前 来自微博</Text>
+                <Text style={styles.headerTitle}>{item.name}}</Text>
+                <Text style={styles.headerSubTitle}>{item.created_at}}</Text>
             </View>
             <View style={{justifyContent:'center', alignItems: 'center'}}>
               <TouchableOpacity style={styles.headerAttention}>
                 <Text style={{fontSize:16, color:"orange"}}>+关注</Text>
               </TouchableOpacity>
-
             </View>
           </View>
     )
+  }
+  _onRefresh(){
+    this.fetchData()
   }
   _renderBottomItemView(source,text){
     return (
@@ -166,17 +145,6 @@ export default class PopularItem extends Component {
         </View>
         )
   }
-  _listHeaderComponent(){
-    return (
-        <View style={{backgroundColor: 'rgb(229,229,229)', height: 45,flex: 1}}>
-          <TextInput 
-            style       = {styles.listHeaderTextInput}
-            editable    = {true}
-            placeholder = 'Useless Multiline Placeholder'
-          />
-        </View>
-    )
-  }
   _itemSeparatorComponent(){
     return (
         <View style={{flex:1,height:10}}>
@@ -188,13 +156,20 @@ export default class PopularItem extends Component {
     return (
       <View style={styles.container}>
           <FlatList
-              style                  = {{backgroundColor: 'rgb(242,242,242)', width: '100%'}}
+              style                  = {{backgroundColor: 'rgb(242,242,242)', width: '100%',}}
               data                   = {this.state.listData}
               renderItem             = {this.renderItem.bind(this)}
-              ItemSeparatorComponent = {this._itemSeparatorComponent}
-              ListHeaderComponent    = {this._listHeaderComponent}
+              ItemSeparatorComponent = {this._itemSeparatorComponent.bind(this)}
+              refreshControl         = {
+                      <RefreshControl
+                          refreshing = {this.state.refreshing}
+                          onRefresh  = {()=>this._onRefresh()}
+                          tintColor  = 'rgb(0,185,80)'
+                          title      = "Loading..."
+                          titleColor = 'orange'
+                          colors     = {['#ff0000', '#00ff00', '#0000ff']}
+                      />}
           />
-
       </View>
     );
   }
