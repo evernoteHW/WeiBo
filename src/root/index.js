@@ -99,7 +99,7 @@ const Popular_TabBars = TabNavigator(Popular_RouteConfigs,Popular_TabNavigatorCo
 const RouteConfigs = 
 {
     Popular: {
-      screen:            Popular_TabBars,
+      screen:            Popular,
       navigationOptions: {
         tabBar:    {
         label:     'Popular',
