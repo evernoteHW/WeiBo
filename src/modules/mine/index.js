@@ -33,7 +33,7 @@ export default class Mine extends Component {
       header: (navigation, defaultHeader) => ({
           ...defaultHeader,
           visible: true , // 覆盖预设中的此项
-          style: { backgroundColor: 'white'},
+          style: { backgroundColor: 'rgb(0,185,80)'},
           // backTitle: "返回",
           right:(
            <TouchableOpacity 

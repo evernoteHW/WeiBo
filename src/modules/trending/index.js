@@ -17,13 +17,13 @@ const onRegisterButtonPress = () => {
 const onLoginButtonPress = () => {
   Alert.alert('Button has been pressed!');
 };
-export default class Message extends Component {
+export default class Trending extends Component {
 
    static navigationOptions = {
       header: (navigation, defaultHeader) => ({
           ...defaultHeader,
           title: "消息",
-          style: { backgroundColor: 'white'}
+          style: { backgroundColor: 'rgb(0,185,80)'}
      }),
     cardStack: {
        gesturesEnabled: false  // 是否可以右滑返回

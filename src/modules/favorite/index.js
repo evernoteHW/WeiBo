@@ -36,7 +36,7 @@ const onLoginButtonPress = () => {
 };
 
 
-export default class Discover extends Component {
+export default class Favorite extends Component {
 
     constructor(props) {
         super(props);
@@ -51,7 +51,7 @@ export default class Discover extends Component {
       header: (navigation, defaultHeader) => ({
           ...defaultHeader,
           visible: true , // 覆盖预设中的此项
-          style: { backgroundColor: 'white'},
+          style: { backgroundColor: 'rgb(0,185,80)'},
           title: (
             <View style={{flexDirection:'row'}}>
               <TouchableOpacity 
