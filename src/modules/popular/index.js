@@ -12,12 +12,17 @@ import {
   TouchableOpacity,
   Alert,
   AppState,
+  NativeModules,
 } from 'react-native';
 
 import styles from './styles.js';
 import { StackNavigator } from 'react-navigation';
 import PopularConfigure from '../../common/popularConfigure'
 import Popover from '../../common/Popover'
+import DataRepository from '../../common/network'
+
+var AppDelegate = NativeModules.AppDelegate;
+var dataRepository = new DataRepository()
 
 export default class Popular extends Component {
 
@@ -56,8 +61,26 @@ export default class Popular extends Component {
      }),
   };
   rightAction(){
-    this.refs.toast.show()
+    // this.refs.toast.show()
     // this.showPopover()
+    AppDelegate.RNInvokeOCCallBack({'key':'login'}, (error,events) => {
+        if (!error) {
+            let url = `https://api.weibo.com/2/statuses/public_timeline.json?access_token=${events.accessToken}`
+            fetch(url,{
+              method: 'GET',
+            }).then((response) => {
+              if (response.ok) {
+                return response.json()
+              }
+            }).then((json)=>{
+                console.log(json);
+            }).catch((error) =>{
+                console.log(error);
+            })
+        }
+       
+
+    });
   }
 
 
@@ -90,7 +113,6 @@ export default class Popular extends Component {
             </TouchableOpacity>
           </View>
           <PopularConfigure ref = 'toast' listData = {this.state.listData} placement = 'ANCHOR_TOP_RIGHT'/>
-
            <Popover
               isVisible = {this.state.isVisible}
               fromRect  = {this.state.buttonRect}

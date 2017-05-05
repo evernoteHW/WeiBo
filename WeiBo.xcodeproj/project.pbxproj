@@ -16,18 +16,32 @@
 		5F5A8DA51EA4EFF900B55308 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F5A8DA31EA4EFF900B55308 /* LaunchScreen.storyboard */; };
 		5F5A8DB01EA4EFF900B55308 /* WeiBoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A8DAF1EA4EFF900B55308 /* WeiBoTests.m */; };
 		5F5A8DBB1EA4EFF900B55308 /* WeiBoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A8DBA1EA4EFF900B55308 /* WeiBoUITests.m */; };
-		5F5A8E701EA4F26600B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E0A1EA4F18B00B55308 /* libRCTWebSocket.a */; };
-		5F5A8E711EA4F26E00B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E121EA4F19900B55308 /* libRCTVibration.a */; };
-		5F5A8E721EA4F27400B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E191EA4F1BD00B55308 /* libRCTText.a */; };
-		5F5A8E731EA4F27900B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E221EA4F1C400B55308 /* libRCTSettings.a */; };
-		5F5A8E741EA4F28000B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E2B1EA4F1CD00B55308 /* libRCTNetwork.a */; };
-		5F5A8E751EA4F28500B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E341EA4F1D500B55308 /* libRCTLinking.a */; };
-		5F5A8E761EA4F28A00B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E3D1EA4F1DB00B55308 /* libRCTImage.a */; };
-		5F5A8E771EA4F29000B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E451EA4F1E300B55308 /* libRCTGeolocation.a */; };
-		5F5A8E781EA4F29600B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E4B1EA4F1ED00B55308 /* libRCTActionSheet.a */; };
-		5F5A8E791EA4F29B00B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E6D1EA4F21D00B55308 /* libRCTAnimation.a */; };
-		5F5A8E7A1EA4F2A200B55308 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E581EA4F20700B55308 /* libReact.a */; };
+		5F5A8E701EA4F26600B55308 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E0A1EA4F18B00B55308 /* libRCTWebSocket.a */; };
+		5F5A8E711EA4F26E00B55308 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E121EA4F19900B55308 /* libRCTVibration.a */; };
+		5F5A8E721EA4F27400B55308 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E191EA4F1BD00B55308 /* libRCTText.a */; };
+		5F5A8E731EA4F27900B55308 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E221EA4F1C400B55308 /* libRCTSettings.a */; };
+		5F5A8E741EA4F28000B55308 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E2B1EA4F1CD00B55308 /* libRCTNetwork.a */; };
+		5F5A8E751EA4F28500B55308 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E341EA4F1D500B55308 /* libRCTLinking.a */; };
+		5F5A8E761EA4F28A00B55308 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E3D1EA4F1DB00B55308 /* libRCTImage.a */; };
+		5F5A8E771EA4F29000B55308 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E451EA4F1E300B55308 /* libRCTGeolocation.a */; };
+		5F5A8E781EA4F29600B55308 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E4B1EA4F1ED00B55308 /* libRCTActionSheet.a */; };
+		5F5A8E791EA4F29B00B55308 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E6D1EA4F21D00B55308 /* libRCTAnimation.a */; };
+		5F5A8E7A1EA4F2A200B55308 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E581EA4F20700B55308 /* libReact.a */; };
 		5F5A8E7D1EA4F2AA00B55308 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F5A8E7C1EA4F2AA00B55308 /* JavaScriptCore.framework */; };
+		7442356A1EBC1AB7009994CE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 744235691EBC1AB7009994CE /* libz.tbd */; };
+		7442356E1EBC1AF9009994CE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7442356D1EBC1AF9009994CE /* QuartzCore.framework */; };
+		744235701EBC1B00009994CE /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7442356F1EBC1B00009994CE /* ImageIO.framework */; };
+		744235721EBC1B07009994CE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744235711EBC1B07009994CE /* SystemConfiguration.framework */; };
+		744235741EBC1B0E009994CE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744235731EBC1B0E009994CE /* Security.framework */; };
+		744235761EBC1B13009994CE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744235751EBC1B13009994CE /* CoreTelephony.framework */; };
+		744235781EBC1B1B009994CE /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744235771EBC1B1B009994CE /* CoreText.framework */; };
+		7442357A1EBC1B21009994CE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744235791EBC1B21009994CE /* UIKit.framework */; };
+		7442357C1EBC1B28009994CE /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7442357B1EBC1B28009994CE /* CoreFoundation.framework */; };
+		7442357E1EBC1B2E009994CE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7442357D1EBC1B2E009994CE /* CoreGraphics.framework */; };
+		744235801EBC1B36009994CE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7442357F1EBC1B36009994CE /* libsqlite3.tbd */; };
+		744235B71EBC1CD2009994CE /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 744235B11EBC1CD2009994CE /* libWeiboSDK.a */; };
+		744235B81EBC1CD2009994CE /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 744235B41EBC1CD2009994CE /* WeiboSDK.bundle */; };
+		744235BB1EBC1CEB009994CE /* RNNativeBridgeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 744235BA1EBC1CEB009994CE /* RNNativeBridgeModule.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -252,6 +266,26 @@
 		5F5A8E4C1EA4F20700B55308 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		5F5A8E671EA4F21D00B55308 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		5F5A8E7C1EA4F2AA00B55308 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		744235691EBC1AB7009994CE /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		7442356B1EBC1AC7009994CE /* libz.1.2.8.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.8.tbd; path = usr/lib/libz.1.2.8.tbd; sourceTree = SDKROOT; };
+		7442356D1EBC1AF9009994CE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		7442356F1EBC1B00009994CE /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		744235711EBC1B07009994CE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		744235731EBC1B0E009994CE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		744235751EBC1B13009994CE /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		744235771EBC1B1B009994CE /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		744235791EBC1B21009994CE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		7442357B1EBC1B28009994CE /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		7442357D1EBC1B2E009994CE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7442357F1EBC1B36009994CE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		744235B11EBC1CD2009994CE /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
+		744235B21EBC1CD2009994CE /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHttpRequest.h; sourceTree = "<group>"; };
+		744235B31EBC1CD2009994CE /* WBHttpRequest+WeiboToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboToken.h"; sourceTree = "<group>"; };
+		744235B41EBC1CD2009994CE /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
+		744235B51EBC1CD2009994CE /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
+		744235B61EBC1CD2009994CE /* WeiboSDK+Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WeiboSDK+Statistics.h"; sourceTree = "<group>"; };
+		744235B91EBC1CEB009994CE /* RNNativeBridgeModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNNativeBridgeModule.h; sourceTree = "<group>"; };
+		744235BA1EBC1CEB009994CE /* RNNativeBridgeModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNNativeBridgeModule.m; sourceTree = "<group>"; };
 		AAF2515FF4468F9ABB65B023 /* Pods-WeiBo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeiBo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeiBo/Pods-WeiBo.debug.xcconfig"; sourceTree = "<group>"; };
 		E821D66148FAA02AAB29F3E2 /* libPods-WeiBo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeiBo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -261,18 +295,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				744235801EBC1B36009994CE /* libsqlite3.tbd in Frameworks */,
+				7442357E1EBC1B2E009994CE /* CoreGraphics.framework in Frameworks */,
+				7442357C1EBC1B28009994CE /* CoreFoundation.framework in Frameworks */,
+				7442357A1EBC1B21009994CE /* UIKit.framework in Frameworks */,
+				744235781EBC1B1B009994CE /* CoreText.framework in Frameworks */,
+				744235761EBC1B13009994CE /* CoreTelephony.framework in Frameworks */,
+				744235741EBC1B0E009994CE /* Security.framework in Frameworks */,
+				744235721EBC1B07009994CE /* SystemConfiguration.framework in Frameworks */,
+				744235701EBC1B00009994CE /* ImageIO.framework in Frameworks */,
+				7442356E1EBC1AF9009994CE /* QuartzCore.framework in Frameworks */,
+				744235B71EBC1CD2009994CE /* libWeiboSDK.a in Frameworks */,
+				7442356A1EBC1AB7009994CE /* libz.tbd in Frameworks */,
 				5F5A8E7D1EA4F2AA00B55308 /* JavaScriptCore.framework in Frameworks */,
-				5F5A8E7A1EA4F2A200B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E791EA4F29B00B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E781EA4F29600B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E771EA4F29000B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E761EA4F28A00B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E751EA4F28500B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E741EA4F28000B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E731EA4F27900B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E721EA4F27400B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E711EA4F26E00B55308 /* ReferenceProxy in Frameworks */,
-				5F5A8E701EA4F26600B55308 /* ReferenceProxy in Frameworks */,
+				5F5A8E7A1EA4F2A200B55308 /* libReact.a in Frameworks */,
+				5F5A8E791EA4F29B00B55308 /* libRCTAnimation.a in Frameworks */,
+				5F5A8E781EA4F29600B55308 /* libRCTActionSheet.a in Frameworks */,
+				5F5A8E771EA4F29000B55308 /* libRCTGeolocation.a in Frameworks */,
+				5F5A8E761EA4F28A00B55308 /* libRCTImage.a in Frameworks */,
+				5F5A8E751EA4F28500B55308 /* libRCTLinking.a in Frameworks */,
+				5F5A8E741EA4F28000B55308 /* libRCTNetwork.a in Frameworks */,
+				5F5A8E731EA4F27900B55308 /* libRCTSettings.a in Frameworks */,
+				5F5A8E721EA4F27400B55308 /* libRCTText.a in Frameworks */,
+				5F5A8E711EA4F26E00B55308 /* libRCTVibration.a in Frameworks */,
+				5F5A8E701EA4F26600B55308 /* libRCTWebSocket.a in Frameworks */,
 				182BA9ED505ADD9835EC8182 /* libPods-WeiBo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,6 +369,9 @@
 				5F5A8D991EA4EFF900B55308 /* AppDelegate.m */,
 				5F5A8D9B1EA4EFF900B55308 /* ViewController.h */,
 				5F5A8D9C1EA4EFF900B55308 /* ViewController.m */,
+				744235B91EBC1CEB009994CE /* RNNativeBridgeModule.h */,
+				744235BA1EBC1CEB009994CE /* RNNativeBridgeModule.m */,
+				744235971EBC1CC5009994CE /* libWeiboSDK */,
 				5F5A8DDE1EA4F0FA00B55308 /* Libraries */,
 				5F5A8D9E1EA4EFF900B55308 /* Main.storyboard */,
 				5F5A8DA11EA4EFF900B55308 /* Assets.xcassets */,
@@ -482,10 +531,35 @@
 		5F5A8E7B1EA4F2AA00B55308 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7442357F1EBC1B36009994CE /* libsqlite3.tbd */,
+				7442357D1EBC1B2E009994CE /* CoreGraphics.framework */,
+				7442357B1EBC1B28009994CE /* CoreFoundation.framework */,
+				744235791EBC1B21009994CE /* UIKit.framework */,
+				744235771EBC1B1B009994CE /* CoreText.framework */,
+				744235751EBC1B13009994CE /* CoreTelephony.framework */,
+				744235731EBC1B0E009994CE /* Security.framework */,
+				744235711EBC1B07009994CE /* SystemConfiguration.framework */,
+				7442356F1EBC1B00009994CE /* ImageIO.framework */,
+				7442356D1EBC1AF9009994CE /* QuartzCore.framework */,
+				7442356B1EBC1AC7009994CE /* libz.1.2.8.tbd */,
+				744235691EBC1AB7009994CE /* libz.tbd */,
 				5F5A8E7C1EA4F2AA00B55308 /* JavaScriptCore.framework */,
 				E821D66148FAA02AAB29F3E2 /* libPods-WeiBo.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		744235971EBC1CC5009994CE /* libWeiboSDK */ = {
+			isa = PBXGroup;
+			children = (
+				744235B11EBC1CD2009994CE /* libWeiboSDK.a */,
+				744235B21EBC1CD2009994CE /* WBHttpRequest.h */,
+				744235B31EBC1CD2009994CE /* WBHttpRequest+WeiboToken.h */,
+				744235B41EBC1CD2009994CE /* WeiboSDK.bundle */,
+				744235B51EBC1CD2009994CE /* WeiboSDK.h */,
+				744235B61EBC1CD2009994CE /* WeiboSDK+Statistics.h */,
+			);
+			path = libWeiboSDK;
 			sourceTree = "<group>";
 		};
 		77DC1AD90BAA42285FAF6DD3 /* Pods */ = {
@@ -836,6 +910,7 @@
 				5F5A8DA51EA4EFF900B55308 /* LaunchScreen.storyboard in Resources */,
 				5F5A8DA21EA4EFF900B55308 /* Assets.xcassets in Resources */,
 				5F5A8DA01EA4EFF900B55308 /* Main.storyboard in Resources */,
+				744235B81EBC1CD2009994CE /* WeiboSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -911,6 +986,7 @@
 				5F5A8D9D1EA4EFF900B55308 /* ViewController.m in Sources */,
 				5F5A8D9A1EA4EFF900B55308 /* AppDelegate.m in Sources */,
 				5F5A8D971EA4EFF900B55308 /* main.m in Sources */,
+				744235BB1EBC1CEB009994CE /* RNNativeBridgeModule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1062,6 +1138,10 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/node_modules/react-native/React/**";
 				INFOPLIST_FILE = WeiBo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WeiBo/libWeiboSDK",
+				);
 				OTHER_LDFLAGS = (
 					"-lc++",
 					"-ObjC",
@@ -1082,6 +1162,10 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/node_modules/react-native/React/**";
 				INFOPLIST_FILE = WeiBo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WeiBo/libWeiboSDK",
+				);
 				OTHER_LDFLAGS = (
 					"-lc++",
 					"-ObjC",

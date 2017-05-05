@@ -27,15 +27,15 @@ export default class DataRepository {
         return new Promise(function (resolve, reject) {
 
             self.fetchLocalRepository(url).then((wrapData) => {
-                if (wrapData) {
-                    resolve(wrapData["items"],true);
-                }else{
+                // if (wrapData) {
+                //     resolve(wrapData["items"],true);
+                // }else{
                     self.fetchNetRepository(url).then((data)=> {
                         resolve(data);
                     }).catch((error)=> {
                         reject(error);
                     })
-                }
+                // }
             }).catch((error) =>{
 
             })

@@ -9,9 +9,15 @@
 #import "AppDelegate.h"
 #import <RCTRootView.h>
 #import <RCTBundleURLProvider.h>
+#import "RCTBridgeModule.h"
+#import "WeiboSDK.h"
 
-@interface AppDelegate ()
+//com.sina.weibo.SNWeiboSDKDemo
+#define kAppKey         @"2966635116"
+#define kRedirectURI    @"http://www.baidu.com"
 
+@interface AppDelegate () <WeiboSDKDelegate,RCTBridgeModule>
+@property (nonatomic, copy) RCTResponseSenderBlock callback;
 @end
 
 @implementation AppDelegate
@@ -37,35 +43,77 @@
     rootViewController.view = rootView;
     self.window.rootViewController = rootViewController;
     [self.window makeKeyAndVisible];
-
+    
+    [self _weiboConfigure];
+    
     return YES;
 }
 
+RCT_EXPORT_MODULE()
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+RCT_EXPORT_METHOD(RNInvokeOCCallBack:(NSDictionary *)dictionary callback:(RCTResponseSenderBlock)callback){
+    NSLog(@"接收到RN传过来的数据为:%@",dictionary);
+    NSString *weibo_accessToken =  [[NSUserDefaults standardUserDefaults] objectForKey:@"weibo_accessToken"];
+    if(weibo_accessToken && ![weibo_accessToken isEqualToString:@""]){
+        callback(@[[NSNull null],@{@"accessToken":weibo_accessToken}]);
+    }else{
+        if ([dictionary[@"key"] isEqualToString:@"login"] ){
+            [self ssoButtonPressed];
+        }
+    }
+    
+    
+    
+//    if (callback){
+//        self.callback = callback;
+//    }
 }
 
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+- (void)ssoButtonPressed
+{
+    WBAuthorizeRequest *request = [WBAuthorizeRequest request];
+    request.redirectURI = @"https://api.weibo.com/oauth2/default.html";
+    request.scope = @"all";
+    [WeiboSDK sendRequest:request];
 }
 
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+- (void)_weiboConfigure{
+    [WeiboSDK enableDebugMode:YES];
+    [WeiboSDK registerApp:kAppKey];
 }
 
+- (void)applicationWillResignActive:(UIApplication *)application {}
+- (void)applicationDidEnterBackground:(UIApplication *)application {}
+- (void)applicationWillEnterForeground:(UIApplication *)application {}
+- (void)applicationDidBecomeActive:(UIApplication *)application {}
+- (void)applicationWillTerminate:(UIApplication *)application {}
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [WeiboSDK handleOpenURL:url delegate:self];
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return [WeiboSDK handleOpenURL:url delegate:self ];
+}
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+#pragma mark - WeiboSDKDelegate
+
+- (void)didReceiveWeiboRequest:(WBBaseRequest *)request{
+    NSLog(@"request..");
+}
+
+- (void)didReceiveWeiboResponse:(WBBaseResponse *)response{
+    NSLog(@"error..");
+    
+    if ([response isKindOfClass:WBAuthorizeResponse.class]){
+//        if (self.callback) {
+//            NSArray *events = [[NSArray alloc] initWithObjects:@"accessToken",((WBAuthorizeResponse *)response).accessToken, nil];
+        [[NSUserDefaults standardUserDefaults] setObject:((WBAuthorizeResponse *)response).accessToken forKey:@"weibo_accessToken"];
+//            self.callback(@[[NSNull null], events]);
+//        }
+    }
 }
 
 

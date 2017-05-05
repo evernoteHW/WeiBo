@@ -15,6 +15,8 @@ import {
 
 import { screenWidth, screenHeight } from '../../constants'
 
+
+
 const BottomSetting = [
     {
       icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
