@@ -27,6 +27,12 @@ export default class Popular extends Component {
         currentAppState: AppState.currentState,
         isVisible: false,
         buttonRect: {},
+        listData: [{'key':'Sort Key'}, 
+                   {'key':'Custom Key'}, 
+                   {'key':'Remove Key'}, 
+                   {'key':'Theme'},
+                   {'key':'About Author'},
+                   {'key':'FeedBack'}],
       };
     }
 
@@ -70,6 +76,7 @@ export default class Popular extends Component {
      this.props.navigation.setParams({ rightAction: this.rightAction.bind(this)});
   }
   render() {
+   
     return (
         <View style = {styles.container}>
           <View style = {{alignItems: 'center'}}>
@@ -82,7 +89,7 @@ export default class Popular extends Component {
                 <Text style = {{fontSize:15, color:'rgb(253,169,70)'}}>去关注</Text>
             </TouchableOpacity>
           </View>
-          <PopularConfigure ref = 'toast'/>
+          <PopularConfigure ref = 'toast' listData = {this.state.listData} placement = 'ANCHOR_TOP_RIGHT'/>
 
            <Popover
               isVisible = {this.state.isVisible}

@@ -13,6 +13,19 @@ import {
 
 import { screenWidth, screenHeight } from '../constants'
 
+var DEFAULT_ARROW_SIZE = new Size(15, 15);
+
+export const ANCHOR_TOP_LEFT      = 'ANCHOR_TOP_LEFT'
+export const ANCHOR_TOP_CENTER    = 'ANCHOR_TOP_CENTER'
+export const ANCHOR_TOP_RIGHT     = 'ANCHOR_TOP_RIGHT'
+export const ANCHOR_LEFT_CENTER   = 'ANCHOR_LEFT_CENTER'
+export const ANCHOR_BOTTOM_LEFT   = 'ANCHOR_BOTTOM_LEFT'
+export const ANCHOR_BOTTOM_CENTER = 'ANCHOR_BOTTOM_CENTER'
+export const ANCHOR_BOTTOM_RIGHT  = 'ANCHOR_BOTTOM_RIGHT'
+export const ANCHOR_RIGHT_CENTER  = 'ANCHOR_RIGHT_CENTER'
+export const ANCHOR_RIGHT_CUSTOM  = 'ANCHOR_RIGHT_CUSTOM'
+export const ANCHOR_RIGHT_DEFAULT = 'ANCHOR_RIGHT_DEFAULT'
+
 function Point(x, y) {
   this.x = x;
   this.y = y;
@@ -31,50 +44,79 @@ function Rect(x, y, width, height) {
 }
 
 export default class PopularConfigure extends Component {
-
+    
     constructor(props) {
         super(props);
-        console.log('dafadfad');
         this.state = {
-          listData: [{'key':'Sort Key'}, 
-                     {'key':'Custom Key'}, 
-                     {'key':'Remove Key'}, 
-                     {'key':'Theme'},
-                     {'key':'About Author'},
-                     {'key':'FeedBack'}],
-          opacityValue:  new Animated.Value(0),
-          scareValue:    new Animated.Value(0),
-          transformView: new Animated.Value(0), 
-          translate:     new Animated.ValueXY(0), 
+          contentSize: {},
+          opacityValue:    new Animated.Value(0),
+          scare:           new Animated.Value(0),
+          translate:       new Animated.ValueXY(0),
+          frame:           new Rect(0,0,0,0),
+          isTransitioning: false
         };
    }
    show(){
       this.startAnimation()
    }
-   start(show){
+   anchorPointLocation(placement){
+    const { width, height } = this.state.contentSize;
+
+      switch (placement) {
+        case ANCHOR_TOP_LEFT:
+          return new Point(-width/2.0, -height/2.0)
+        case ANCHOR_TOP_CENTER:
+          return new Point(0, -height/2.0)
+        case ANCHOR_TOP_RIGHT:
+          return new Point(width/2.0, -height/2.0)
+        case ANCHOR_LEFT_CENTER:
+          return new Point(-width/2.0, 0)
+        case ANCHOR_BOTTOM_LEFT:
+          return new Point(-width/2.0, height/2.0)
+        case ANCHOR_BOTTOM_CENTER:
+          return new Point(0, height/2.0)
+        case ANCHOR_BOTTOM_RIGHT:
+          return new Point(width/2.0, height/2.0)
+        case ANCHOR_RIGHT_CENTER:
+          return new Point(width/2.0, 0)
+       case ANCHOR_RIGHT_CUSTOM:
+          return new Point(width/2.0, 0)
+        case ANCHOR_RIGHT_DEFAULT:
+            return new Point(0, 0)
+        default:
+          return new Point(0, 0)
+    }
+   }
+   start(show,doneCallback){
+
      var commonConfig = {
-        duration: 3000,
-        easing: show ? Easing.out(Easing.back()) : Easing.inOut(Easing.quad),
+        duration: 300,
+        easing:   show ? Easing.out(Easing.quad) : Easing.inOut(Easing.quad),
       }
-
-      var translateOrigin = new Point(113/2.0, -147/2.0)
-
-      if (show) {
-        this.state.translate.setValue(translateOrigin);
-      }
+      const {placement} = this.props
+      var translateOrigin = this.anchorPointLocation(placement)
+      if (show) { this.state.translate.setValue(translateOrigin) }
 
       Animated.parallel([
-        Animated.timing( this.state.opacityValue, { toValue: show ? 1 : 0, ...commonConfig} ),
-        Animated.timing( this.state.scareValue, { toValue: show ? 1 : 0, ...commonConfig } ),
-        Animated.timing( this.state.translate, {  toValue:  show ? new Point(0, 0) : translateOrigin, ...commonConfig }),
-        Animated.timing( this.state.transformView,{ toValue: show ? 1 : 0, ...commonConfig }),
-      ]).start() 
+        Animated.timing(
+         this.state.opacityValue, 
+         { toValue: show ? 1 : 0, ...commonConfig} 
+        ),
+        Animated.timing( 
+          this.state.scare, 
+          { toValue: show ? 1 : 0, ...commonConfig} 
+        ),
+        Animated.timing( 
+          this.state.translate, 
+          {  toValue:  show ? new Point(0, 0) : translateOrigin, ...commonConfig }
+        ),
+      ]).start(doneCallback) 
    }
    startAnimation() {
-      this.start(true)
+      this.setState({isTransitioning: true});
    }
    stopAnimation() {
-      this.start(false)
+      this.start(false,() =>{this.setState({isTransitioning: false})})
    }
   renderItem({item, index}) {
       return(
@@ -85,48 +127,45 @@ export default class PopularConfigure extends Component {
      )
   }
   measureContent(e){
-    var {width, height} = e.nativeEvent.layout;
-    console.log(`width == ${width} height ==${height}`);
+    const {width, height, x, y } = e.nativeEvent.layout;
+    var contentSize = {width, height};
+     this.setState(Object.assign({},
+      {contentSize}), () => {
+        this.start(true)
+    });
   }
   render() {
+    if (!this.state.isTransitioning) {
+        return null;
+    }
+    const {listData} = this.props
+
     return (
-      <Animated.View style = {[
-        styles.container, 
-        { opacity:   this.state.opacityValue },
-        { transform: 
-          [ 
-            {translateX: this.state.translate.x},
-            {translateY: this.state.translate.y},
-            // {translateX:         -200/2},
-            // {translateY:         -200/2},
-            // {rotateX:            this.state.transformView.interpolate({inputRange:[0,1], outputRange:['0deg','180deg']})},
-            // {translateY:         200/2},
-            // {translateX:         200/2},
-            {scale:           this.state.scareValue},// {scaleX: 1},// {scaleY: 1},
-            // {transformOrigin: {x : -30, }}
-            // 原始矩阵
-            // {matrix : [1,0,0,0,
-            //            0,1,0,0,
-            //            0,0,1,0,
-            //            0,0,0,1]},
-          ],
-          // matrix:
-        },
-        {
-          // transformMatrix:
-        },
-        this.props.style,
-        ]}
-        onLayout = {this.measureContent}
-        >
-          <FlatList
-              data                           = {this.state.listData}
-              renderItem                     = {this.renderItem.bind(this)}
-              scrollEnabled                  = {false}
-              showsHorizontalScrollIndicator = {false}
-              showsVerticalScrollIndicator   = {false}
-          />
-      </Animated.View>
+      <View style = {styles.container}>
+        <Animated.View style = {[
+            styles.animation,
+            { opacity:   this.state.opacityValue },
+            { transform: 
+              [ 
+                {translateX: this.state.translate.x},
+                {translateY: this.state.translate.y},
+                {scale:      this.state.scare},
+              ],
+            }
+          ]}
+          onLayout = {this.measureContent.bind(this)}
+          >
+            <View style = {styles.arrow} /> 
+            <FlatList
+                style                          = {styles.flatList}
+                data                           = {listData}
+                renderItem                     = {this.renderItem.bind(this)}
+                scrollEnabled                  = {false}
+                showsHorizontalScrollIndicator = {false}
+                showsVerticalScrollIndicator   = {false}
+            />
+        </Animated.View>
+      </View>
     );
   }
 }
@@ -135,10 +174,18 @@ const styles = StyleSheet.create({
   container: {
     position:        'absolute',
     right:           10,
-    top:             20,
+    top:             0,
     flex:            1,
     borderRadius:    5,
+    backgroundColor: 'transparent',
+  },
+  animation:{
+  
+  },
+  flatList:{
     backgroundColor: '#333333',
+    borderRadius:    5,
+    // marginTop:    20,
   },
   item_text:{
     marginBottom: 2.5, 
@@ -148,11 +195,27 @@ const styles = StyleSheet.create({
     color:        'white',
     textAlign:    'center'
   },
+  arrow: {
+    left:              80,
+    width:             DEFAULT_ARROW_SIZE.width,
+    height:            DEFAULT_ARROW_SIZE.height,
+    borderTopColor:    'transparent',
+    borderRightColor:  'transparent',
+    borderBottomColor: '#333333',
+    borderLeftColor:   'transparent',
+    borderTopWidth:    DEFAULT_ARROW_SIZE.width / 2,
+    borderRightWidth:  DEFAULT_ARROW_SIZE.width / 2,
+    borderBottomWidth: DEFAULT_ARROW_SIZE.height / 2,
+    borderLeftWidth:   DEFAULT_ARROW_SIZE.height / 2,
+  },
 });
 
 PopularConfigure.propTypes = {
-    opacity:         React.PropTypes.number
+    opacity:   React.PropTypes.number,
+    listData:  React.PropTypes.array,
+    placement: React.PropTypes.string,
 }
 PopularConfigure.defaultProps = {
-    opacity:         0,
+    opacity:   0,
+    placement: ANCHOR_RIGHT_DEFAULT,
 }
