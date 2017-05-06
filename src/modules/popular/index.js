@@ -41,46 +41,27 @@ export default class Popular extends Component {
       };
     }
 
-    static navigationOptions = {
+    static navigationOptions = ({navigation}) => {
 
-      header: (navigation, defaultHeader) => ({
-        title: "首页",
-        visible: true , // 覆盖预设中的此项
-        right: (
-          <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}} 
-                 onPress={() => navigation.state.params.rightAction()}
-                 >
-                <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
-          </TouchableOpacity>
+        return {
+          headerTitle: '首页',
+          headerVisible: true,
+          headerRight: (
+              <TouchableOpacity 
+                    style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}} 
+                     onPress={() => navigation.state.params.rightAction()}
+                     >
+                    <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
+              </TouchableOpacity>
           ),
-        tintColor: "gray",
-        titleStyle:{color: 'white'},
-        tintColor:{color: 'green'},
-        style: {backgroundColor: 'rgb(0,185,80)'},    //导航栏背景颜色
-     }),
-  };
+          headerTintColor : 'orange',//文字颜色
+          headerStyle: {backgroundColor: 'white'}
+        }
+    }
   rightAction(){
     // this.refs.toast.show()
     // this.showPopover()
-    AppDelegate.RNInvokeOCCallBack({'key':'login'}, (error,events) => {
-        if (!error) {
-            let url = `https://api.weibo.com/2/statuses/public_timeline.json?access_token=${events.accessToken}`
-            fetch(url,{
-              method: 'GET',
-            }).then((response) => {
-              if (response.ok) {
-                return response.json()
-              }
-            }).then((json)=>{
-                console.log(json);
-            }).catch((error) =>{
-                console.log(error);
-            })
-        }
-       
-
-    });
+    
   }
 
 

@@ -28,9 +28,9 @@
     
     NSURL *jsCodeLocation;
     
-    jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.122:8081/index.ios.bundle?platform=ios"];
+    jsCodeLocation = [NSURL URLWithString:@"http://192.168.23.94:8081/index.ios.bundle?platform=ios"];
     //
-    //    jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+    //    jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil]; t
     
     RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                         moduleName:@"WeiBo"

@@ -19,16 +19,23 @@ const onLoginButtonPress = () => {
 };
 export default class Trending extends Component {
 
-   static navigationOptions = {
-      header: (navigation, defaultHeader) => ({
-          ...defaultHeader,
-          title: "消息",
-          style: { backgroundColor: 'rgb(0,185,80)'}
-     }),
-    cardStack: {
-       gesturesEnabled: false  // 是否可以右滑返回
+   static navigationOptions = ({navigation}) => {
+
+        return {
+          headerTitle: '消息',
+          headerVisible: true,
+          headerRight: (
+              <TouchableOpacity 
+                    style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}} 
+                     onPress={() => navigation.state.params.rightAction()}
+                     >
+                    <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
+              </TouchableOpacity>
+          ),
+          headerTintColor: 'white',//文字颜色
+          headerStyle:     {backgroundColor: 'rgb(0,185,80)'}
+        }
     }
-  };
   viewWillAppear(){
     console.log('msg_viewWillAppear');
   }

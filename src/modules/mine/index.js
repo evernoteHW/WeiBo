@@ -28,23 +28,23 @@ export default class Mine extends Component {
   constructor(props) {
     super(props);
   }
-  static navigationOptions = {
-      title: '我',
-      header: (navigation, defaultHeader) => ({
-          ...defaultHeader,
-          visible: true , // 覆盖预设中的此项
-          style: { backgroundColor: 'rgb(0,185,80)'},
-          // backTitle: "返回",
-          right:(
-           <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                 onPress={() => navigation.state.params.onSettingButtonPress(navigation)}
-                 >
-                <Text style={{fontSize:16, color:"#333333"}}>设置</Text>
-           </TouchableOpacity>
-        ),
-     }),
-  };
+   static navigationOptions = ({navigation}) => {
+
+        return {
+          headerTitle: '我',
+          headerVisible: true,
+          headerRight: (
+              <TouchableOpacity 
+                    style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}} 
+                     onPress={() => navigation.state.params.rightAction()}
+                     >
+                    <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
+              </TouchableOpacity>
+          ),
+          headerTintColor : 'white',//文字颜色
+          headerStyle: {backgroundColor: 'rgb(0,185,80)'}
+        }
+    }
   componentWillMount() {
 
   }

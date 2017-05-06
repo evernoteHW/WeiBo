@@ -11,11 +11,13 @@ import {
   FlatList,
   Image,
   TextInput,
+  NativeModules,
 } from 'react-native';
 
 import { screenWidth, screenHeight } from '../../constants'
-
-
+var AppDelegate = NativeModules.AppDelegate;
+import StatusesModel from '../../model/StatusesModel'
+import WeiBoUserModel from '../../model/WeiBoUserModel'
 
 const BottomSetting = [
     {
@@ -43,18 +45,13 @@ export default class Favorite extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          listData: [{key: 'a'}, {key: 'b'},{key: 'c'},{key: 'd'},
-          {key: 'e'}, {key: 'f'},{key: 'g'},{key: 'h'},
-          {key: 'i'}, {key: 'j'},{key: 'k'},{key: 'm'},]
+          listData: []
         };
     }
-  
-   static navigationOptions = {
-      header: (navigation, defaultHeader) => ({
-          ...defaultHeader,
-          visible: true , // 覆盖预设中的此项
-          style: { backgroundColor: 'rgb(0,185,80)'},
-          title: (
+    static navigationOptions = ({navigation}) => {
+
+        return {
+          headerTitle: (
             <View style={{flexDirection:'row'}}>
               <TouchableOpacity 
               style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
@@ -67,26 +64,26 @@ export default class Favorite extends Component {
                   <Text style={{fontSize:16, color:"#333333"}}>明星</Text>
               </TouchableOpacity>
             </View>),
-          visible: {true},
-          left: (
+          headerLeft: (
               <TouchableOpacity 
-              style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-              onPress={onRegisterButtonPress}>
-                  <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>注册</Text>
-              </TouchableOpacity>
-            ),
-          right: (
-              <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',marginLeft: 7, height:30 ,width: 58}} 
-                onPress={onRegisterButtonPress}>
-                  <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
+                    style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}} 
+                     onPress={() => navigation.state.params.rightAction()}
+                     >
+                    <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
               </TouchableOpacity>
           ),
-     }),
-    cardStack: {
-       gesturesEnabled: false  // 是否可以右滑返回
+          headerRight: (
+              <TouchableOpacity 
+                    style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}} 
+                     onPress={() => navigation.state.params.rightAction()}
+                     >
+                    <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
+              </TouchableOpacity>
+          ),
+          headerTintColor : 'white',//文字颜色
+          headerStyle: {backgroundColor: 'rgb(0,185,80)'}
+        }
     }
-  };
     componentWillMount() {
      
     }
@@ -97,36 +94,45 @@ export default class Favorite extends Component {
         console.log("2222");
     };
 
-    viewWillAppear(){
-      console.log('home_viewWillAppear');
-    }
-    viewDidAppear(){
-      console.log('home_viewDidAppear');
-    }
-    viewWillDisAppear(){
-      console.log('discover_viewWillDisAppear');
-    }
-    viewDidDisAppear(){
-      console.log('home_viewDidDisAppear');
-    }
     componentDidMount() {
-      console.log('discover_componentDidMount');
-       this.props.navigation.setParams({
-          viewWillAppear:       this.viewWillAppear,
-          viewDidAppear:        this.viewDidAppear,
-          viewWillDisAppear:    this.viewWillDisAppear,
-          viewDidDisAppear:     this.viewDidDisAppear,
+       AppDelegate.RNInvokeOCCallBack({'key':'login'}, (error,events) => {
+          if (!error) {
+              let url = `https://api.weibo.com/2/statuses/public_timeline.json?access_token=${events.accessToken}`
+              fetch(url,{
+                method: 'GET',
+              }).then((response) => {
+                if (response.ok) {
+                  return response.json()
+                }
+              }).then((json)=>{
+                this.convertJsonToModel(json)
+              }).catch((error) =>{
+                  console.log(error);
+              })
+          }
+
       });
     }
+    convertJsonToModel(json){
+      var jsonModels = []
+      for (let i = 0; i < json.statuses.length; i++) {
+        let item = json.statuses[i]
+        let model = new StatusesModel(item)
+        jsonModels.push(model)
+      }
+      this.setState({
+        listData:  jsonModels
+      })
+    }
 
-  renderItem({item, index}) {
+    renderItem({item, index}) {
     const seperaWidth = 2;
     return(
-        <View style={{flex: 1, width: '100%'}}>
-            {this._renderHeaderViewItemView()}
-            {this._rendContentView()}
-            {this._renderImaegsView()}
-          <View style={styles.bottom}>
+        <View style = {{flex: 1, width: '100%'}}>
+            {this._renderHeaderViewItemView(item)}
+            {this._rendContentView(item)}
+            {this._renderImaegsView(item)}
+          <View style = {styles.bottom}>
               {this._renderBottomItemView(require('../../resources/image/discover/statusdetail_icon_retweet.png'),'9988')}
               {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_comment.png'),'9988')}
               {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_unlike.png'),'2万')}
@@ -136,53 +142,53 @@ export default class Favorite extends Component {
      )
   }
 
-  _renderImaegsView(){
-    return (
-       <View style = {{backgroundColor: 'white'}}>
+  _renderImaegsView(item){
+    const { gif_ids_array_url } = item
+    if (gif_ids_array_url && gif_ids_array_url.length > 0) {
+        return (
+         <View style = {{backgroundColor: 'white'}}>
              <FlatList
                   style      = {styles.itemImageContetent}
-                  data       = {[{key: 'a'}, {key: 'b'},{key: 'b'},{key: 'd'}]}
-                  renderItem = {({item}) => 
+                  data       = {gif_ids_array_url}
+                  renderItem = {({sub_item,sub_index}) => 
                     <Image
                      style  = {{width: (screenWidth - 10 - 2)/3.0,height: (screenWidth - 10 - 2)/3.0,backgroundColor: 'orange',marginRight: 1,marginTop: 1}}
-                     source = {require('../../resources/image/mine/page_cover_tv_background.jpg')}
+                     source = {{url: sub_item}}
                      >
-                    </Image>}
+                     <Text>{sub_item} ......{sub_index}</Text>
+                    </Image>
+                  }
                   numColumns = {3}
               />
-          </View>
-    )
+
+         </View>
+      )
+    }else{
+      return null
+    }
+    
   }
-  _rendContentView(){
+  _rendContentView(item){
     return (
       <View style={{backgroundColor:'white'}}>
-               <Text style={{marginLeft: 10, marginRight: 10, marginBottom: 10,}}>
-                Better ListView - FlatList
-               Summary: We really need a better lis
-                <Text style={{color:'blue'}}> #话题.</Text>
-               t view -...This means that instance stat
-               e is not preserved when items scroll out of ...
-                  <Text style={{color:'blue'}}> #话题.</Text>
-                  Template:FlatlistFrom Wikipedia, the free encyclopediaJump to:
-                   navigation, ... any changes to this template should 
-                   first be tested in its /sandbox or ...
-               </Text>
+         <Text style={{marginLeft: 10, marginRight: 10, marginBottom: 10,}}>
+          {item.text}
+         </Text>
        </View>
     )
   }
-  _renderHeaderViewItemView(){
+  _renderHeaderViewItemView(item){
     return (
          <View style={{backgroundColor:'white',flexDirection: 'row'}}>
-            <Image source = {require('../../resources/image/mine/page_cover_tv_background.jpg')} style={styles.headerIcon} />
+            <Image source = {{url: item.user.profile_image_url}} style={styles.headerIcon} />
             <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
-                <Text style={styles.headerTitle}>新浪娱乐</Text>
-                <Text style={styles.headerSubTitle}>6小时前 来自微博</Text>
+                <Text style={styles.headerTitle}>{item.user.screen_name}</Text>
+                <Text style={styles.headerSubTitle}>6小时前 来自{item.source}</Text>
             </View>
             <View style={{justifyContent:'center', alignItems: 'center'}}>
               <TouchableOpacity style={styles.headerAttention}>
                 <Text style={{fontSize:16, color:"orange"}}>+关注</Text>
               </TouchableOpacity>
-
             </View>
           </View>
     )
