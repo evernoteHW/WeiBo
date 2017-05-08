@@ -30,6 +30,9 @@ export default class Popular extends Component {
     constructor(props) {
       super(props);
       this.state = {
+        scale:            new Animated.Value(1),
+        image_left:       0,
+        image_top:        0,
         showImageBrowser: false,
         currentAppState:  AppState.currentState,
         isVisible:        false,
@@ -86,7 +89,12 @@ export default class Popular extends Component {
       console.log(`left   = ${left}`);
       console.log(`top    = ${top}`);
 
-      this.setState({ showImageBrowser: true})
+      this.setState({ showImageBrowser: true,image_left: left,image_top: top })
+      Animated.timing(
+        this.state.scale,{
+          toValue: screenWidth/width,
+        }
+      ).start()
     })
   }
   componentDidMount() {
@@ -117,18 +125,23 @@ export default class Popular extends Component {
               placement = 'top'>
               <Text>I'm the content of this popover!</Text>
            </Popover>
-          <Modal style={{}} transparent={true} style={"slide"} visible={this.state.showImageBrowser}>
-              <FlatList
-                  style         = {{ width: '100%'}}
-                  data          = {[{key:'a'},{key:'b'},{key:'c'},{key:'d'}]}
-                  renderItem    = {({item}) => 
-                          <View style={{justifyContent: 'center',alignItems: 'center',width: screenWidth}}>
-                           <Image resizeMode='center' ref='image_click' source={{url:"https://facebook.github.io/react/img/logo_og.png"}} style={{width: '100%', height: '100%'}} />
-                          </View>
-                  }
-                  pagingEnabled = {true}
-                  horizontal    = {true}
+          <Modal style={{}} transparent={false} style={"slide"} visible={this.state.showImageBrowser}>
+              <Animated.Image 
+                ref    = 'image_click'
+                source = {{url:"https://facebook.github.io/react/img/logo_og.png"}} 
+                style  = {[{
+                  width: 100, height: 100},
+                  {left:this.state.image_left},
+                  {top:this.state.image_top},
+                  {transform:[
+                      {
+                        scale: this.state.scale
+                      }
+                    ]
+                  },
+                ]}
               />
+
           </Modal>
         </View>
     );
