@@ -13,8 +13,9 @@ import {
   Alert,
   AppState,
   NativeModules,
+  Modal,
 } from 'react-native';
-
+import { screenWidth, screenHeight } from '../../constants'
 import styles from './styles.js';
 import { StackNavigator } from 'react-navigation';
 import PopularConfigure from '../../common/popularConfigure'
@@ -29,15 +30,16 @@ export default class Popular extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        currentAppState: AppState.currentState,
-        isVisible: false,
-        buttonRect: {},
-        listData: [{'key':'Sort Key'}, 
-                   {'key':'Custom Key'}, 
-                   {'key':'Remove Key'}, 
-                   {'key':'Theme'},
-                   {'key':'About Author'},
-                   {'key':'FeedBack'}],
+        showImageBrowser: false,
+        currentAppState:  AppState.currentState,
+        isVisible:        false,
+        buttonRect:       {},
+        listData:         [{'key':'Sort Key'}, 
+                           {'key':'Custom Key'}, 
+                           {'key':'Remove Key'}, 
+                           {'key':'Theme'},
+                           {'key':'About Author'},
+                           {'key':'FeedBack'}],
       };
     }
 
@@ -75,20 +77,34 @@ export default class Popular extends Component {
   closePopover() {
     this.setState({isVisible: false});
   }
+  imageBrowser(){
+    this.refs.image_click.measure((x,y,width,height,left,top) =>{
+      console.log(`x      = ${x}`);
+      console.log(`y      = ${y}`);
+      console.log(`width  = ${width}`);
+      console.log(`height = ${height}`);
+      console.log(`left   = ${left}`);
+      console.log(`top    = ${top}`);
 
+      this.setState({ showImageBrowser: true})
+    })
+  }
   componentDidMount() {
      this.props.navigation.setParams({ rightAction: this.rightAction.bind(this)});
   }
   render() {
-   
+    const {navigate} = this.props.navigation
     return (
         <View style = {styles.container}>
           <View style = {{alignItems: 'center'}}>
+            <TouchableOpacity onPress={this.imageBrowser.bind(this)}>
+              <Image ref='image_click' source={{url:"https://facebook.github.io/react/img/logo_og.png"}} style={{width: 100, height: 100}} />
+            </TouchableOpacity>
             <Image source = {require('../../resources/image/home/visitordiscover_feed_image_house.png')}/>
             <Text style = {{fontSize:14, color:'#999999',marginTop: 40}}>关注一些人，回这里看看有什么惊喜</Text>
             <TouchableOpacity 
                 style={{justifyContent:'center', alignItems: 'center',backgroundColor:'white',marginTop: 40, height: 40, width: 100, borderWidth: 1, borderColor:'rgb(213,213,213)', borderRadius: 2}} 
-                 onPress = {() => navigation.state.params.onSettingButtonPress(navigation)}
+                 onPress = {() => navigate('ImageBrowser', {user: '123'})}
                  >
                 <Text style = {{fontSize:15, color:'rgb(253,169,70)'}}>去关注</Text>
             </TouchableOpacity>
@@ -101,6 +117,19 @@ export default class Popular extends Component {
               placement = 'top'>
               <Text>I'm the content of this popover!</Text>
            </Popover>
+          <Modal style={{}} transparent={true} style={"slide"} visible={this.state.showImageBrowser}>
+              <FlatList
+                  style         = {{ width: '100%'}}
+                  data          = {[{key:'a'},{key:'b'},{key:'c'},{key:'d'}]}
+                  renderItem    = {({item}) => 
+                          <View style={{justifyContent: 'center',alignItems: 'center',width: screenWidth}}>
+                           <Image resizeMode='center' ref='image_click' source={{url:"https://facebook.github.io/react/img/logo_og.png"}} style={{width: '100%', height: '100%'}} />
+                          </View>
+                  }
+                  pagingEnabled = {true}
+                  horizontal    = {true}
+              />
+          </Modal>
         </View>
     );
   }

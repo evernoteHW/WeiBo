@@ -18,6 +18,7 @@ import Mine from '../modules/mine'
 import Setting from '../modules/setting'
 import Register from '../modules/register'
 import PopularConfigure from '../common/popularConfigure'
+import ImageBrowser from '../modules/imageBrowser'
 
 const RouteConfigs_ = [
   {
@@ -137,24 +138,20 @@ const App = StackNavigator({
     //   console.log('换场动画结束');
     // }
 });
-// const ModalApp = StackNavigator({
-//     App:              { screen: App },
-//     PopularConfigure: { screen: PopularConfigure },
-// },{
-//     headerMode:    'none' ,
-//     mode:          'modal',
-// });
-
-
-
-
+const ModalApp = StackNavigator({
+    App:          { screen: App },
+    ImageBrowser: { screen: ImageBrowser },
+},{
+    headerMode:    'none' ,
+    mode:          'modal',
+});
 
 
 export default class WeiBo extends Component {
 
   render() {
     return (
-      <App screenProps={{ta:''}}/>
+      <ModalApp screenProps={{ta:''}}/>
     );
   }
 }
