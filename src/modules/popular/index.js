@@ -21,6 +21,7 @@ import { StackNavigator } from 'react-navigation';
 import PopularConfigure from '../../common/popularConfigure'
 import Popover from '../../common/Popover'
 import DataRepository from '../../common/network'
+import HTMLView from '../../dependencies/react_native_htmlview';
 
 var AppDelegate = NativeModules.AppDelegate;
 var dataRepository = new DataRepository()
@@ -66,7 +67,25 @@ export default class Popular extends Component {
   rightAction(){
     // this.refs.toast.show()
     // this.showPopover()
-    
+    // 登陆成功后 
+    AppDelegate.RNInvokeOCCallBack({'key':'login'}, (error,events) => {
+        if (!error) {
+            let url = `https://api.weibo.com/2/statuses/public_timeline.json?access_token=${events.accessToken}`
+            fetch(url,{
+              method: 'GET',
+            }).then((response) => {
+              if (response.ok) {
+                return response.json()
+              }
+            }).then((json)=>{
+                console.log(json);
+            }).catch((error) =>{
+                console.log(error);
+            })
+        }
+       
+
+    });
   }
 
 
@@ -101,6 +120,7 @@ export default class Popular extends Component {
      this.props.navigation.setParams({ rightAction: this.rightAction.bind(this)});
   }
   render() {
+<<<<<<< Updated upstream
     const {navigate} = this.props.navigation
     return (
         <View style = {styles.container}>
@@ -108,6 +128,16 @@ export default class Popular extends Component {
             <TouchableOpacity onPress={this.imageBrowser.bind(this)}>
               <Image ref='image_click' source={{url:"https://facebook.github.io/react/img/logo_og.png"}} style={{width: 100, height: 100}} />
             </TouchableOpacity>
+=======
+    const htmlContent = `<p><a href="http://jsdf.co">&hearts; nice job!</a></p>`
+    return (
+        <View style = {styles.container}>
+          <View style = {{alignItems: 'center'}}>
+           <HTMLView 
+             value       = {htmlContent} 
+             stylesheet  = {styles} 
+             onLinkPress = {(url) => console.log('clicked link: ', url)}/>
+>>>>>>> Stashed changes
             <Image source = {require('../../resources/image/home/visitordiscover_feed_image_house.png')}/>
             <Text style = {{fontSize:14, color:'#999999',marginTop: 40}}>关注一些人，回这里看看有什么惊喜</Text>
             <TouchableOpacity 

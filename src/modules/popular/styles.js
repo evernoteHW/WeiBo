@@ -86,4 +86,8 @@ module.exports = {
   headersubText:{
     color:'#666666', fontSize:14, alignSelf:'center'
   },
+  a: {
+    fontWeight: '300',
+    color: '#FF3366', // make links coloured pink
+  },
 };

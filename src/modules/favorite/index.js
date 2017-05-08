@@ -18,19 +18,9 @@ import { screenWidth, screenHeight } from '../../constants'
 var AppDelegate = NativeModules.AppDelegate;
 import StatusesModel from '../../model/StatusesModel'
 import WeiBoUserModel from '../../model/WeiBoUserModel'
+import TimerUIUtiles from '../../UIUtils/TimerUIUtils'
 
-const BottomSetting = [
-    {
-      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
-      title: '888',
-    },{
-      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
-      title: '888',
-    },{
-      icon:  require('../../resources/image/discover/statusdetail_icon_retweet.png'),
-      title: '888',
-    },
-];
+var timerUIUtiles = new TimerUIUtiles()
 
 const onRegisterButtonPress = () => {
   Alert.alert('Button has been pressed!');
@@ -45,7 +35,8 @@ export default class Favorite extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          listData: []
+          listData: [],
+          refreshing: false
         };
     }
     static navigationOptions = ({navigation}) => {
@@ -80,8 +71,7 @@ export default class Favorite extends Component {
                     <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
               </TouchableOpacity>
           ),
-          headerTintColor : 'white',//文字颜色
-          headerStyle: {backgroundColor: 'rgb(0,185,80)'}
+          headerStyle: {backgroundColor: 'white'}
         }
     }
     componentWillMount() {
@@ -95,9 +85,13 @@ export default class Favorite extends Component {
     };
 
     componentDidMount() {
-       AppDelegate.RNInvokeOCCallBack({'key':'login'}, (error,events) => {
+      this._requstData()
+    }
+    _requstData(){
+        this.setState({refreshing: true})
+        AppDelegate.RNInvokeOCCallBack({'key':'login'}, (error,events) => {
           if (!error) {
-              let url = `https://api.weibo.com/2/statuses/public_timeline.json?access_token=${events.accessToken}`
+              let url = `https://api.weibo.com/2/statuses/public_timeline.json?count=50&page=1&access_token=${events.accessToken}`
               fetch(url,{
                 method: 'GET',
               }).then((response) => {
@@ -121,7 +115,8 @@ export default class Favorite extends Component {
         jsonModels.push(model)
       }
       this.setState({
-        listData:  jsonModels
+        listData:   jsonModels,
+        refreshing: false,
       })
     }
 
@@ -133,9 +128,9 @@ export default class Favorite extends Component {
             {this._rendContentView(item)}
             {this._renderImaegsView(item)}
           <View style = {styles.bottom}>
-              {this._renderBottomItemView(require('../../resources/image/discover/statusdetail_icon_retweet.png'),'9988')}
-              {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_comment.png'),'9988')}
-              {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_unlike.png'),'2万')}
+              {this._renderBottomItemView(require('../../resources/image/discover/statusdetail_icon_retweet.png'),item.reposts_count)}
+              {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_comment.png'),item.comments_count)}
+              {this._renderBottomItemView(require('../../resources/image/discover/timeline_icon_unlike.png'),item.attitudes_count)}
           </View>
 
         </View>
@@ -146,21 +141,19 @@ export default class Favorite extends Component {
     const { gif_ids_array_url } = item
     if (gif_ids_array_url && gif_ids_array_url.length > 0) {
         return (
-         <View style = {{backgroundColor: 'white'}}>
-             <FlatList
-                  style      = {styles.itemImageContetent}
-                  data       = {gif_ids_array_url}
-                  renderItem = {({sub_item,sub_index}) => 
-                    <Image
-                     style  = {{width: (screenWidth - 10 - 2)/3.0,height: (screenWidth - 10 - 2)/3.0,backgroundColor: 'orange',marginRight: 1,marginTop: 1}}
-                     source = {{url: sub_item}}
-                     >
-                     <Text>{sub_item} ......{sub_index}</Text>
-                    </Image>
-                  }
-                  numColumns = {3}
-              />
-
+         <View style = {{backgroundColor: 'white',flexDirection: 'row'}}>
+            {
+                gif_ids_array_url.map((sub_item) =>{
+                  return ( 
+                      <Image
+                       key    = {sub_item.key}
+                       style  = {{width: (screenWidth - 10 - 2)/3.0,height: (screenWidth - 10 - 2)/3.0,backgroundColor: 'orange',marginRight: 1,marginTop: 1}}
+                       source = {{url: sub_item.key}}
+                      >
+                      </Image>
+                    )
+                })
+             }
          </View>
       )
     }else{
@@ -177,17 +170,33 @@ export default class Favorite extends Component {
        </View>
     )
   }
+  _rendHtlmText(item){
+    //字符串截取
+    var content = item.source
+    let start = content.indexOf('>')
+    let end = content.indexOf('</a>')
+    if (start>0 && end>0){
+      content = content.substring(start + 1,end)
+    }
+    let time = timerUIUtiles.formatDateTime1(item.created_at)
+    return (
+      <Text style = {styles.headerSubTitle}>
+        <Text>{time}来自</Text>
+        {<Text style = {{color: 'blue'}}>{content}</Text>}
+      </Text>
+    )
+  }
   _renderHeaderViewItemView(item){
     return (
-         <View style={{backgroundColor:'white',flexDirection: 'row'}}>
-            <Image source = {{url: item.user.profile_image_url}} style={styles.headerIcon} />
-            <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
-                <Text style={styles.headerTitle}>{item.user.screen_name}</Text>
-                <Text style={styles.headerSubTitle}>6小时前 来自{item.source}</Text>
+         <View style = {{backgroundColor:'white',flexDirection: 'row'}}>
+            <Image source = {{url: item.user.avatar_hd}} style={styles.headerIcon} />
+            <View style   = {{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
+                <Text style = {styles.headerTitle}>{item.user.screen_name}</Text>
+                {this._rendHtlmText(item)}
             </View>
-            <View style={{justifyContent:'center', alignItems: 'center'}}>
+            <View style = {{justifyContent:'center', alignItems: 'center'}}>
               <TouchableOpacity style={styles.headerAttention}>
-                <Text style={{fontSize:16, color:"orange"}}>+关注</Text>
+                <Text style = {{fontSize:16, color:"orange"}}>+关注</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -203,7 +212,7 @@ export default class Favorite extends Component {
   }
   _listFooterComponent() {
       return (
-        <View style={{flex:1,height:70,justifyContent:'center',alignItems:'center'}}>
+        <View style = {{flex:1,height:70,justifyContent:'center',alignItems:'center'}}>
           <Text>上啦加载更多</Text>
         </View>
         )
@@ -221,20 +230,30 @@ export default class Favorite extends Component {
   }
   _itemSeparatorComponent(){
     return (
-        <View style={{flex:1,height:10}}>
+        <View style = {{flex:1,height:10}}>
         </View>
       )
   }
-
+  _onRefresh(){
+    
+    console.log('正在刷鞋');
+  }
+  _onEndReached(){
+    console.log('加载更多。。。。');
+  }
   render() {
     return (
       <View style={styles.container}>
           <FlatList
-              style                  = {{backgroundColor: 'rgb(242,242,242)', width: '100%'}}
-              data                   = {this.state.listData}
-              renderItem             = {this.renderItem.bind(this)}
-              ItemSeparatorComponent = {this._itemSeparatorComponent}
-              ListHeaderComponent    = {this._listHeaderComponent}
+              style                            = {{backgroundColor: 'rgb(242,242,242)', width: '100%'}}
+              data                             = {this.state.listData}
+              renderItem                       = {this.renderItem.bind(this)}
+              ItemSeparatorComponent           = {this._itemSeparatorComponent}
+              ListHeaderComponent              = {this._listHeaderComponent}
+              onRefresh                        = {this._onRefresh.bind(this)}
+              refreshing                       = {this.state.refreshing}
+              automaticallyAdjustContentInsets = {false}
+
           />
 
       </View>

@@ -22,4 +22,6 @@ export default function WeiBoUserModel(item){
 	this.follow_me          = item.follow_me;
 	this.online_status      = item.online_status;
 	this.bi_followers_count = item.bi_followers_count;
+	this.avatar_large       = item.avatar_large
+	this.avatar_hd          = item.avatar_hd
 }

@@ -32,14 +32,16 @@ export default function ProjectModel(item){
 	this.key                     = item.id
 	this.gif_ids                 = item.gif_ids
 	this.thumbnail_pic           = item.thumbnail_pic	//可有可无
+	this.bmiddle_pic             = item.bmiddle_pic	//可有可无
+	this.original_pic            = item.original_pic	//可有可无
 	//获取图片
 
-	if (this.gif_ids && this.gif_ids !== '' && this.thumbnail_pic && this.thumbnail_pic !== '') {
+	if (this.gif_ids && this.gif_ids !== '' && this.bmiddle_pic && this.bmiddle_pic !== '') {
 		var gif_ids_array 		 = this.gif_ids.split('|')
 		var gif_ids_array_url	 = []
 		//去掉 后缀名 重新拼接字符串
-		let path_extension_not = this.thumbnail_pic.lastIndexOf('/') + 1
-		let base_url = this.thumbnail_pic.substr(0,path_extension_not)
+		let path_extension_not = this.bmiddle_pic.lastIndexOf('/') + 1
+		let base_url = this.bmiddle_pic.substr(0,path_extension_not)
 		for (var i = 0; i < gif_ids_array.length; i++) {
 			gif_ids_array_url.push({key: `${base_url}${gif_ids_array[i]}.jpg`})
 		}
