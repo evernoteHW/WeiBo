@@ -20,22 +20,6 @@ import Register from '../modules/register'
 import PopularConfigure from '../common/popularConfigure'
 import ImageBrowser from '../modules/imageBrowser'
 
-const RouteConfigs_ = [
-  {
-    Popular: {
-      screen:            Popular,
-      navigationOptions: {
-        tabBarLabel: 'Popular',
-        tabBarIcon:      ({focused,tintColor}) => (
-            <Image 
-            source = {focused ? require('../resources/image/tab/ic_polular.png'): require('../resources/image/tab/ic_polular.png')}
-            style  = {{height:26 ,width: 26, tintColor:tintColor}}
-            />),
-
-      },
-    },
-  }
-]
 const RouteConfigs = 
 {
     Popular: {
@@ -53,7 +37,7 @@ const RouteConfigs =
     Trending: {
       screen:            Trending,
       navigationOptions: {
-        tabBarLabel:        'Trending',
+        // tabBarLabel:        'Trending',
         tabBarIcon:              ({focused,tintColor}) => (
            <Image 
           source = {focused ? require('../resources/image/tab/ic_trending.png'): require('../resources/image/tab/ic_trending.png')}
@@ -138,20 +122,20 @@ const App = StackNavigator({
     //   console.log('换场动画结束');
     // }
 });
-const ModalApp = StackNavigator({
-    App:          { screen: App },
-    ImageBrowser: { screen: ImageBrowser },
-},{
-    headerMode:    'none' ,
-    mode:          'modal',
-});
+// const ModalApp = StackNavigator({
+//     App:          { screen: App },
+//     ImageBrowser: { screen: ImageBrowser },
+// },{
+//     headerMode:    'none' ,
+//     mode:          'modal',
+// });
 
 
 export default class WeiBo extends Component {
 
   render() {
     return (
-      <ModalApp screenProps={{ta:''}}/>
+      <App screenProps={{ta:''}}/>
     );
   }
 }

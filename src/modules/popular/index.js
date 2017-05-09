@@ -14,6 +14,7 @@ import {
   AppState,
   NativeModules,
   Modal,
+  Easing,
 } from 'react-native';
 import { screenWidth, screenHeight } from '../../constants'
 import styles from './styles.js';
@@ -21,7 +22,7 @@ import { StackNavigator } from 'react-navigation';
 import PopularConfigure from '../../common/popularConfigure'
 import Popover from '../../common/Popover'
 import DataRepository from '../../common/network'
-import HTMLView from '../../dependencies/react_native_htmlview';
+// import HTMLView from '../../dependencies/react_native_htmlview';
 
 var AppDelegate = NativeModules.AppDelegate;
 var dataRepository = new DataRepository()
@@ -31,9 +32,10 @@ export default class Popular extends Component {
     constructor(props) {
       super(props);
       this.state = {
+        rotate:           new Animated.Value(0),
         scale:            new Animated.Value(1),
-        image_left:       0,
-        image_top:        0,
+        image_left:       new Animated.Value(0),
+        image_top:        new Animated.Value(0),
         showImageBrowser: false,
         currentAppState:  AppState.currentState,
         isVisible:        false,
@@ -50,9 +52,9 @@ export default class Popular extends Component {
     static navigationOptions = ({navigation}) => {
 
         return {
-          headerTitle: '首页',
+          headerTitle:   '首页',
           headerVisible: true,
-          headerRight: (
+          headerRight:   (
               <TouchableOpacity 
                     style={{justifyContent:'center', alignItems: 'center',marginRight: 7, height:30 ,width: 58}} 
                      onPress={() => navigation.state.params.rightAction()}
@@ -60,8 +62,8 @@ export default class Popular extends Component {
                     <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
               </TouchableOpacity>
           ),
-          headerTintColor : 'orange',//文字颜色
-          headerStyle: {backgroundColor: 'white'}
+          headerTintColor: 'orange',//文字颜色
+          headerStyle:     {backgroundColor: 'white'},
         }
     }
   rightAction(){
@@ -70,7 +72,7 @@ export default class Popular extends Component {
     // 登陆成功后 
     AppDelegate.RNInvokeOCCallBack({'key':'login'}, (error,events) => {
         if (!error) {
-            let url = `https://api.weibo.com/2/statuses/public_timeline.json?access_token=${events.accessToken}`
+            let url = `https://api.weibo.com/2/statuses/home_timeline.json?access_token=${events.accessToken}`
             fetch(url,{
               method: 'GET',
             }).then((response) => {
@@ -108,11 +110,18 @@ export default class Popular extends Component {
       console.log(`left   = ${left}`);
       console.log(`top    = ${top}`);
 
-      this.setState({ showImageBrowser: true,image_left: left,image_top: top })
-      Animated.timing(
-        this.state.scale,{
-          toValue: screenWidth/width,
-        }
+      this.setState({ showImageBrowser: true })
+      this.state.image_left.setValue(left)
+      this.state.image_top.setValue(top)
+      const configure = {
+        duration: 1000,
+        easing:   Easing.linear,
+      }
+      Animated.parallel([
+          Animated.timing( this.state.scale,{ toValue: screenWidth/width , ...configure }),
+          Animated.timing( this.state.image_left,{ toValue: (screenWidth - width)/2.0, ...configure }),
+          Animated.timing( this.state.image_top,{ toValue: (screenHeight - height)/2.0, ...configure }),
+        ]
       ).start()
     })
   }
@@ -120,7 +129,10 @@ export default class Popular extends Component {
      this.props.navigation.setParams({ rightAction: this.rightAction.bind(this)});
   }
   render() {
-<<<<<<< Updated upstream
+    const rotate_ = this.state.rotate.interpolate({
+      inputRange: [0,1],
+      outputRange: ['0deg','360deg']
+    })
     const {navigate} = this.props.navigation
     return (
         <View style = {styles.container}>
@@ -128,16 +140,7 @@ export default class Popular extends Component {
             <TouchableOpacity onPress={this.imageBrowser.bind(this)}>
               <Image ref='image_click' source={{url:"https://facebook.github.io/react/img/logo_og.png"}} style={{width: 100, height: 100}} />
             </TouchableOpacity>
-=======
-    const htmlContent = `<p><a href="http://jsdf.co">&hearts; nice job!</a></p>`
-    return (
-        <View style = {styles.container}>
-          <View style = {{alignItems: 'center'}}>
-           <HTMLView 
-             value       = {htmlContent} 
-             stylesheet  = {styles} 
-             onLinkPress = {(url) => console.log('clicked link: ', url)}/>
->>>>>>> Stashed changes
+
             <Image source = {require('../../resources/image/home/visitordiscover_feed_image_house.png')}/>
             <Text style = {{fontSize:14, color:'#999999',marginTop: 40}}>关注一些人，回这里看看有什么惊喜</Text>
             <TouchableOpacity 
@@ -155,7 +158,7 @@ export default class Popular extends Component {
               placement = 'top'>
               <Text>I'm the content of this popover!</Text>
            </Popover>
-          <Modal style={{}} transparent={false} style={"slide"} visible={this.state.showImageBrowser}>
+          <Modal style={{}} transparent={true} style={"slide"} visible={this.state.showImageBrowser}>
               <Animated.Image 
                 ref    = 'image_click'
                 source = {{url:"https://facebook.github.io/react/img/logo_og.png"}} 
@@ -166,6 +169,9 @@ export default class Popular extends Component {
                   {transform:[
                       {
                         scale: this.state.scale
+                      },
+                      {
+                        rotate: rotate_
                       }
                     ]
                   },
