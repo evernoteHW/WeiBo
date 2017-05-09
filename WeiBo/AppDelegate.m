@@ -9,14 +9,13 @@
 #import "AppDelegate.h"
 #import <RCTRootView.h>
 #import <RCTBundleURLProvider.h>
-#import "RCTBridgeModule.h"
 #import "WeiboSDK.h"
 
 //com.sina.weibo.SNWeiboSDKDemo
 #define kAppKey         @"2966635116"
 #define kRedirectURI    @"http://www.baidu.com"
 
-@interface AppDelegate () <WeiboSDKDelegate,RCTBridgeModule>
+@interface AppDelegate () <WeiboSDKDelegate>
 @property (nonatomic, copy) RCTResponseSenderBlock callback;
 @end
 
@@ -49,34 +48,6 @@
     return YES;
 }
 
-RCT_EXPORT_MODULE()
-
-RCT_EXPORT_METHOD(RNInvokeOCCallBack:(NSDictionary *)dictionary callback:(RCTResponseSenderBlock)callback){
-    NSLog(@"接收到RN传过来的数据为:%@",dictionary);
-    NSString *weibo_accessToken =  [[NSUserDefaults standardUserDefaults] objectForKey:@"weibo_accessToken"];
-    if(weibo_accessToken && ![weibo_accessToken isEqualToString:@""]){
-        callback(@[[NSNull null],@{@"accessToken":weibo_accessToken}]);
-    }else{
-        if ([dictionary[@"key"] isEqualToString:@"login"] ){
-            [self ssoButtonPressed];
-        }
-    }
-    
-    
-    
-//    if (callback){
-//        self.callback = callback;
-//    }
-}
-
-- (void)ssoButtonPressed
-{
-    WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-    request.redirectURI = @"https://api.weibo.com/oauth2/default.html";
-    request.scope = @"all";
-    [WeiboSDK sendRequest:request];
-}
-
 - (void)_weiboConfigure{
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kAppKey];
@@ -105,14 +76,17 @@ RCT_EXPORT_METHOD(RNInvokeOCCallBack:(NSDictionary *)dictionary callback:(RCTRes
 }
 
 - (void)didReceiveWeiboResponse:(WBBaseResponse *)response{
-    NSLog(@"error..");
     
     if ([response isKindOfClass:WBAuthorizeResponse.class]){
-//        if (self.callback) {
-//            NSArray *events = [[NSArray alloc] initWithObjects:@"accessToken",((WBAuthorizeResponse *)response).accessToken, nil];
-        [[NSUserDefaults standardUserDefaults] setObject:((WBAuthorizeResponse *)response).accessToken forKey:@"weibo_accessToken"];
-//            self.callback(@[[NSNull null], events]);
-//        }
+        NSString *accessToken = ((WBAuthorizeResponse *)response).accessToken;
+        NSNumber *expirationDate = @(((WBAuthorizeResponse *)response).expirationDate.timeIntervalSince1970);
+        NSString *refreshToken = ((WBAuthorizeResponse *)response).refreshToken;
+        if (accessToken && expirationDate && refreshToken) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"WEIBOLOGINSUCCESS"
+                                                                object:@{@"accessToken":accessToken,
+                                                                         @"expirationDate":expirationDate,                           
+                                                                         @"refreshToken":refreshToken}];
+        }
     }
 }
 

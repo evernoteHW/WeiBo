@@ -22,9 +22,14 @@ import { StackNavigator } from 'react-navigation';
 import PopularConfigure from '../../common/popularConfigure'
 import Popover from '../../common/Popover'
 import DataRepository from '../../common/network'
-// import HTMLView from '../../dependencies/react_native_htmlview';
+import WeiBoContentCell from '../WeiBoContentCell'
+import StatusesModel from '../../model/StatusesModel'
+import WeiBoUserModel from '../../model/WeiBoUserModel'
+import Storage from '../../common/Storage'
 
-var AppDelegate = NativeModules.AppDelegate;
+var storage        = new Storage()
+
+var RNNativeBridgeModule = NativeModules.RNNativeBridgeModule;
 var dataRepository = new DataRepository()
 
 export default class Popular extends Component {
@@ -32,6 +37,8 @@ export default class Popular extends Component {
     constructor(props) {
       super(props);
       this.state = {
+        refreshing:       false,
+        no_attention:     false,
         rotate:           new Animated.Value(0),
         scale:            new Animated.Value(1),
         image_left:       new Animated.Value(0),
@@ -40,18 +47,12 @@ export default class Popular extends Component {
         currentAppState:  AppState.currentState,
         isVisible:        false,
         buttonRect:       {},
-        listData:         [{'key':'Sort Key'}, 
-                           {'key':'Custom Key'}, 
-                           {'key':'Remove Key'}, 
-                           {'key':'Theme'},
-                           {'key':'About Author'},
-                           {'key':'FeedBack'}],
+        listData:         [],
       };
     }
 
     static navigationOptions = ({navigation}) => {
-
-        return {
+       return {
           headerTitle:   '首页',
           headerVisible: true,
           headerRight:   (
@@ -61,124 +62,101 @@ export default class Popular extends Component {
                      >
                     <Text style={{fontSize:16, color:"rgb(253,169,70)"}}>登录</Text>
               </TouchableOpacity>
-          ),
-          headerTintColor: 'orange',//文字颜色
-          headerStyle:     {backgroundColor: 'white'},
-        }
-    }
-  rightAction(){
-    // this.refs.toast.show()
-    // this.showPopover()
-    // 登陆成功后 
-    AppDelegate.RNInvokeOCCallBack({'key':'login'}, (error,events) => {
-        if (!error) {
-            let url = `https://api.weibo.com/2/statuses/home_timeline.json?access_token=${events.accessToken}`
-            fetch(url,{
-              method: 'GET',
-            }).then((response) => {
-              if (response.ok) {
-                return response.json()
-              }
-            }).then((json)=>{
-                console.log(json);
-            }).catch((error) =>{
-                console.log(error);
-            })
-        }
-       
-
-    });
-  }
-
-
-  showPopover() {
-      this.setState({
-        isVisible: true,
-        buttonRect: {x: 0, y: 100, width: 300, height: 30}
-      });
-  }
-
-  closePopover() {
-    this.setState({isVisible: false});
-  }
-  imageBrowser(){
-    this.refs.image_click.measure((x,y,width,height,left,top) =>{
-      console.log(`x      = ${x}`);
-      console.log(`y      = ${y}`);
-      console.log(`width  = ${width}`);
-      console.log(`height = ${height}`);
-      console.log(`left   = ${left}`);
-      console.log(`top    = ${top}`);
-
-      this.setState({ showImageBrowser: true })
-      this.state.image_left.setValue(left)
-      this.state.image_top.setValue(top)
-      const configure = {
-        duration: 1000,
-        easing:   Easing.linear,
+            ),
+            headerTintColor: 'orange',//文字颜色
+            headerStyle:     {backgroundColor: 'white'},
+          }
       }
-      Animated.parallel([
-          Animated.timing( this.state.scale,{ toValue: screenWidth/width , ...configure }),
-          Animated.timing( this.state.image_left,{ toValue: (screenWidth - width)/2.0, ...configure }),
-          Animated.timing( this.state.image_top,{ toValue: (screenHeight - height)/2.0, ...configure }),
-        ]
-      ).start()
-    })
-  }
-  componentDidMount() {
-     this.props.navigation.setParams({ rightAction: this.rightAction.bind(this)});
+    rightAction(){
+        RNNativeBridgeModule.RNInvokeOCCallBack({}, (error,events) => {
+          if (!error) {
+            storage.setItem('WBAuthorizeResponse',JSON.stringify(events))
+            this._requstData()
+          }
+        })
+    }
+    _requstData(){
+        this.setState({refreshing: true})
+        dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/home_timeline.json', {
+            count:        50,
+            page:         1,
+        }).then((json) => {
+            this.convertJsonToModel(json)
+        })
+    }
+    convertJsonToModel(json){
+      var jsonModels = []
+      for (let i = 0; i < json.statuses.length; i++) {
+        let item = json.statuses[i]
+        let model = new StatusesModel(item)
+        jsonModels.push(model)
+      }
+      this.setState({
+        listData:     jsonModels,
+        refreshing:   false,
+        no_attention: true,
+      })
+    }
+    showPopover() {
+        this.setState({
+          isVisible: true,
+          buttonRect: {x: 0, y: 100, width: 300, height: 30}
+        });
+    }
+
+    closePopover() {
+      this.setState({isVisible: false});
+    }
+    
+    componentDidMount() {
+       this.props.navigation.setParams({ rightAction: this.rightAction.bind(this)});
+       this._requstData()
+    }
+    renderItem({item, index}) {
+        return( <WeiBoContentCell item={item} /> )
+    }
+     _itemSeparatorComponent(){
+      return (
+          <View style = {{flex:1,height:10}}>
+          </View>
+        )
+    }
+    _rendNoAttention(){
+      return (
+           <View style = {{alignItems: 'center'}}>
+              <Image source = {require('../../resources/image/home/visitordiscover_feed_image_house.png')}/>
+              <Text style = {{fontSize:14, color:'#999999',marginTop: 40}}>关注一些人，回这里看看有什么惊喜</Text>
+              <TouchableOpacity 
+                  style={{justifyContent:'center', alignItems: 'center',backgroundColor:'white',marginTop: 40, height: 40, width: 100, borderWidth: 1, borderColor:'rgb(213,213,213)', borderRadius: 2}} 
+                   onPress = {() => navigate('ImageBrowser', {user: '123'})}
+                   >
+                  <Text style = {{fontSize:15, color:'rgb(253,169,70)'}}>去关注</Text>
+              </TouchableOpacity>
+          </View>
+     )
+    }
+    _onRefresh(){
+      this.setState({refreshing: true})
+      this._requstData()
+    }
+    _rendAttentionList(){
+      return(
+        <FlatList
+        style                            = {[{backgroundColor: 'rgb(242,242,242)', width: '100%'},{}]}
+        data                             = {this.state.listData}
+        renderItem                       = {this.renderItem.bind(this)}
+        ItemSeparatorComponent           = {this._itemSeparatorComponent}
+        onRefresh                        = {this._onRefresh.bind(this)}
+        refreshing                       = {this.state.refreshing}
+        automaticallyAdjustContentInsets = {false}
+      />
+    )
   }
   render() {
-    const rotate_ = this.state.rotate.interpolate({
-      inputRange: [0,1],
-      outputRange: ['0deg','360deg']
-    })
-    const {navigate} = this.props.navigation
+
     return (
         <View style = {styles.container}>
-          <View style = {{alignItems: 'center'}}>
-            <TouchableOpacity onPress={this.imageBrowser.bind(this)}>
-              <Image ref='image_click' source={{url:"https://facebook.github.io/react/img/logo_og.png"}} style={{width: 100, height: 100}} />
-            </TouchableOpacity>
-
-            <Image source = {require('../../resources/image/home/visitordiscover_feed_image_house.png')}/>
-            <Text style = {{fontSize:14, color:'#999999',marginTop: 40}}>关注一些人，回这里看看有什么惊喜</Text>
-            <TouchableOpacity 
-                style={{justifyContent:'center', alignItems: 'center',backgroundColor:'white',marginTop: 40, height: 40, width: 100, borderWidth: 1, borderColor:'rgb(213,213,213)', borderRadius: 2}} 
-                 onPress = {() => navigate('ImageBrowser', {user: '123'})}
-                 >
-                <Text style = {{fontSize:15, color:'rgb(253,169,70)'}}>去关注</Text>
-            </TouchableOpacity>
-          </View>
-          <PopularConfigure ref = 'toast' listData = {this.state.listData} placement = 'ANCHOR_TOP_RIGHT'/>
-           <Popover
-              isVisible = {this.state.isVisible}
-              fromRect  = {this.state.buttonRect}
-              onClose   = {this.closePopover.bind(this)} 
-              placement = 'top'>
-              <Text>I'm the content of this popover!</Text>
-           </Popover>
-          <Modal style={{}} transparent={true} style={"slide"} visible={this.state.showImageBrowser}>
-              <Animated.Image 
-                ref    = 'image_click'
-                source = {{url:"https://facebook.github.io/react/img/logo_og.png"}} 
-                style  = {[{
-                  width: 100, height: 100},
-                  {left:this.state.image_left},
-                  {top:this.state.image_top},
-                  {transform:[
-                      {
-                        scale: this.state.scale
-                      },
-                      {
-                        rotate: rotate_
-                      }
-                    ]
-                  },
-                ]}
-              />
-
-          </Modal>
+        { this.state.no_attention ? this._rendAttentionList() : this._rendNoAttention() }
         </View>
     );
   }

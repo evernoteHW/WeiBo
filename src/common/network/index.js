@@ -4,13 +4,13 @@
  * 若本地数据过期,先返回本地数据,然后返回从网络获取的数据
  * @flow
  */
-'use strict';
 
 import {
     AsyncStorage,
 } from 'react-native';
 
-export var FLAG_STORAGE = {flag_popular: 'popular', flag_trending: 'trending'}
+import Storage from '../Storage'
+var storage        = new Storage()
 
 export default class DataRepository {
     constructor(props) {
@@ -22,15 +22,14 @@ export default class DataRepository {
      * @param  {[type]} url [description]
      * @return {[type]}     [description]
      */
-    fetchRepository(url){
+    fetchRepository(url,parms){
         var self = this;
         return new Promise(function (resolve, reject) {
-
-            self.fetchLocalRepository(url).then((wrapData) => {
+            self.fetchLocalRepository(url,parms).then((wrapData) => {
                 // if (wrapData) {
                 //     resolve(wrapData["items"],true);
                 // }else{
-                    self.fetchNetRepository(url).then((data)=> {
+                    self.fetchNetRepository(url,parms).then((data)=> {
                         resolve(data);
                     }).catch((error)=> {
                         reject(error);
@@ -70,22 +69,43 @@ export default class DataRepository {
      * @param  {[type]} url [description]
      * @return {[type]}     [description]
      */
-    fetchNetRepository(url){
-        var self = this;
-        return new Promise(function (resolve, reject) {
-          fetch(url)
-                .then((response)=>response.json())
-                .catch((error)=> {
-                    reject(error);
-                }).then((responseData)=> {
-                    if (!responseData||!responseData.items) {
-                        reject(new Error('responseData is null'));
-                        return;
-                    }
-                    resolve(responseData.items);
-                    self.saveRepository(url,responseData.items)
-            }).done();
+    fetchNetRepository(url,parms,method='GET'){
+
+    return new Promise((resolve,reject) => {
+        storage.getItem('WBAuthorizeResponse').then((WBAuthorizeResponse) =>{
+            const { accessToken }  = WBAuthorizeResponse
+            if (!accessToken) {
+               reject('未登录。。。。。') 
+            }
+            var bodyArray = []
+            bodyArray.push(`access_token=${accessToken}`)
+
+            if (method === 'GET') {
+              for (let property in parms){
+                bodyArray.push(`${property}=${parms[property]}`)
+              }
+            }else if(method === 'POST'){
+
+            }
+            var parmsStr = `?${bodyArray.join('&')}`
+            var fetch_url =  `${url}${parmsStr}`
+
+              fetch(fetch_url,{
+                method: method,
+              }).then((response) => {
+                if (response.ok) {
+                  return response.json()
+                }
+              }).then((json)=>{
+                resolve(json)
+                // this.convertJsonToModel(json)
+              }).catch((error) =>{
+                reject(error)
+            })
+        }).catch((error) => {
+            reject('未登录。。。。。') 
         })
+      })
     }
     /**
      * 缓存数据
