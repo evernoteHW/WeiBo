@@ -27,6 +27,8 @@ import StatusesModel from '../../model/StatusesModel'
 import WeiBoUserModel from '../../model/WeiBoUserModel'
 import Storage from '../../common/Storage'
 
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+
 var storage        = new Storage()
 
 var RNNativeBridgeModule = NativeModules.RNNativeBridgeModule;
@@ -78,13 +80,15 @@ export default class Popular extends Component {
     _requstData(){
         this.setState({refreshing: true})
         dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/home_timeline.json', {
-            count:        50,
-            page:         1,
+            count:  50,
+            page:   1,
+            max_id: '4105849750927306',
         }).then((json) => {
             this.convertJsonToModel(json)
         })
     }
     convertJsonToModel(json){
+      console.log(json);
       var jsonModels = []
       for (let i = 0; i < json.statuses.length; i++) {
         let item = json.statuses[i]
@@ -141,7 +145,7 @@ export default class Popular extends Component {
     }
     _rendAttentionList(){
       return(
-        <FlatList
+        <AnimatedFlatList
         style                            = {[{backgroundColor: 'rgb(242,242,242)', width: '100%'},{}]}
         data                             = {this.state.listData}
         renderItem                       = {this.renderItem.bind(this)}

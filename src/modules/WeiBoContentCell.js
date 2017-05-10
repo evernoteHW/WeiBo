@@ -11,37 +11,33 @@ import {
   FlatList,
   Image,
   TextInput,
+  Animated,
 } from 'react-native';
 
 import TimerUIUtiles from '../UIUtils/TimerUIUtils'
 import { screenWidth, screenHeight } from '../constants'
+import HTMLView from 'react-native-htmlview';
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+
 var timerUIUtiles  = new TimerUIUtiles()
 
 export default class WeiBoContentCell extends Component {
-      _rendHtlmText(item){
-        //字符串截取
-        var content = item.source
-        let start = content.indexOf('>')
-        let end = content.indexOf('</a>')
-        if (start>0 && end>0){
-          content = content.substring(start + 1,end)
-        }
-        let time = timerUIUtiles.formatDateTime1(item.created_at)
-        return (
-          <Text style = {styles.headerSubTitle}>
-            <Text>{time}来自</Text>
-            {<Text style = {{color: 'blue'}}>{content}</Text>}
-          </Text>
-        )
-      }
-
+      
      _renderHeaderViewItemView(item){
+      let time = timerUIUtiles.formatDateTime1(item.created_at)
       return (
            <View style = {{backgroundColor:'white',flexDirection: 'row'}}>
               <Image source = {{url: item.user.avatar_hd}} style={styles.headerIcon} />
               <View style   = {{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
                   <Text style = {styles.headerTitle}>{item.user.screen_name}</Text>
-                  {this._rendHtlmText(item)}
+                  <View style={{flexDirection: 'row',marginLeft : 10, marginTop: 5}}>
+                    <Text>{time}来自</Text>
+                     <HTMLView
+                        stylesheet = {styles}
+                        value      = {item.source}
+                      />
+                  </View>
+             
               </View>
               <View style = {{justifyContent:'center', alignItems: 'center'}}>
                 <TouchableOpacity style={styles.headerAttention}>
@@ -51,33 +47,47 @@ export default class WeiBoContentCell extends Component {
             </View>
       )
     }
-    _rendContentView(item){
+    _rendContentView(item,isSub){
       return (
-        <View style={{backgroundColor:'white'}}>
-           <Text style={{marginLeft: 10, marginRight: 10, marginBottom: 10,color: '#333333'}}>
-            {item.text}
-           </Text>
+        <View style={{backgroundColor:isSub ? 'rgb(242,242,242)': 'white'}}>
+           <HTMLView 
+            value      = {item.text}
+            stylesheet = {styles}
+            style={{marginLeft: 10, marginRight: 10, marginBottom: 10, marginTop: isSub?10: 0}}>
+           </HTMLView> 
+           {this._renderImaegsView(item)} 
+           {(item.retweeted_status && typeof(item.retweeted_status) !== 'undefined')  ?  this._rendContentView(item.retweeted_status, true): null}
          </View>
       )
     }
+    _renderItem({item, index}) {
+        return(   
+         <Image
+             key    = {item}
+             style  = {{width: (screenWidth - 10 - 2)/3.0,height: (screenWidth - 10 - 2)/3.0,backgroundColor: 'orange',marginRight: 1,marginTop: 1}}
+             source = {{url: item.key}}
+          />
+       )
+    }
+    _itemSeparatorComponent(){
+      return (
+          <View style = {{flex:1,height:1}}>
+          </View>
+        )
+    }
     _renderImaegsView(item){
-      const { gif_ids_array_url } = item
-      if (gif_ids_array_url && gif_ids_array_url.length > 0) {
+      const { pic_urls } = item
+      if (pic_urls && pic_urls.length > 0) {
           return (
-           <View style = {{backgroundColor: 'white',flexDirection: 'row'}}>
-              {
-                  gif_ids_array_url.map((sub_item) =>{
-                    return ( 
-                        <Image
-                         key    = {sub_item.key}
-                         style  = {{width: (screenWidth - 10 - 2)/3.0,height: (screenWidth - 10 - 2)/3.0,backgroundColor: 'orange',marginRight: 1,marginTop: 1}}
-                         source = {{url: sub_item.key}}
-                        >
-                        </Image>
-                      )
-                  })
-               }
-           </View>
+           <AnimatedFlatList
+            style                            = {[{left : 5 ,flex: 1},{}]}
+            data                             = {pic_urls}
+            renderItem                       = {this._renderItem.bind(this)}
+            ItemSeparatorComponent           = {this._itemSeparatorComponent}
+            numColumns                       = {3}
+            automaticallyAdjustContentInsets = {false}
+          />
+          
         )
       }else{ return null } 
     }
@@ -94,8 +104,7 @@ export default class WeiBoContentCell extends Component {
       return(
             <View style = {{flex: 1, width: '100%'}}>
               {this._renderHeaderViewItemView(item)}
-              {this._rendContentView(item)}
-              {this._renderImaegsView(item)}
+              {this._rendContentView(item,false)}
               <View style = {styles.bottom}>
                   {this._renderBottomItemView(require('../resources/image/discover/statusdetail_icon_retweet.png'),item.reposts_count)}
                   {this._renderBottomItemView(require('../resources/image/discover/timeline_icon_comment.png'),item.comments_count)}
@@ -124,6 +133,10 @@ const styles = StyleSheet.create({
     fontSize:  20,
     textAlign: 'center',
     margin:    10,
+  },
+  a: {
+    fontWeight: '300',
+    color: 'cornflowerblue', // make links coloured pink
   },
   listHeaderTextInput: {
     backgroundColor: 'white',

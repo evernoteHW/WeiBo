@@ -1,10 +1,10 @@
 
+
 import WeiBoUserModel from './WeiBoUserModel'
-import RetweetedStatusModel from './RetweetedStatusModel'
 
-export default function ProjectModel(item){
+export default function RetweetedStatusModel(item){
 
-	this.annotations             = item.annotations
+	this.created_at             = item.created_at
 	this.attitudes_count         = item.attitudes_count
 	this.biz_feature             = item.biz_feature
 	this.comments_count          = item.comments_count
@@ -35,16 +35,9 @@ export default function ProjectModel(item){
 	this.thumbnail_pic           = item.thumbnail_pic	//可有可无
 	this.bmiddle_pic             = item.bmiddle_pic	//可有可无
 	this.original_pic            = item.original_pic	//可有可无
-	var pic_urls = []
-	for (var i = 0; i < item.pic_urls.length; i++) {
-		var url = item.pic_urls[i].thumbnail_pic;
-		url = url.replace('thumbnail','large')
-		pic_urls.push({key: url})
-	}
-	this.pic_urls                = pic_urls
-
-	//获取图片
-	if (this.pic_urls && this.gif_ids !== '' && this.bmiddle_pic && this.bmiddle_pic !== '') {
+	// //获取图片
+	
+	if (this.gif_ids && this.gif_ids !== '' && this.bmiddle_pic && this.bmiddle_pic !== '') {
 		var gif_ids_array 		 = this.gif_ids.split('|')
 		var gif_ids_array_url	 = []
 		//去掉 后缀名 重新拼接字符串
@@ -54,11 +47,6 @@ export default function ProjectModel(item){
 			gif_ids_array_url.push({key: `${base_url}${gif_ids_array[i]}.jpg`})
 		}
 		this.gif_ids_array_url = gif_ids_array_url
-	}
-	//转发微博
-	
-	if (item.retweeted_status && typeof(item.retweeted_status) !== 'undefined') {
-		this.retweeted_status = new ProjectModel(item.retweeted_status)
 	}
 	
 }
