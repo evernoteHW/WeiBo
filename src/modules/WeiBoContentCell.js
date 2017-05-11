@@ -48,15 +48,22 @@ export default class WeiBoContentCell extends Component {
       )
     }
     _rendContentView(item,isSub){
+      var has_retweeted_status = false
+      if ((item.retweeted_status && typeof(item.retweeted_status) !== 'undefined') ) {
+        has_retweeted_status = true
+      }else{
+        has_retweeted_status = false
+      }
       return (
         <View style={{backgroundColor:isSub ? 'rgb(242,242,242)': 'white'}}>
            <HTMLView 
             value      = {item.text}
             stylesheet = {styles}
             style={{marginLeft: 10, marginRight: 10, marginBottom: 10, marginTop: isSub?10: 0}}>
+            <Text>123</Text>
            </HTMLView> 
            {this._renderImaegsView(item)} 
-           {(item.retweeted_status && typeof(item.retweeted_status) !== 'undefined')  ?  this._rendContentView(item.retweeted_status, true): null}
+           {has_retweeted_status ?  this._rendContentView(item.retweeted_status, true): null}
          </View>
       )
     }

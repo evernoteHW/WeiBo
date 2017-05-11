@@ -80,12 +80,14 @@ export default class Popular extends Component {
     _requstData(){
         this.setState({refreshing: true})
         dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/home_timeline.json', {
-            count:  50,
+            count:  5,
             page:   1,
-            max_id: '4105849750927306',
         }).then((json) => {
             this.convertJsonToModel(json)
         })
+    }
+    _requestMoreData(){
+        console.log('加载更多');
     }
     convertJsonToModel(json){
       console.log(json);
@@ -153,6 +155,8 @@ export default class Popular extends Component {
         onRefresh                        = {this._onRefresh.bind(this)}
         refreshing                       = {this.state.refreshing}
         automaticallyAdjustContentInsets = {false}
+        onEndReached                     = {this._requestMoreData.bind(this)}
+        onEndReachedThreshold            = {10}
       />
     )
   }
