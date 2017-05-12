@@ -24,4 +24,7 @@ export default function WeiBoUserModel(item){
 	this.bi_followers_count = item.bi_followers_count;
 	this.avatar_large       = item.avatar_large
 	this.avatar_hd          = item.avatar_hd
+	this.friends_count      = item.friends_count
+	this.statuses_count     = item.statuses_count
+	this.favourites_count   = item.favourites_count
 }

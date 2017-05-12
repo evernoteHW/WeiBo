@@ -69,28 +69,39 @@ export default class Popular extends Component {
             headerStyle:     {backgroundColor: 'white'},
           }
       }
+      test=()=>{
+
+      }
     rightAction(){
         RNNativeBridgeModule.RNInvokeOCCallBack({}, (error,events) => {
           if (!error) {
             storage.setItem('WBAuthorizeResponse',JSON.stringify(events))
             this._requstData()
+            this._requstUserUID()
           }
         })
     }
-    _requstData(){
-        this.setState({refreshing: true})
-        dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/home_timeline.json', {
-            count:  5,
-            page:   1,
+    _requstUserUID(){
+        dataRepository.fetchNetRepository('https://api.weibo.com/2/account/get_uid.json', {
         }).then((json) => {
-            this.convertJsonToModel(json)
+          storage.setItem('WeiBoUserUID',JSON.stringify(json.uid))
         })
+    }
+    _requstData(){
+        // this.setState({refreshing: true})
+        // dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/home_timeline.json', {
+        //     count:  5,
+        //     page:   1,
+        // }).then((json) => {
+        //     this.convertJsonToModel(json)
+        // })
+        // this._requstUserUID()
     }
     _requestMoreData(){
         console.log('加载更多');
     }
     convertJsonToModel(json){
-      console.log(json);
+
       var jsonModels = []
       for (let i = 0; i < json.statuses.length; i++) {
         let item = json.statuses[i]

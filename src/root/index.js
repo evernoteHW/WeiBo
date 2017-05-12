@@ -25,11 +25,11 @@ const RouteConfigs =
     Popular: {
       screen:            Popular,
       navigationOptions: {
-        tabBarLabel: 'Popular',
+        tabBarLabel: '首页',
         tabBarIcon:      ({focused,tintColor}) => (
             <Image 
-            source = {focused ? require('../resources/image/tab/ic_polular.png'): require('../resources/image/tab/ic_polular.png')}
-            style  = {{height:26 ,width: 26, tintColor:tintColor}}
+            source = {focused ? require('../resources/image/tab/tabbar_home_highlighted.png'): require('../resources/image/tab/tabbar_home.png')}
+            style  = {{height:30 ,width: 30, tintColor:tintColor}}
             />),
 
       },
@@ -37,32 +37,43 @@ const RouteConfigs =
     Trending: {
       screen:            Trending,
       navigationOptions: {
-        // tabBarLabel:        'Trending',
+        tabBarLabel:        '消息',
         tabBarIcon:              ({focused,tintColor}) => (
            <Image 
-          source = {focused ? require('../resources/image/tab/ic_trending.png'): require('../resources/image/tab/ic_trending.png')}
-          style  = {{height:26 ,width: 26, tintColor:tintColor}}
+          source = {focused ? require('../resources/image/tab/tabbar_message_center_selected.png'): require('../resources/image/tab/tabbar_message_center.png')}
+          style  = {{height:30 ,width: 30, tintColor:tintColor}}
           />),
       },
+    },
+   SendWeiBo: {
+     screen:            Favorite,
+     navigationOptions: {
+        tabBarLabel: ' ',
+        tabBarIcon: ({focused,tintColor}) => (
+            <Image 
+            source = {require('../resources/image/tab/tabbar_sendweibo.png')}
+            style  = {{height:40 ,width: 40,marginTop: 14,resizeMode: 'contain'}}
+            />),
+      }
     },
     Favorite: {
      screen:            Favorite,
      navigationOptions: {
-        tabBarLabel: 'Favorite',
+        tabBarLabel: '发现',
         tabBarIcon: ({focused,tintColor}) => (
             <Image 
-            source = {focused ? require('../resources/image/tab/ic_favorite.png'): require('../resources/image/tab/ic_favorite.png')}
-            style  = {{height:26 ,width: 26, tintColor:tintColor}}
+            source = {focused ? require('../resources/image/tab/tabbar_discover_highlighted.png'): require('../resources/image/tab/tabbar_discover.png')}
+            style  = {{height:30 ,width: 30, tintColor:tintColor}}
             />),
       }
     },
     Mine: {
      screen:            Mine,
      navigationOptions: {
-        tabBarLabel: 'Mine',
+        tabBarLabel: '我的',
         tabBarIcon:  ({focused,tintColor}) => (
-              <Image source={focused ? require('../resources/image/tab/ic_my.png'): require('../resources/image/tab/ic_my.png')}
-              style  = {{height:26 ,width: 26, tintColor:tintColor}}
+              <Image source={focused ? require('../resources/image/tab/tabbar_profile_highlighted.png'): require('../resources/image/tab/tabbar_profile.png')}
+              style  = {{height:30 ,width: 30, tintColor:tintColor}}
               />),
       }
     }
@@ -72,7 +83,7 @@ const TabNavigatorConfig = {
     tabBarPosition:   'bottom', // 显示在底端，android 默认是显示在页面顶端的
     swipeEnabled:     false, // 是否可以左右滑动切换tab
     tabBarOptions:    {
-      activeTintColor:   'orange',// 文字和图片选中颜色
+      activeTintColor:   '#333333',// 文字和图片选中颜色
       inactiveTintColor: '#666666', // 文字和图片未选中颜色
       showIcon:          true, // android 默认不显示 icon, 需要设置为 true 才会显示
       showLabel:         true,

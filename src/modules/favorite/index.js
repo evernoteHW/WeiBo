@@ -97,13 +97,13 @@ export default class Favorite extends Component {
     _requstData(){
       this.setState({refreshing: true})
       //存本地
-      dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/public_timeline.json',
-        {
-          count:        5,
-          page:         1,
-        }).then((json) => {
-            this.convertJsonToModel(json)
-        })
+      // dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/public_timeline.json',
+      //   {
+      //     count:        5,
+      //     page:         1,
+      //   }).then((json) => {
+      //       this.convertJsonToModel(json)
+      //   })
 
     }
     convertJsonToModel(json){
