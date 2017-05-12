@@ -1,4 +1,3 @@
-'use strict'
 import React, { Component } from 'react'
 import {
   Text,
@@ -15,6 +14,7 @@ import {
   NativeModules,
   Modal,
   Easing,
+  ScrollView,
 } from 'react-native';
 import { screenWidth, screenHeight } from '../../constants'
 import styles from './styles.js';
@@ -88,16 +88,16 @@ export default class Popular extends Component {
         })
     }
     _requstData(){
-        // this.setState({refreshing: true})
-        // dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/home_timeline.json', {
-        //     count:  5,
-        //     page:   1,
-        // }).then((json) => {
-        //     this.convertJsonToModel(json)
-        // })
-        // this._requstUserUID()
+        this.setState({refreshing: true})
+        dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/home_timeline.json', {
+            count:  5,
+            page:   1,
+        }).then((json) => {
+            this.convertJsonToModel(json)
+        })
+        this._requstUserUID()
     }
-    _requestMoreData(){
+    _requestMoreData = () => {
         console.log('加载更多');
     }
     convertJsonToModel(json){
@@ -166,8 +166,14 @@ export default class Popular extends Component {
         onRefresh                        = {this._onRefresh.bind(this)}
         refreshing                       = {this.state.refreshing}
         automaticallyAdjustContentInsets = {false}
-        onEndReached                     = {this._requestMoreData.bind(this)}
+        onEndReached                     = {this._requestMoreData}
         onEndReachedThreshold            = {10}
+        renderScrollComponent            = {props => 
+            <ScrollView {...props} >
+                <View>
+                  <Text>123</Text>
+                </View>
+            </ScrollView>}
       />
     )
   }
