@@ -26,6 +26,8 @@ import WeiBoContentCell from '../WeiBoContentCell'
 import StatusesModel from '../../model/StatusesModel'
 import WeiBoUserModel from '../../model/WeiBoUserModel'
 import Storage from '../../common/Storage'
+import PullRefreshScrollView from '../PullRefreshScrollView'
+import HWRefresh from '../HWRefresh'
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
@@ -40,7 +42,7 @@ export default class Popular extends Component {
       super(props);
       this.state = {
         refreshing:       false,
-        no_attention:     false,
+        no_attention:     true,
         rotate:           new Animated.Value(0),
         scale:            new Animated.Value(1),
         image_left:       new Animated.Value(0),
@@ -75,6 +77,7 @@ export default class Popular extends Component {
     rightAction(){
         RNNativeBridgeModule.RNInvokeOCCallBack({}, (error,events) => {
           if (!error) {
+            storage.removeItem('WBAuthorizeResponse')
             storage.setItem('WBAuthorizeResponse',JSON.stringify(events))
             this._requstData()
             this._requstUserUID()
@@ -90,7 +93,7 @@ export default class Popular extends Component {
     _requstData(){
         this.setState({refreshing: true})
         dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/home_timeline.json', {
-            count:  5,
+            count:  10,
             page:   1,
         }).then((json) => {
             this.convertJsonToModel(json)
@@ -101,7 +104,7 @@ export default class Popular extends Component {
         console.log('加载更多');
     }
     convertJsonToModel(json){
-
+      if (typeof json == "undefined") {return}
       var jsonModels = []
       for (let i = 0; i < json.statuses.length; i++) {
         let item = json.statuses[i]
@@ -159,21 +162,17 @@ export default class Popular extends Component {
     _rendAttentionList(){
       return(
         <AnimatedFlatList
-        style                            = {[{backgroundColor: 'rgb(242,242,242)', width: '100%'},{}]}
-        data                             = {this.state.listData}
-        renderItem                       = {this.renderItem.bind(this)}
+        style                            = {[{backgroundColor: 'rgb(242,242,242)', width: '100%',height: '100%'},{}]}
+        data                             = {[{key: 'a'},{key:'b'}]}
+        renderItem                       = {({item,index}) => <Text key={index} style={{height: 400}}>123</Text>}
         ItemSeparatorComponent           = {this._itemSeparatorComponent}
         onRefresh                        = {this._onRefresh.bind(this)}
         refreshing                       = {this.state.refreshing}
         automaticallyAdjustContentInsets = {false}
         onEndReached                     = {this._requestMoreData}
         onEndReachedThreshold            = {10}
-        renderScrollComponent            = {props => 
-            <ScrollView {...props} >
-                <View>
-                  <Text>123</Text>
-                </View>
-            </ScrollView>}
+        onScroll                         = {() => console.log('1111111')}
+        renderScrollComponent            = {(props) => <HWRefresh {...props}  />}
       />
     )
   }

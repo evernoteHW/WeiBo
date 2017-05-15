@@ -98,7 +98,7 @@ export default class DataRepository {
                 }
               }).then((json)=>{
                 resolve(json)
-                // this.convertJsonToModel(json)
+                console.log(`url = ${url} json = ${json}`);
               }).catch((error) =>{
                 reject(error)
             })

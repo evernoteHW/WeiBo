@@ -1,4 +1,6 @@
 export default function WeiBoUserModel(item){
+	if (typeof item == "undefined") {return}
+		
 	this.id                 = item.id;
 	this.screen_name        = item.screen_name;
 	this.name               = item.name;

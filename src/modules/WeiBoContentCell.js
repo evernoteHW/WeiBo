@@ -27,7 +27,10 @@ export default class WeiBoContentCell extends Component {
       let time = timerUIUtiles.formatDateTime1(item.created_at)
       return (
            <View style = {{backgroundColor:'white',flexDirection: 'row'}}>
-              <Image source = {{url: item.user.avatar_hd}} style={styles.headerIcon} />
+              <Image 
+                // source = {{url: item.user.avatar_hd}} 
+                style={styles.headerIcon} 
+              />
               <View style   = {{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
                   <Text style = {styles.headerTitle}>{item.user.screen_name}</Text>
                   <View style={{flexDirection: 'row',marginLeft : 10, marginTop: 5}}>
@@ -72,7 +75,7 @@ export default class WeiBoContentCell extends Component {
          <Image
              key    = {item}
              style  = {{width: (screenWidth - 10 - 2)/3.0,height: (screenWidth - 10 - 2)/3.0,backgroundColor: 'orange',marginRight: 1,marginTop: 1}}
-             source = {{url: item.key}}
+             // source = {{url: item.key}}
           />
        )
     }
