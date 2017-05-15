@@ -14,11 +14,15 @@ const commonConfig = {
   duration: 300,
   easing: Easing.inOut(Easing.quad)
 }
+const refreshHeadHeight = 44;
+const refreshFootHeight = 44;
+
 export default class HWRefresh extends Component {
     constructor(props) {
         super(props);
         this.state = {
           headTitle:     '下拉刷新',
+          footTitle:     '上拉刷新',
           rotateZ:       new Animated.Value(0),
           isDownLoading: false,
           isUpLoading:   false,
@@ -29,7 +33,7 @@ export default class HWRefresh extends Component {
       let target = e.nativeEvent;
       let y      = target.contentOffset.y;
 
-      if (y <= -70) {
+      if (y <= -refreshHeadHeight) {
 
         if (!this.state.isDownLoading) {
           this.setState({headTitle: '释放更新',isDownLoading: true})
@@ -51,21 +55,53 @@ export default class HWRefresh extends Component {
       let contentSize       = target.contentSize;
       //当前屏幕 宽度和高度
       let layoutMeasurement = target.layoutMeasurement;
+
       
-      if (contentSize.height - layoutMeasurement.height - y < 0) {
-        console.log(`//下拉刷新 contentOffset.y == ${contentSize.height - layoutMeasurement.height - y}`)     
+      if (contentSize.height - layoutMeasurement.height - y < 0.0) {
+          // console.log(`===> ${contentSize.height - layoutMeasurement.height - y}`);    
+          if (contentSize.height - layoutMeasurement.height - y < -refreshFootHeight) {
+              // console.log('111');
+              if (!this.state.isUpLoading) {
+                this.setState({tootTitle: '释放更新',isUpLoading: true})
+              }
+              
+          }else{
+            // console.log('2222');
+              if (this.state.isUpLoading) {
+                this.setState({tootTitle: '上拉更新',isUpLoading: false})
+              }
+              
+              
+          }
+      }else{
+
       }
-      
+    
     }
     _onScrollEndDrag = (e) =>{
-        if (this.state.isDownLoading) {
-          this.scrollView.scrollTo({x:0,y:-70,animated:true});
+        let target = e.nativeEvent;
+        let y      = target.contentOffset.y;
+        let contentSize       = target.contentSize;
+        let layoutMeasurement = target.layoutMeasurement;
 
-          setTimeout(() =>{
-            this.scrollView.scrollTo({x:0,y:0,animated:true})
-          }, 1000);
-          // this.setState({headTitle: '下拉刷新',isDownLoading: false})
+        if (y < 0) {
+            if (this.state.isDownLoading) {
+              this.scrollView.scrollTo({x:0,y:-refreshHeadHeight,animated:true});
+
+              setTimeout(() =>{
+                this.scrollView.scrollTo({x:0,y:0,animated:true})
+              }, 1000);
+              // this.setState({headTitle: '下拉刷新',isDownLoading: false})
+            }
+        }else{
+          if (this.state.isUpLoading) {
+              this.scrollView.scrollTo({x:0,y:contentSize.height - layoutMeasurement.height + refreshFootHeight,animated:true});
+              setTimeout(() =>{
+                this.scrollView.scrollTo({x:0,y:contentSize.height - layoutMeasurement.height,animated:true});
+              }, 1000);
+          }
         }
+       
     }
     _renderHeaderRefresh(){
         return <Animated.View style={styles.head}>
@@ -88,22 +124,22 @@ export default class HWRefresh extends Component {
     }
     _renderFooterRefresh(){
          return <Animated.View style={styles.foot}>
-              <Animated.Image 
-                source = {require('../resources/image/refresh/messages_audio_downloading_icon.png')}
-                style  = {[
-                            styles.head_image,
-                            {
-                              transform:
-                              [
-                                {
-                                  rotateZ:this.state.rotateZ.interpolate({inputRange: [0, 1],outputRange: ['0deg', '180deg']})
-                                }
-                              ]
-                            },
-                          ]}
-              />
-              <Text style = {styles.head_text}> {this.state.headTitle}</Text> 
-           </Animated.View>
+                <Animated.Image 
+                  source = {require('../resources/image/refresh/messages_audio_downloading_icon.png')}
+                  style  = {[
+                              styles.head_image,
+                              {
+                                transform:
+                                [
+                                  {
+                                    rotateZ:this.state.rotateZ.interpolate({inputRange: [0, 1],outputRange: ['0deg', '180deg']})
+                                  }
+                                ]
+                              },
+                            ]}
+                />
+                <Text style = {styles.tootTitle}> {this.state.tootTitle}</Text> 
+             </Animated.View>
     }
     _onLayout = (e)=>{
       console.log(`00000  ${e.nativeEvent.layout}`);
@@ -120,11 +156,10 @@ export default class HWRefresh extends Component {
                   {this._renderHeaderRefresh()}
                   {this.props.children}
                   {this._renderFooterRefresh()}
-                  
-              </ScrollView>,{
-              ref: component => {
-                this.scrollView = component;
-              }
+                </ScrollView>,{
+                ref: component => {
+                  this.scrollView = component;
+                }
           })
     }
   
@@ -132,12 +167,12 @@ export default class HWRefresh extends Component {
 const styles = StyleSheet.create({
     head:{
       position:'absolute',
-      top:-69,
+      top:-refreshHeadHeight + 0.5,
       left:0,
       flexDirection: 'row',
       backfaceVisibility: 'hidden',
       right:0,
-      height:70,
+      height:refreshHeadHeight,
       backgroundColor:'orange',
       alignItems:'center',
       justifyContent:'center'
@@ -148,15 +183,15 @@ const styles = StyleSheet.create({
     },
     foot:{
       // position:'absolute',
-      height:44.0,
+      height:refreshFootHeight,
       flexDirection: 'row',
       backgroundColor:'aqua',
-      // alignItems:'center',
+      alignItems:'center',
       justifyContent:'center',
-      backfaceVisibility: 'visible',
+      backfaceVisibility: 'hidden',
       left: 0,
       right: 0,
-      // bottom: -35,
+      top: refreshFootHeight - 0.5,
       // alignSelf: 'flex-end'
     },
     head_image:{
