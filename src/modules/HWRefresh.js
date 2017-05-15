@@ -14,7 +14,7 @@ const commonConfig = {
   duration: 300,
   easing: Easing.inOut(Easing.quad)
 }
-const refreshHeadHeight = 44;
+const refreshHeadHeight = 60;
 const refreshFootHeight = 44;
 
 export default class HWRefresh extends Component {
@@ -27,14 +27,12 @@ export default class HWRefresh extends Component {
           isDownLoading: false,
           isUpLoading:   false,
         }
-        this._renderHeaderRefresh.bind(this);
     }
     _onScroll = (e)=>{
       let target = e.nativeEvent;
       let y      = target.contentOffset.y;
 
       if (y <= -refreshHeadHeight) {
-
         if (!this.state.isDownLoading) {
           this.setState({headTitle: '释放更新',isDownLoading: true})
           Animated.timing(this.state.rotateZ, {
@@ -50,17 +48,11 @@ export default class HWRefresh extends Component {
             ...commonConfig
           }).start();
         }
-          
       }
       let contentSize       = target.contentSize;
-      //当前屏幕 宽度和高度
       let layoutMeasurement = target.layoutMeasurement;
-
-      
       if (contentSize.height - layoutMeasurement.height - y < 0.0) {
-          // console.log(`===> ${contentSize.height - layoutMeasurement.height - y}`);    
           if (contentSize.height - layoutMeasurement.height - y < -refreshFootHeight) {
-              // console.log('111');
               if (!this.state.isUpLoading) {
                 this.setState({tootTitle: '释放更新',isUpLoading: true})
               }

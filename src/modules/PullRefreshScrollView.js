@@ -251,7 +251,7 @@ export default class PullRefreshScrollView extends Component {
           <Text style={styles.prText}>上次更新时间：{this.state.prTimeDisplay}</Text>
           </View>
           );
-
+          
     }
     renderBottomContent(){
       let jsx = [];
