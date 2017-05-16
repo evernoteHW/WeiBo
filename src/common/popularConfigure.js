@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
 });
 
 PopularConfigure.propTypes = {
+    
     opacity:   React.PropTypes.number,
     listData:  React.PropTypes.array,
     placement: React.PropTypes.string,

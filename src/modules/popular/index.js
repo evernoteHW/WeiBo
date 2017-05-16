@@ -75,6 +75,7 @@ export default class Popular extends Component {
 
       }
     rightAction(){
+
         RNNativeBridgeModule.RNInvokeOCCallBack({}, (error,events) => {
           if (!error) {
             storage.removeItem('WBAuthorizeResponse')
@@ -90,15 +91,19 @@ export default class Popular extends Component {
           storage.setItem('WeiBoUserUID',JSON.stringify(json.uid))
         })
     }
-    _requstData(){
-        this.setState({refreshing: true})
-        dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/home_timeline.json', {
-            count:  10,
-            page:   1,
-        }).then((json) => {
-            this.convertJsonToModel(json)
-        })
-        this._requstUserUID()
+    _requstData(callBack){
+        // this.setState({refreshing: true})
+        // dataRepository.fetchNetRepository('https://api.weibo.com/2/statuses/home_timeline.json', {
+        //     count:  3,
+        //     page:   1,
+        // }).then((json) => {
+        //     if (typeof callBack == "function") {
+        //       callBack()  
+        //     }
+            
+        //     this.convertJsonToModel(json)
+        // })
+        // this._requstUserUID()
     }
     _requestMoreData = () => {
         console.log('加载更多');
@@ -155,24 +160,45 @@ export default class Popular extends Component {
           </View>
      )
     }
-    _onRefresh(){
-      this.setState({refreshing: true})
-      this._requstData()
+    _headerRefresh = (refresh) =>{
+      this._requstData(() => {
+        refresh.endHeaderRefresh()
+      })
+    }
+    onLoadMore(PullRefresh){
+            PullRefresh.onLoadMoreEnd();
+    }
+    onRefresh = (PullRefresh) => {
+       this._requstData(() => {
+        PullRefresh.onRefreshEnd();
+      })
     }
     _rendAttentionList(){
       return(
         <AnimatedFlatList
-        style                            = {[{backgroundColor: 'rgb(242,242,242)', width: '100%',height: '100%'},{}]}
-        data                             = {[{key: 'a'},{key:'b'}]}
-        renderItem                       = {({item,index}) => <Text key={index} style={{height: 400}}>123</Text>}
+        style                            = {[{backgroundColor: 'rgb(242,242,242)', width: '100%'},{}]}
+        data                             = {this.state.listData}
+        renderItem                       = {this.renderItem.bind(this)}
         ItemSeparatorComponent           = {this._itemSeparatorComponent}
-        onRefresh                        = {this._onRefresh.bind(this)}
+        // onRefresh                        = {this._onRefresh.bind(this)}
         refreshing                       = {this.state.refreshing}
         automaticallyAdjustContentInsets = {false}
         onEndReached                     = {this._requestMoreData}
         onEndReachedThreshold            = {10}
         onScroll                         = {() => console.log('1111111')}
-        renderScrollComponent            = {(props) => <HWRefresh {...props}  />}
+        renderScrollComponent            = {(props) => <HWRefresh headerRefresh = {this._headerRefresh}{...props}  />}
+        // renderScrollComponent            = {(props) => 
+        //                                       <PullRefreshScrollView 
+        //                                         onLoadMore  = {this.onLoadMore} 
+        //                                         useLoadMore = {true} 
+        //                                         onRefresh   = {this.onRefresh}
+        //                                         {...props} 
+        //                                      />}
+        // onEndReached={()=>{
+        //   // 到达底部，加载更多列表项
+        //     console.log('........');
+        // }}
+
       />
     )
   }

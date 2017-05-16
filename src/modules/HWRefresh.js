@@ -17,6 +17,12 @@ const commonConfig = {
 const refreshHeadHeight = 60;
 const refreshFootHeight = 44;
 
+function Size(width, height) {
+  this.width = width;
+  this.height = height;
+}
+
+
 export default class HWRefresh extends Component {
     constructor(props) {
         super(props);
@@ -26,6 +32,11 @@ export default class HWRefresh extends Component {
           rotateZ:       new Animated.Value(0),
           isDownLoading: false,
           isUpLoading:   false,
+          footTop:       100,
+          contentSize:   {},
+          frame:         {},
+          topInset:      0,
+          bottomInset:   0,
         }
     }
     _onScroll = (e)=>{
@@ -52,25 +63,48 @@ export default class HWRefresh extends Component {
       let contentSize       = target.contentSize;
       let layoutMeasurement = target.layoutMeasurement;
       if (contentSize.height - layoutMeasurement.height - y < 0.0) {
-          if (contentSize.height - layoutMeasurement.height - y < -refreshFootHeight) {
-              if (!this.state.isUpLoading) {
-                this.setState({tootTitle: '释放更新',isUpLoading: true})
-              }
+          // if (contentSize.height - layoutMeasurement.height - y < -refreshFootHeight) {
+          //     if (!this.state.isUpLoading) {
+          //       this.setState({tootTitle: '释放更新',isUpLoading: true})
+          //     }
               
-          }else{
-            // console.log('2222');
-              if (this.state.isUpLoading) {
-                this.setState({tootTitle: '上拉更新',isUpLoading: false})
-              }
-              
-              
-          }
+          // }else{
+          //   // console.log('2222');
+          //     if (this.state.isUpLoading) {
+          //       this.setState({tootTitle: '上拉更新',isUpLoading: false})
+          //     }
+          // }
       }else{
 
       }
-    
     }
+    _changeHeadStyle(){
+      //如果正在下拉刷新
+    }
+    _changeFootStyle(){
+
+    }
+    _beginRefresh = ()=>{
+      console.log(12312312);
+    }
+    endHeaderRefresh = ()=>{
+       this.scrollView.scrollTo({x:0,y:0,animated:true})
+       //还原之后 跳转文字和箭头
+       setTimeout(() =>{
+          this.setState({headTitle: '下拉刷新',isDownLoading: false, refreshHeadHeight: 0,topInset: 0})
+       }, 300);
+    }
+    endFooterRefresh(){
+      this.scrollView.scrollTo({x:0,y:this.state.contentSize.height - this.state.frame.height,animated:true});
+      setTimeout(() =>{
+          this.setState({headTitle: '上拉刷新',isDownLoading: false}) 
+      }, 300);
+    }
+    // beginHeaderRefresh(){
+
+    // }
     _onScrollEndDrag = (e) =>{
+
         let target = e.nativeEvent;
         let y      = target.contentOffset.y;
         let contentSize       = target.contentSize;
@@ -79,21 +113,26 @@ export default class HWRefresh extends Component {
         if (y < 0) {
             if (this.state.isDownLoading) {
               this.scrollView.scrollTo({x:0,y:-refreshHeadHeight,animated:true});
-
-              setTimeout(() =>{
-                this.scrollView.scrollTo({x:0,y:0,animated:true})
-              }, 1000);
-              // this.setState({headTitle: '下拉刷新',isDownLoading: false})
+              this.setState({topInset: refreshHeadHeight});
+              if (this.props.headerRefresh) {
+                this.props.headerRefresh(this)
+              }
             }
         }else{
-          if (this.state.isUpLoading) {
-              this.scrollView.scrollTo({x:0,y:contentSize.height - layoutMeasurement.height + refreshFootHeight,animated:true});
-              setTimeout(() =>{
-                this.scrollView.scrollTo({x:0,y:contentSize.height - layoutMeasurement.height,animated:true});
-              }, 1000);
-          }
+          // if (this.state.isUpLoading) {
+          //     this.scrollView.scrollTo({x:0,y:contentSize.height - layoutMeasurement.height + refreshFootHeight,animated:true});
+          //     // this.endFooterRefresh() 
+          // }
         }
        
+    }
+    _onLayout = (e)=>{
+      const {width, height, x, y } = e.nativeEvent.layout;
+      this.setState({ frame: {x, y, width,height}})
+    }
+    _onContentSizeChange = (width,height)=>{
+      console.log(`height = ${height}`);
+      this.setState({ footTop: height - 0.5, contentSize:{width,height}})
     }
     _renderHeaderRefresh(){
         return <Animated.View style={styles.head}>
@@ -115,7 +154,7 @@ export default class HWRefresh extends Component {
                </Animated.View>
     }
     _renderFooterRefresh(){
-         return <Animated.View style={styles.foot}>
+         return <Animated.View style={[styles.foot,{top: this.state.footTop}]}>
                 <Animated.Image 
                   source = {require('../resources/image/refresh/messages_audio_downloading_icon.png')}
                   style  = {[
@@ -133,17 +172,17 @@ export default class HWRefresh extends Component {
                 <Text style = {styles.tootTitle}> {this.state.tootTitle}</Text> 
              </Animated.View>
     }
-    _onLayout = (e)=>{
-      console.log(`00000  ${e.nativeEvent.layout}`);
-    }
     render() {
         return React.cloneElement(
                 <ScrollView 
                   {...this.props}
+                  ref                 = {(scrollView) => this.scrollView = scrollView}
+                  contentInset        = {{top: 0,bottom: this.state.bottomInset}}
                   onScroll            = {this._onScroll}
                   scrollEventThrottle = {16}
                   onScrollEndDrag     = {this._onScrollEndDrag}
                   onLayout            = {this._onLayout}
+                  onContentSizeChange = {this._onContentSizeChange}
                 >
                   {this._renderHeaderRefresh()}
                   {this.props.children}
@@ -156,6 +195,18 @@ export default class HWRefresh extends Component {
     }
   
 }
+
+HWRefresh.propTypes = {
+    headerRefresh:    React.PropTypes.func,
+    // endHeaderRefresh: React.PropTypes.func,
+    // endFooterRefresh: React.PropTypes.func,
+}
+HWRefresh.defaultProps = {
+    headerRefresh: ()    => {},
+    // endHeaderRefresh: () => {}, //空函数
+    // endFooterRefresh: () => {},
+}
+
 const styles = StyleSheet.create({
     head:{
       position:'absolute',
@@ -174,7 +225,7 @@ const styles = StyleSheet.create({
       fontSize: 14,
     },
     foot:{
-      // position:'absolute',
+      position:'absolute',
       height:refreshFootHeight,
       flexDirection: 'row',
       backgroundColor:'aqua',
